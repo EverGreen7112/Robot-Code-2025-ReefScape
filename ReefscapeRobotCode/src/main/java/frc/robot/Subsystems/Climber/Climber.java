@@ -8,7 +8,7 @@ import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverTalonFX;
 
 public class Climber extends SubsystemBase{
     private final double CLIMB_SPEED = 0.3;
-    private final boolean CLIBRATION_MODE = false;
+    private final boolean DEBUG_MODE = false;
 
     private static Climber m_instance = new Climber();
 
@@ -30,7 +30,7 @@ public class Climber extends SubsystemBase{
         if(cantOpen() && m_climbMotor.get() > 0)
             stop();
 
-        if(CLIBRATION_MODE){
+        if(DEBUG_MODE){
             SmartDashboard.putBoolean("bottom limit switch", cantOpen());
             SmartDashboard.putNumber("climber", m_climbMotor.get());
         }
@@ -52,6 +52,8 @@ public class Climber extends SubsystemBase{
     private boolean cantOpen(){
         return m_bottomLS.get();
     }
+
+    
 
     
     
