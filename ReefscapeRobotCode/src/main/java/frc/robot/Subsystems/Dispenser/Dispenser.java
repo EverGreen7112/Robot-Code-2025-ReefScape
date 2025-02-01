@@ -29,7 +29,7 @@ public class Dispenser extends SubsystemBase {
     return m_instance;
   }
 
-  public void dispanseCoral() {
+  public void dispenseCoral() {
     m_dispenserMotor.set(1);
   }
 
