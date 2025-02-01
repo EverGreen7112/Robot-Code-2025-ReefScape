@@ -12,7 +12,7 @@ import frc.robot.Utils.Math.Vector2d;
 
 public class TeleopDriveCommand extends Command{
     
-    private final double DEADZONE = 0.2;
+    private final double JOYSTICK_DEADZONE = 0.2;
     public static double maxSpeed;
     private Supplier<Double> m_xSpeedInput;
     private Supplier<Double> m_ySpeedInput;
@@ -33,11 +33,11 @@ public class TeleopDriveCommand extends Command{
         double speedY = m_ySpeedInput.get();
         double angularVel = m_angularVelocityInput.get();
 
-        if(Math.abs(speedX) < DEADZONE)
+        if(Math.abs(speedX) < JOYSTICK_DEADZONE)
             speedX = 0;
-        if(Math.abs(speedY) < DEADZONE)
+        if(Math.abs(speedY) < JOYSTICK_DEADZONE)
             speedY = 0; 
-        if(Math.abs(angularVel) < DEADZONE)
+        if(Math.abs(angularVel) < JOYSTICK_DEADZONE)
             angularVel = 0;
 
         angularVel = Funcs.roundAfterDecimalPoint(angularVel, 2);

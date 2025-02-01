@@ -21,6 +21,8 @@ import frc.robot.Utils.Math.Vector2d;
  * DR = Down Right
  */
 public interface SwerveConsts{
+
+    public static final boolean DEBUG_MODE = false;    
     // speed values
     public static final double MAX_NORMAL_DRIVE_SPEED = 1; // m/s
     public static final double MAX_TURBO_DRIVE_SPEED = 2;
@@ -95,11 +97,13 @@ public interface SwerveConsts{
     public static final double WHEEL_ANGLE_KP = 0.01, WHEEL_ANGLE_KI = 0.0, WHEEL_ANGLE_KD = 0.000;
 
     // swerve dimensions
-    public static final double FRONT_WHEEL_DIST_METERS = 0.57, SIDE_WHEEL_DIST_METERS = 0.57;
+    public static final double CHASSIS_WIDTH = 0.75, CHASSIS_LENGTH = 0.75;
+    public static final double BUMPERS_THICKNESS = 0.08;
+    
     public static final double ROBOT_BOUNDING_CIRCLE_PERIMETER = Math.PI * Math.sqrt(
-            FRONT_WHEEL_DIST_METERS * FRONT_WHEEL_DIST_METERS + SIDE_WHEEL_DIST_METERS * SIDE_WHEEL_DIST_METERS);
+            CHASSIS_WIDTH * CHASSIS_WIDTH + CHASSIS_LENGTH * CHASSIS_LENGTH);
     public static final double ROBOT_RADIUS = 0.5 * Math.sqrt(
-            FRONT_WHEEL_DIST_METERS * FRONT_WHEEL_DIST_METERS + SIDE_WHEEL_DIST_METERS * SIDE_WHEEL_DIST_METERS);
+            CHASSIS_WIDTH * CHASSIS_WIDTH + CHASSIS_LENGTH * CHASSIS_LENGTH);
     public static final double WHEEL_PERIMETER = Math.PI * 0.09;
 
     // module gear ratios
@@ -107,14 +111,14 @@ public interface SwerveConsts{
 
     // swerve vectors
     public static final Vector2d 
-            TR = new Vector2d((FRONT_WHEEL_DIST_METERS / 2),
-                    (SIDE_WHEEL_DIST_METERS / 2)),
-            TL = new Vector2d(-(FRONT_WHEEL_DIST_METERS / 2),
-                    (SIDE_WHEEL_DIST_METERS / 2)),
-            DR = new Vector2d(FRONT_WHEEL_DIST_METERS / 2,
-                    -(SIDE_WHEEL_DIST_METERS / 2)),
-            DL = new Vector2d(-(FRONT_WHEEL_DIST_METERS / 2),
-                    -(SIDE_WHEEL_DIST_METERS / 2));
+            TR = new Vector2d((CHASSIS_WIDTH / 2),
+                    (CHASSIS_LENGTH / 2)),
+            TL = new Vector2d(-(CHASSIS_WIDTH / 2),
+                    (CHASSIS_LENGTH / 2)),
+            DR = new Vector2d(CHASSIS_WIDTH / 2,
+                    -(CHASSIS_LENGTH / 2)),
+            DL = new Vector2d(-(CHASSIS_WIDTH / 2),
+                    -(CHASSIS_LENGTH / 2));
 
     // array of physical module vectors
     public static final Vector2d[] modulesPositions = { TL,

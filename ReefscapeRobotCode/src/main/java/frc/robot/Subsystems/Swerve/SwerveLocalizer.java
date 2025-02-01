@@ -24,7 +24,7 @@ public class SwerveLocalizer implements Periodic, SwerveConsts {
             new LocalizationCamera("front",
                     AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
                     new Transform3d(new Translation3d(0.035, -0.015, 0.07), new Rotation3d(0, Math.toRadians(-23), 0)),
-                    VecBuilder.fill(0, 0, 0), VecBuilder.fill(0, 0, 0)),
+                    VecBuilder.fill(0.06, 0.02, 0), VecBuilder.fill(0.0, 0.0, 0)),
     };
 
     private static final double FIELD_WIDTH = 8.05;

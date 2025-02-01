@@ -112,16 +112,15 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
 
     @Override
     public void periodic() {
-        //absolute encoders
-        // SmartDashboard.putNumber("TL", m_modules[0].getSpeed());
-        // SmartDashboard.putNumber("TR", m_modules[1].getSpeed());
-        // SmartDashboard.putNumber("DL", m_modules[2].getSpeed());
-        // SmartDashboard.putNumber("DR", m_modules[3].getSpeed());
-        // SmartDashboard.putNumber("gyro angle", getGyroOrientedAngle());
-
-        // SmartDashboard.putString("velocity", getRobotOrientedVelocity().toString());
-        // SmartDashboard.putNumber("angular velocity", getAngularVelocity());
-        // SmartDashboard.putNumber("gyro angle", m_gyro.getYaw());
+        if(DEBUG_MODE){
+            SmartDashboard.putString("TL", "speed: " + m_modules[0].getSpeed() + "angle: " + m_modules[0].getAngle());
+            SmartDashboard.putString("TR", "speed: " + m_modules[1].getSpeed() + "angle: " + m_modules[1].getAngle());
+            SmartDashboard.putString("DL", "speed: " + m_modules[2].getSpeed() + "angle: " + m_modules[2].getAngle());
+            SmartDashboard.putString("DR", "speed: " + m_modules[3].getSpeed() + "angle: " + m_modules[3].getAngle());
+            SmartDashboard.putNumber("gyro angle", getGyroOrientedAngle());
+            SmartDashboard.putString("velocity", getRobotOrientedVelocity().toString());
+            SmartDashboard.putNumber("angular velocity", getAngularVelocity());
+        }
        
 
         
@@ -164,7 +163,6 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
     }
 
     /**
-     * see math on pdf document for more information
      * NWU - positive X is forward positive Y is left positive rotation is counter-clock wise
      * 
      * @param velocity    - robot's target velocity(m/s)
