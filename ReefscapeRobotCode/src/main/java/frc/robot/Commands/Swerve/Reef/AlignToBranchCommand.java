@@ -2,11 +2,14 @@ package frc.robot.Commands.Swerve.Reef;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
 import frc.robot.Subsystems.Swerve.Swerve;
 import frc.robot.Subsystems.Swerve.SwerveAngleController;
 import frc.robot.Subsystems.Swerve.SwerveLocalizer;
 import frc.robot.Utils.ReefFace;
+import frc.robot.Utils.Math.Funcs;
 import frc.robot.Utils.Math.Vector2d;
 
 public class AlignToBranchCommand extends Command{
@@ -38,12 +41,21 @@ public class AlignToBranchCommand extends Command{
 
         Swerve.getInstance().driveByVelocity(new Vector2d(xOutput, yOutput), true);
         SwerveAngleController.getInstance().start(m_target.getRotation().getDegrees(), true);
+        SmartDashboard.putNumber("error", Swerve.getInstance().getGyroOrientedAngle() + 360);
+        SmartDashboard.putNumber("Angle", m_target.getRotation().getDegrees());
+        SmartDashboard.putBoolean("is overriden", RobotContainer.chassis.getLeftX() > 0.2 ||
+        RobotContainer.chassis.getLeftY() > 0.2 ||
+        RobotContainer.chassis.getRightX() > 0.2);
+
     }
 
     @Override
     public boolean isFinished() {
         Pose2d pose = SwerveLocalizer.getInstance().getCurrentPoint();
-        return Math.abs(pose.getX() - m_target.getX()) < ERROR_TOLERANCE && Math.abs(pose.getY() - m_target.getY()) < ERROR_TOLERANCE; 
+        return (Math.abs(pose.getX() - m_target.getX()) < ERROR_TOLERANCE && 
+        Math.abs(pose.getY() - m_target.getY()) < ERROR_TOLERANCE)||
+        RobotContainer.chassis.rightBumper().getAsBoolean();
+
     }
     
     @Override
