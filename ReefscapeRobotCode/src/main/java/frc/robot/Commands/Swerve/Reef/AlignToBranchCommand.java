@@ -41,11 +41,6 @@ public class AlignToBranchCommand extends Command{
 
         Swerve.getInstance().driveByVelocity(new Vector2d(xOutput, yOutput), true);
         SwerveAngleController.getInstance().start(m_target.getRotation().getDegrees(), true);
-        SmartDashboard.putNumber("error", Swerve.getInstance().getGyroOrientedAngle() + 360);
-        SmartDashboard.putNumber("Angle", m_target.getRotation().getDegrees());
-        SmartDashboard.putBoolean("is overriden", RobotContainer.chassis.getLeftX() > 0.2 ||
-        RobotContainer.chassis.getLeftY() > 0.2 ||
-        RobotContainer.chassis.getRightX() > 0.2);
 
     }
 
@@ -53,8 +48,7 @@ public class AlignToBranchCommand extends Command{
     public boolean isFinished() {
         Pose2d pose = SwerveLocalizer.getInstance().getCurrentPoint();
         return (Math.abs(pose.getX() - m_target.getX()) < ERROR_TOLERANCE && 
-        Math.abs(pose.getY() - m_target.getY()) < ERROR_TOLERANCE)||
-        RobotContainer.chassis.rightBumper().getAsBoolean();
+        Math.abs(pose.getY() - m_target.getY()) < ERROR_TOLERANCE);
 
     }
     
