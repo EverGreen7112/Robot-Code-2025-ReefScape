@@ -8,21 +8,24 @@ import frc.robot.Utils.EverKit.EverMotorController.IdleMode;
 import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverSparkMax;
 
 public class Dispenser extends SubsystemBase {
-  
-  private EverMotorController m_dispenserMotor;
+  private final double DISPENSER_SPEED = 0.6, CORAL_POSITIONING_SPEED = 0.1;
+  private final boolean DEBUG_MODE = true;
+
+
   private static Dispenser m_instance = new Dispenser();
-  private DigitalInput m_entrySensor, m_exitSensor;
+
+  private EverMotorController m_dispenserMotor;
+  private DigitalInput m_entryLS, m_exitLS;
   private boolean m_hasCoral; // for now only its corrent use is to check if the dispenser has coral in it
-  private final boolean IS_INVERTED = false;
 
   private Dispenser() {
     EverSparkMax motor = new EverSparkMax(0);
-    motor.setInverted(IS_INVERTED);
+    motor.setInverted(true);
     motor.setIdleMode(IdleMode.kBrake);
     m_dispenserMotor = motor;
     
-    m_entrySensor = new DigitalInput(0);
-    m_exitSensor = new DigitalInput(1);
+    m_entryLS = new DigitalInput(0);
+    m_exitLS = new DigitalInput(1);
   }
 
   public static Dispenser getInstance() {
@@ -30,37 +33,58 @@ public class Dispenser extends SubsystemBase {
   }
 
   public void dispenseCoral() {
-    m_dispenserMotor.set(1);
+    m_dispenserMotor.set(DISPENSER_SPEED);
   }
 
   public void dropAlgea() { 
-    if (m_exitSensor.get() && m_entrySensor.get())
-      m_dispenserMotor.set(0.2);
+    if (getExitLS() && !getEntryLS())
+      stop();
+    dispenseCoral();
   }
 
   public void getCoralInPosition(){
-    if (m_entrySensor.get() && !m_exitSensor.get()) 
-      m_dispenserMotor.set(0.1);
+    if (getEntryLS() && !getExitLS()) 
+      m_dispenserMotor.set(CORAL_POSITIONING_SPEED);
   }
 
   public void stop(){
-    m_dispenserMotor.set(0);
+    m_dispenserMotor.stop();
   }
 
   public boolean hasCoral() {
+    m_hasCoral = true;
+    if ()
+      m_hasCoral = !(!getExitLS() && !getEntryLS());
+      
     return m_hasCoral;
+  }
+
+  public boolean getEntryLS() {
+    return m_entryLS.get();
+  }
+
+  public boolean getExitLS() {
+    return m_exitLS.get();
   }
 
   @Override 
   public void periodic() {
+    if (DEBUG_MODE) 
+      log();
+    
     getCoralInPosition();
-    if (!m_exitSensor.get() && !m_entrySensor.get())
-      m_hasCoral = false;
-
-    else
-      m_hasCoral = true;
-
-    SmartDashboard.putBoolean("Has Coral", m_hasCoral);
-
   } 
+
+  private void log() {
+    
+      SmartDashboard.putBoolean("Entry Sensor", getEntryLS());
+      SmartDashboard.putBoolean("Exit Sensor", getExitLS());
+      SmartDashboard.putBoolean("Inverted", true);
+      SmartDashboard.putString("Idle mode", "Brake");
+      SmartDashboard.putNumber("Exit Sensor id", m_exitLS.getChannel());
+      SmartDashboard.putNumber("Entry Sensor id", m_exitLS.getChannel());
+      SmartDashboard.putBoolean("Has coral", hasCoral());
+    
+  }
+
 }
