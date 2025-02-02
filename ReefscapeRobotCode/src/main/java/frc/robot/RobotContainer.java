@@ -22,6 +22,7 @@ public class RobotContainer {
 
   private static final int CHASSIS_PORT = 0;
   private static final int OPERATOR_PORT = 1;
+  private static final double JOYSTICK_DRIVE_INTERRUPT_THRESHOLD = 0.2;
 
   //controllers
   public static final CommandXboxController chassis = new CommandXboxController(CHASSIS_PORT);
@@ -68,8 +69,8 @@ public class RobotContainer {
     chassisB.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
     chassisRT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kTurbo));
     chassisLT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kSlow));
-    chassisPovUp.onTrue(new DriveToClosestBranchCommand(true));
-    chassisPovDown.onTrue(new DriveToClosestBranchCommand(false));
+    chassisPovUp.onTrue(new DriveToClosestBranchCommand(true, () -> {return chassis.getLeftX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD;}));
+    chassisPovDown.onTrue(new DriveToClosestBranchCommand(false, () -> {return chassis.getLeftX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD;}));
 
 
 

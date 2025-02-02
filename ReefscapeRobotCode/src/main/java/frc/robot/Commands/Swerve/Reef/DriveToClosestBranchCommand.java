@@ -1,5 +1,7 @@
 package frc.robot.Commands.Swerve.Reef;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -13,9 +15,12 @@ import frc.robot.Utils.ReefFace;
 public class DriveToClosestBranchCommand extends Command {
 
     private boolean m_isRightBranch;
+    private BooleanSupplier m_stopCommand;
+    private Command m_driveCommand;
 
-    public DriveToClosestBranchCommand(boolean isRightBranch) {
+    public DriveToClosestBranchCommand(boolean isRightBranch, BooleanSupplier stopCommand) {
         m_isRightBranch = isRightBranch;
+        m_stopCommand = stopCommand;
     }
 
     @Override
@@ -33,12 +38,13 @@ public class DriveToClosestBranchCommand extends Command {
             }
         }
         
-        (new DriveToBranchCommand(closestFace, m_isRightBranch)).schedule();
+        m_driveCommand = (new DriveToBranchCommand(closestFace, m_isRightBranch, m_stopCommand));
+        m_driveCommand.schedule();
     }
 
     @Override
     public boolean isFinished() {
-        return true;
+        return !m_driveCommand.isScheduled() || m_stopCommand.getAsBoolean();
     }
 
     private double getDis(Pose2d first, Pose2d second){
