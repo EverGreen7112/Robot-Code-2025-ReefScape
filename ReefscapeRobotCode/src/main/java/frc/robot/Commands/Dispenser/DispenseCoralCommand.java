@@ -22,6 +22,7 @@ public class DispenseCoralCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     Dispenser.getInstance().stop();
+    Dispenser.getInstance().setDispensingMode(false);
   }
 
    

@@ -1,6 +1,12 @@
 package frc.robot.Subsystems.Dispenser;
 
-import edu.wpi.first.wpilibj.DigitalInput;
+import java.util.function.Supplier;
+
+import com.revrobotics.spark.SparkLimitSwitch;
+import com.revrobotics.spark.config.LimitSwitchConfig;
+import com.revrobotics.spark.config.SparkBaseConfig;
+import com.revrobotics.spark.config.SparkMaxConfig;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.EverKit.EverMotorController;
@@ -15,17 +21,23 @@ public class Dispenser extends SubsystemBase {
   private static Dispenser m_instance = new Dispenser();
 
   private EverMotorController m_dispenserMotor;
-  private DigitalInput m_entryLS, m_exitLS;
-  private boolean m_hasCoral; // for now only its corrent use is to check if the dispenser has coral in it
+  private Supplier <Boolean> m_isAtEntry, m_isAtExit;
+  private boolean m_dispensingMode = false;
+  private SparkMaxConfig m_config = new SparkMaxConfig();
+  private LimitSwitchConfig m_LimitSwitchConfig = new LimitSwitchConfig();
 
   private Dispenser() {
     EverSparkMax motor = new EverSparkMax(0);
     motor.setInverted(true);
-    motor.setIdleMode(IdleMode.kBrake);
+    motor.setIdleMode(IdleMode.kCoast);
     m_dispenserMotor = motor;
-    
-    m_entryLS = new DigitalInput(0);
-    m_exitLS = new DigitalInput(1);
+    m_LimitSwitchConfig.forwardLimitSwitchEnabled(false);
+    m_LimitSwitchConfig.reverseLimitSwitchEnabled(false);
+    m_config.apply(m_LimitSwitchConfig);
+    motor.getControllerInstance().configure(m_config, null, null);
+    m_isAtEntry = () -> {return motor.getControllerInstance().getForwardLimitSwitch().isPressed();};
+    m_isAtExit = () -> {return motor.getControllerInstance().getReverseLimitSwitch().isPressed();};
+
   }
 
   public static Dispenser getInstance() {
@@ -33,17 +45,18 @@ public class Dispenser extends SubsystemBase {
   }
 
   public void dispenseCoral() {
+    m_dispensingMode = true;
     m_dispenserMotor.set(DISPENSER_SPEED);
   }
 
   public void dropAlgea() { 
-    if (getExitLS() && !getEntryLS())
+    if (m_isAtExit.get() && !m_isAtEntry.get())
       stop();
     dispenseCoral();
   }
 
   public void getCoralInPosition(){
-    if (getEntryLS() && !getExitLS()) 
+    if (m_isAtEntry.get() && !m_isAtExit.get())  
       m_dispenserMotor.set(CORAL_POSITIONING_SPEED);
   }
 
@@ -51,21 +64,14 @@ public class Dispenser extends SubsystemBase {
     m_dispenserMotor.stop();
   }
 
-  public boolean hasCoral() {
-    m_hasCoral = true;
-    if ()
-      m_hasCoral = !(!getExitLS() && !getEntryLS());
-      
-    return m_hasCoral;
+  public boolean isCoralInPosition() { 
+    return m_isAtExit.get() && m_isAtEntry.get(); 
   }
 
-  public boolean getEntryLS() {
-    return m_entryLS.get();
+  public void setDispensingMode(boolean mode) {
+    m_dispensingMode = mode;
   }
 
-  public boolean getExitLS() {
-    return m_exitLS.get();
-  }
 
   @Override 
   public void periodic() {
@@ -73,17 +79,18 @@ public class Dispenser extends SubsystemBase {
       log();
     
     getCoralInPosition();
+    if (isCoralInPosition() && !m_dispensingMode)
+      stop();
+
   } 
 
   private void log() {
     
-      SmartDashboard.putBoolean("Entry Sensor", getEntryLS());
-      SmartDashboard.putBoolean("Exit Sensor", getExitLS());
+      SmartDashboard.putBoolean("Entry Sensor", m_isAtEntry.get());
+      SmartDashboard.putBoolean("Exit Sensor", m_isAtExit.get());
       SmartDashboard.putBoolean("Inverted", true);
       SmartDashboard.putString("Idle mode", "Brake");
-      SmartDashboard.putNumber("Exit Sensor id", m_exitLS.getChannel());
-      SmartDashboard.putNumber("Entry Sensor id", m_exitLS.getChannel());
-      SmartDashboard.putBoolean("Has coral", hasCoral());
+      SmartDashboard.putBoolean("Has coral", isCoralInPosition());
     
   }
 
