@@ -15,7 +15,7 @@ import frc.robot.Utils.EverKit.Implementations.PIDControllers.EverTalonFXPIDCont
 
 public class Elevator extends SubsystemBase {
 
-    private static final boolean DEBUG_MODE = false;
+    private static final boolean DEBUG_MODE = true;
 
     public enum ElevatorLevel{
     
@@ -76,6 +76,10 @@ public class Elevator extends SubsystemBase {
         return m_instance;
     }
 
+    public void moveManually(double output){
+        m_motor.set(output);
+    }
+
     public void moveToDesiredLevel(ElevatorLevel desiredLevel){
         switch(desiredLevel){ 
             case L1:
@@ -121,5 +125,7 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putNumber("motor output", m_motor.get());
         SmartDashboard.putNumber("height",m_encoder.getPos());
     }
+
+
     
 }
