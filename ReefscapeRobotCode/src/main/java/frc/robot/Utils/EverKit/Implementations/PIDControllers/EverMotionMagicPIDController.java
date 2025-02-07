@@ -1,30 +1,33 @@
 package frc.robot.Utils.EverKit.Implementations.PIDControllers;
 
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.PositionDutyCycle;
+import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.controls.VelocityDutyCycle;
-import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import frc.robot.Utils.EverKit.EverPIDController;
+import frc.robot.Utils.EverKit.Periodic;
 import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverTalonFX;
 
-public class EverTalonFXPIDController extends EverPIDController{
-
+public class EverMotionMagicPIDController extends EverPIDController implements Periodic{
+    
     private TalonFX m_controller;
     private EverTalonFX m_everController;
-    private PositionVoltage m_posControl;
-    private VelocityVoltage m_velControl;
+    private MotionMagicVoltage m_posControl;
+    private MotionMagicVelocityVoltage m_velControl;
 
-    public EverTalonFXPIDController(EverTalonFX controller){
+    public EverMotionMagicPIDController(EverTalonFX controller, double cruiseVelocity, double acceleration){
         m_controller = controller.getControllerInstance();
         m_everController = controller;
-        m_posControl = new PositionVoltage(0).withSlot(0);
-        m_velControl = new VelocityVoltage(0).withSlot(0);
+        m_posControl = new MotionMagicVoltage(0).withSlot(0);
+        m_velControl = new MotionMagicVelocityVoltage(0).withSlot(0);
+        m_everController.setMotionMagicConfig((new MotionMagicConfigs()).withMotionMagicCruiseVelocity(cruiseVelocity));
+        m_everController.setMotionMagicConfig((new MotionMagicConfigs()).withMotionMagicAcceleration(acceleration));
+        
     }
 
     @Override
@@ -51,6 +54,10 @@ public class EverTalonFXPIDController extends EverPIDController{
         m_everController.setPidConfig(config);     
     }
 
+    public void setMotionMagic(MotionMagicConfigs config){
+        m_everController.setMotionMagicConfig(config);
+    }
+
     @Override
     public void resetIAccum() {
         throw new UnsupportedOperationException("Unimplemented method 'resetIAccum'");
@@ -58,19 +65,20 @@ public class EverTalonFXPIDController extends EverPIDController{
 
     @Override
     public void activate(double setpoint, ControlType type) {
-
         switch (type) {
             case kPos:
-                double posConversionFactor = m_everController.getPosConversionFactor();
-                m_controller.setControl(m_posControl.withPosition(setpoint / posConversionFactor));
-                break;
+                setpoint /= m_everController.getPosConversionFactor();
+                m_controller.setControl(m_posControl.withPosition(setpoint));
+
+            break;
             case kVel:
-                double velConversionFactor = m_everController.getVelConversionFactor();
-                m_controller.setControl(m_velControl.withVelocity(setpoint / velConversionFactor));
+                setpoint /= m_everController.getVelConversionFactor();
+                m_controller.setControl(m_velControl.withVelocity(setpoint));
                 break;    
             default:
                 break;
         }
+
     }
 
     @Override
@@ -78,5 +86,9 @@ public class EverTalonFXPIDController extends EverPIDController{
         m_controller.stopMotor();
     }
 
+    @Override
+    public void periodic() {
+        
+    }
     
 }

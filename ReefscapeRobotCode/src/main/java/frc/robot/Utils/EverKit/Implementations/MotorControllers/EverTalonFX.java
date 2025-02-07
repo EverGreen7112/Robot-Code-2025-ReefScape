@@ -1,5 +1,6 @@
 package frc.robot.Utils.EverKit.Implementations.MotorControllers;
 
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
@@ -95,6 +96,11 @@ public class EverTalonFX extends EverMotorController{
     public void setPidConfig(Slot0Configs config){
         m_config.Slot0 = config;
         m_configurator.apply(m_config);
+    }
+
+    public void setMotionMagicConfig(MotionMagicConfigs config){
+        m_config.MotionMagic = config;
+        m_configurator.apply(config);
     }
    
     public void setVoltage(double volts) {

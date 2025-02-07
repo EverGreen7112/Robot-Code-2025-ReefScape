@@ -31,6 +31,7 @@ import frc.robot.Utils.Math.Vector2d;
 NWU - positive X is forward positive Y is left positive rotation is counter-clock wise
  * */
 public class Swerve extends SubsystemBase implements SwerveConsts{
+    final boolean DEBUG_MODE = false;
 
     private static Swerve m_instance = new Swerve();
 
@@ -42,65 +43,13 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
     private boolean m_isGyroOriented;
 
     private Swerve() {
-    
-        //config motor controllers
-        for (EverMotorController driveMotor : DRIVE_MOTORS) {
-             driveMotor.restoreFactoryDefaults();
-             driveMotor.setInverted(false);
-             driveMotor.setIdleMode(IdleMode.kCoast);
-        }
-        
-        for (EverMotorController steerMotor : STEER_MOTORS) {
-            steerMotor.restoreFactoryDefaults();
-            steerMotor.setIdleMode(IdleMode.kCoast);
-        }
-        
-        //config encoders
-        for(EverEncoder driveEncoder : DRIVE_ENCODERS){
-            driveEncoder.setVelConversionFactor(DRIVE_GEAR_RATIO * WHEEL_PERIMETER);
-            driveEncoder.setPosConversionFactor(DRIVE_GEAR_RATIO * WHEEL_PERIMETER);
-        }
-
-        for(EverEncoder steerEncoder : STEER_ENCODERS){
-            steerEncoder.setPosConversionFactor(SwerveConsts.STEER_GEAR_RATIO * 360.0); //rotations to degrees
-        }
-
-        for(EverAbsEncoder absEncoder : ABS_ENCODERS){
-            absEncoder.setPosConversionFactor(360.0);
-        }
-
-        ABS_ENCODERS[0].setOffset(-58.83230972290039);
-        ABS_ENCODERS[1].setOffset(-121.904296875);
-        ABS_ENCODERS[2].setOffset(-7.119141578674316);
-        ABS_ENCODERS[3].setOffset(-132.36329650878906);
-
-        //config pid controllers
-        for (EverTalonFXPIDController velocityController : WHEEL_VELOCITY_CONTROLLERS) {
-            Slot0Configs configs = new Slot0Configs();
-            configs.kP = WHEEL_VELOCITY_KP;
-            configs.kI = WHEEL_VELOCITY_KI;
-            configs.kD = WHEEL_VELOCITY_KD;
-            configs.kS = WHEEL_VELOCITY_KS;
-            configs.kV = WHEEL_VELOCITY_KV;
-            velocityController.setPID(configs);   
-        }
-
-        for (EverSparkMaxPIDController angleController : WHEEL_ANGLE_CONTROLLERS) {
-             angleController.setPID(WHEEL_ANGLE_KP, WHEEL_ANGLE_KI, WHEEL_ANGLE_KD);      
-        }
-
-        m_modules = new SwerveModule[4];
-        m_modules[0] = new SwerveModule(SwerveConsts.TL_VELOCITY_CONTROLLER, SwerveConsts.TL_DRIVE_MOTOR, SwerveConsts.TL_DRIVE_ENCODER, SwerveConsts.TL_ANGLE_CONTROLLER, SwerveConsts.TL_STEER_MOTOR, SwerveConsts.TL_STEER_ENCODER, SwerveConsts.ABS_ENCODERS[0]);
-        m_modules[1] = new SwerveModule(SwerveConsts.TR_VELOCITY_CONTROLLER, SwerveConsts.TR_DRIVE_MOTOR, SwerveConsts.TR_DRIVE_ENCODER, SwerveConsts.TR_ANGLE_CONTROLLER, SwerveConsts.TR_STEER_MOTOR, SwerveConsts.TR_STEER_ENCODER, SwerveConsts.ABS_ENCODERS[1]);
-        m_modules[2] = new SwerveModule(SwerveConsts.DL_VELOCITY_CONTROLLER, SwerveConsts.DL_DRIVE_MOTOR, SwerveConsts.DL_DRIVE_ENCODER, SwerveConsts.DL_ANGLE_CONTROLLER, SwerveConsts.DL_STEER_MOTOR, SwerveConsts.DL_STEER_ENCODER, SwerveConsts.ABS_ENCODERS[2]);
-        m_modules[3] = new SwerveModule(SwerveConsts.DR_VELOCITY_CONTROLLER, SwerveConsts.DR_DRIVE_MOTOR, SwerveConsts.DR_DRIVE_ENCODER, SwerveConsts.DR_ANGLE_CONTROLLER, SwerveConsts.DR_STEER_MOTOR, SwerveConsts.DR_STEER_ENCODER, SwerveConsts.ABS_ENCODERS[3]);
-        
-        m_gyro = new EverNavX(NavXComType.kMXP_SPI);
-        m_gyro.resetYaw();
-        
+        SwerveConsts.config();
+        m_modules = SwerveConsts.MODULES;
         m_velocity = new Vector2d(0, 0);
         m_angularVelocity = 0;
         m_isGyroOriented = true;
+
+        m_gyro.resetYaw();
     }
 
     /**
@@ -112,19 +61,12 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
 
     @Override
     public void periodic() {
-        //absolute encoders
-        // SmartDashboard.putNumber("TL", m_modules[0].getSpeed());
-        // SmartDashboard.putNumber("TR", m_modules[1].getSpeed());
-        // SmartDashboard.putNumber("DL", m_modules[2].getSpeed());
-        // SmartDashboard.putNumber("DR", m_modules[3].getSpeed());
-        // SmartDashboard.putNumber("gyro angle", getGyroOrientedAngle());
+        if(DEBUG_MODE)
+            log();
+        updateModules();
+    }
 
-        // SmartDashboard.putString("velocity", getRobotOrientedVelocity().toString());
-        // SmartDashboard.putNumber("angular velocity", getAngularVelocity());
-        // SmartDashboard.putNumber("gyro angle", m_gyro.getYaw());
-       
-
-        
+    private void updateModules(){
         //convert to m/s
         double angularVel = (m_angularVelocity / 360.0) * SwerveConsts.ROBOT_BOUNDING_CIRCLE_PERIMETER;
 
@@ -277,5 +219,16 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
         m_modules[moduleIdx].setState(targetSpeed, targetAngle);
     }
 
+    private void log(){
+        SmartDashboard.putNumber("TL", m_modules[0].getSpeed());
+        SmartDashboard.putNumber("TR", m_modules[1].getSpeed());
+        SmartDashboard.putNumber("DL", m_modules[2].getSpeed());
+        SmartDashboard.putNumber("DR", m_modules[3].getSpeed());
+        SmartDashboard.putNumber("gyro angle", getGyroOrientedAngle());
+
+        SmartDashboard.putString("velocity", getRobotOrientedVelocity().toString());
+        SmartDashboard.putNumber("angular velocity", getAngularVelocity());
+        SmartDashboard.putNumber("gyro angle", m_gyro.getYaw());
+    }
 
 }

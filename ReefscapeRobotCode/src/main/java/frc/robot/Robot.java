@@ -79,7 +79,7 @@ public class Robot extends TimedRobot {
                         new Rotation2d(Math.toRadians(SwerveLocalizer.getInstance().getFieldOrientedAngle())));
 
     // SmartDashboard.putString("pose", SwerveLocalizer.getInstance().getCurrentPoint().toString());
-    SmartDashboard.putNumber("pose", a.getPosition().getValueAsDouble());
+
   }
 
   @Override
@@ -118,16 +118,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousExit() {}
-  TalonFX a =new TalonFX(13);
 
   @Override
   public void teleopInit() {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    a.getConfigurator().apply(new Slot0Configs().withKP(0.5));
-    a.setControl(new PositionVoltage(30).withFeedForward(0.45));
-    // a.setControl(new VoltageOut(4));
+   
   }
 
   @Override
