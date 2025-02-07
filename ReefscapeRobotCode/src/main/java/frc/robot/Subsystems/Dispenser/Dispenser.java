@@ -2,6 +2,8 @@ package frc.robot.Subsystems.Dispenser;
 
 import java.util.function.Supplier;
 
+import javax.net.ssl.HandshakeCompletedListener;
+
 import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.config.LimitSwitchConfig;
 import com.revrobotics.spark.config.SparkBaseConfig;
@@ -9,9 +11,14 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Utils.EverKit.EverEncoder;
 import frc.robot.Utils.EverKit.EverMotorController;
+import frc.robot.Utils.EverKit.EverPIDController;
 import frc.robot.Utils.EverKit.EverMotorController.IdleMode;
+import frc.robot.Utils.EverKit.EverPIDController.ControlType;
+import frc.robot.Utils.EverKit.Implementations.Encoders.EverSparkInternalEncoder;
 import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverSparkMax;
+import frc.robot.Utils.EverKit.Implementations.PIDControllers.EverSparkMaxPIDController;
 
 public class Dispenser extends SubsystemBase {
   private final double DISPENSER_SPEED = 0.6, CORAL_POSITIONING_SPEED = 0.1;
@@ -22,9 +29,13 @@ public class Dispenser extends SubsystemBase {
 
   private EverMotorController m_dispenserMotor;
   private Supplier <Boolean> m_isAtEntry, m_isAtExit;
-  private boolean m_dispensingMode = false;
+  private boolean m_firstTime = true;
   private SparkMaxConfig m_config = new SparkMaxConfig();
   private LimitSwitchConfig m_LimitSwitchConfig = new LimitSwitchConfig();
+  private EverEncoder m_encoder;
+  private double m_coralRestingPosition;
+  private EverPIDController m_pidController;
+
 
   private Dispenser() {
     EverSparkMax motor = new EverSparkMax(0);
@@ -37,6 +48,8 @@ public class Dispenser extends SubsystemBase {
     motor.getControllerInstance().configure(m_config, null, null);
     m_isAtEntry = () -> {return motor.getControllerInstance().getForwardLimitSwitch().isPressed();};
     m_isAtExit = () -> {return motor.getControllerInstance().getReverseLimitSwitch().isPressed();};
+    m_encoder = new EverSparkInternalEncoder(motor);
+    m_pidController = new EverSparkMaxPIDController(motor);
 
   }
 
@@ -45,7 +58,6 @@ public class Dispenser extends SubsystemBase {
   }
 
   public void dispenseCoral() {
-    m_dispensingMode = true;
     m_dispenserMotor.set(DISPENSER_SPEED);
   }
 
@@ -60,6 +72,20 @@ public class Dispenser extends SubsystemBase {
       m_dispenserMotor.set(CORAL_POSITIONING_SPEED);
   }
 
+  public double getCoralRestingPosition() {
+    if ( m_isAtEntry.get() && m_isAtExit.get() && m_firstTime) {
+      m_coralRestingPosition = m_encoder.getPos();
+      m_firstTime = false;
+      return  m_coralRestingPosition;
+    }
+
+    if (!m_isAtEntry.get() && !m_isAtExit.get())
+      m_firstTime = true;
+    
+    return m_coralRestingPosition;
+
+  }
+
   public void stop(){
     m_dispenserMotor.stop();
   }
@@ -68,19 +94,15 @@ public class Dispenser extends SubsystemBase {
     return m_isAtExit.get() && m_isAtEntry.get(); 
   }
 
-  public void setDispensingMode(boolean mode) {
-    m_dispensingMode = mode;
-  }
-
-
   @Override 
   public void periodic() {
     if (DEBUG_MODE) 
       log();
     
     getCoralInPosition();
-    if (isCoralInPosition() && !m_dispensingMode)
-      stop();
+    if (isCoralInPosition()) {
+      m_pidController.activate(getCoralRestingPosition(), ControlType.kPos);
+    }
 
   } 
 
