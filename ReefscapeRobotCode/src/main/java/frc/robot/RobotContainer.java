@@ -63,16 +63,16 @@ public class RobotContainer {
   private void configureBindings() {
 
     //chassis
-    Swerve.getInstance().setDefaultCommand(teleopCommand);
-    chassisA.onTrue(new RotateByCommand(90));
-    chassisB.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
-    chassisRT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kTurbo));
-    chassisLT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kSlow));
-    chassisBack.onTrue(new InstantCommand(() -> {SwerveLocalizer.getInstance().setCurrentPoint(new Pose2d());}));
-    chassisStart.onTrue(new DriveToBranch(ReefFace.BLUE_REEF[3], true));
-    chassisPovUp.onTrue(new DriveToClosestBranch(true));
-    chassisPovDown.onTrue(new DriveToClosestBranch(false));
-
+    // Swerve.getInstance().setDefaultCommand(teleopCommand);
+    // chassisA.onTrue(new RotateByCommand(90));
+    // chassisB.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
+    // chassisRT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kTurbo));
+    // chassisLT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kSlow));
+    // chassisBack.onTrue(new InstantCommand(() -> {SwerveLocalizer.getInstance().setCurrentPoint(new Pose2d());}));
+    // chassisStart.onTrue(new DriveToBranch(ReefFace.BLUE_REEF[3], true));
+    // chassisPovUp.onTrue(new DriveToClosestBranch(true));
+    // chassisPovDown.onTrue(new DriveToClosestBranch(false));
+    
 
 
   }

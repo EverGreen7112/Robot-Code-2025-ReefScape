@@ -16,7 +16,7 @@ public class Climber extends SubsystemBase{
     private DigitalInput m_bottomLS;
     
     private Climber(){
-        m_climbMotor = new EverTalonFX(0);
+        m_climbMotor = new EverTalonFX(13);
         m_bottomLS = new DigitalInput(0);
 
     }

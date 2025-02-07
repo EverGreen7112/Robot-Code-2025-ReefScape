@@ -17,18 +17,17 @@ public class Dispenser extends SubsystemBase {
   private final double DISPENSER_SPEED = 0.6, CORAL_POSITIONING_SPEED = 0.1;
   private final boolean DEBUG_MODE = true;
 
-
   private static Dispenser m_instance = new Dispenser();
 
-  private EverMotorController m_dispenserMotor;
+  public EverMotorController m_dispenserMotor;
   private Supplier <Boolean> m_isAtEntry, m_isAtExit;
   private boolean m_dispensingMode = false;
   private SparkMaxConfig m_config = new SparkMaxConfig();
   private LimitSwitchConfig m_LimitSwitchConfig = new LimitSwitchConfig();
 
   private Dispenser() {
-    EverSparkMax motor = new EverSparkMax(0);
-    motor.setInverted(true);
+    EverSparkMax motor = new EverSparkMax(14);
+    motor.setInverted(false);
     motor.setIdleMode(IdleMode.kCoast);
     m_dispenserMotor = motor;
     m_LimitSwitchConfig.forwardLimitSwitchEnabled(false);

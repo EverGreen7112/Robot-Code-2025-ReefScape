@@ -1,6 +1,7 @@
 package frc.robot.Subsystems.Elevator;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -9,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.EverKit.EverEncoder;
 import frc.robot.Utils.EverKit.EverMotorController;
 import frc.robot.Utils.EverKit.EverPIDController;
+import frc.robot.Utils.EverKit.EverPIDController.ControlType;
 import frc.robot.Utils.EverKit.Implementations.Encoders.EverTalonFXInternalEncoder;
 import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverTalonFX;
 import frc.robot.Utils.EverKit.Implementations.PIDControllers.EverTalonFXPIDController;
@@ -18,6 +20,7 @@ public class Elevator extends SubsystemBase {
     private static final boolean DEBUG_MODE = true;
 
     public enum ElevatorLevel{
+        
     
         L1(0),
         L2(0),
@@ -34,7 +37,7 @@ public class Elevator extends SubsystemBase {
 
     private static Elevator m_instance = new Elevator();
 
-    private EverMotorController m_motor;
+    public EverMotorController m_motor;
     private EverPIDController m_pidController;
     private EverEncoder m_encoder;
 
@@ -45,9 +48,10 @@ public class Elevator extends SubsystemBase {
 
     private Elevator(){
 
-        EverTalonFX talon = new EverTalonFX(0); 
+        EverTalonFX talon = new EverTalonFX(6); 
         talon.setInverted(false);
         talon.setIdleMode(EverTalonFX.IdleMode.kBrake);
+        talon.getControllerInstance().setNeutralMode(NeutralModeValue.Brake);
 
         EverTalonFXPIDController talonPidController = new EverTalonFXPIDController(talon);
         Slot0Configs a = new Slot0Configs();
@@ -61,14 +65,15 @@ public class Elevator extends SubsystemBase {
         talonPidController.setPID(a);
 
         EverTalonFXInternalEncoder encoder = new EverTalonFXInternalEncoder(talon);
-        encoder.setPosConversionFactor(0);
+        encoder.setPosConversionFactor(1);
         
-        m_topLS = new DigitalInput(0); 
-        m_bottomLS = new DigitalInput(0);
+        m_topLS = new DigitalInput(1); 
+        m_bottomLS = new DigitalInput(2);
 
         m_motor = talon;
         m_pidController = talonPidController;
         m_encoder = encoder;
+        m_motor.setIdleMode(frc.robot.Utils.EverKit.EverMotorController.IdleMode.kBrake);
         
     }
 
@@ -78,6 +83,10 @@ public class Elevator extends SubsystemBase {
 
     public void moveManually(double output){
         m_motor.set(output);
+    }
+
+    public void moveTo(double pos){
+        m_pidController.activate(pos, ControlType.kPos);
     }
 
     public void moveToDesiredLevel(ElevatorLevel desiredLevel){
@@ -121,11 +130,13 @@ public class Elevator extends SubsystemBase {
 
     private void log(){
         SmartDashboard.putBoolean("topLs", m_topLS.get());
-        SmartDashboard.putBoolean("bottomLs", m_topLS.get());
+        SmartDashboard.putBoolean("bottomLs", m_bottomLS.get());
         SmartDashboard.putNumber("motor output", m_motor.get());
         SmartDashboard.putNumber("height",m_encoder.getPos());
     }
 
 
-    
+    public void setVoltage(){
+        
+    }    
 }

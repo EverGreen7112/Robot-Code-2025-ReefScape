@@ -7,16 +7,28 @@ package frc.robot;
 
 import java.util.ArrayList;
 
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Subsystems.Swerve.SwerveLocalizer;
+import frc.robot.Subsystems.Dispenser.Dispenser;
+import frc.robot.Subsystems.Elevator.Elevator;
 import frc.robot.Subsystems.Swerve.Swerve;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
 import frc.robot.Utils.LocalizationCamera;
+import frc.robot.Utils.TalonFxCalib;
 import frc.robot.Utils.EverKit.Periodic;
 
 public class Robot extends TimedRobot {
@@ -32,7 +44,6 @@ public class Robot extends TimedRobot {
 
   private static Field2d m_field; 
 
-
   @Override
   public void robotInit() {
     
@@ -44,16 +55,15 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("field", m_field);
     
 
-    SwerveAutoController.getInstance().addChoosersToDashboard();
+    // SwerveAutoController.getInstance().addChoosersToDashboard();
 
-   
+  
     
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-
     for (Periodic method : robotPeriodicFuncs) {
       try {
         method.periodic();
@@ -68,13 +78,14 @@ public class Robot extends TimedRobot {
                          SwerveLocalizer.getInstance().getCurrentPoint().getY(),
                         new Rotation2d(Math.toRadians(SwerveLocalizer.getInstance().getFieldOrientedAngle())));
 
-    SmartDashboard.putString("pose", SwerveLocalizer.getInstance().getCurrentPoint().toString());
-
-    
+    // SmartDashboard.putString("pose", SwerveLocalizer.getInstance().getCurrentPoint().toString());
+    SmartDashboard.putNumber("pose", a.getPosition().getValueAsDouble());
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    Elevator.getInstance().m_motor.setIdleMode(frc.robot.Utils.EverKit.EverMotorController.IdleMode.kBrake);
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -107,13 +118,16 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousExit() {}
+  TalonFX a =new TalonFX(13);
 
   @Override
   public void teleopInit() {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
+    a.getConfigurator().apply(new Slot0Configs().withKP(0.5));
+    a.setControl(new PositionVoltage(30).withFeedForward(0.45));
+    // a.setControl(new VoltageOut(4));
   }
 
   @Override

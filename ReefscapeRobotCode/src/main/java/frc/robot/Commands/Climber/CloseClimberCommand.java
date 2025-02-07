@@ -7,7 +7,7 @@ public class CloseClimberCommand extends Command{
 
     @Override
     public void initialize() {
-        Climber.getInstance().close();();
+        Climber.getInstance().close();
     }
 
     @Override

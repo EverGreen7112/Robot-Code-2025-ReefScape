@@ -3,7 +3,7 @@ package frc.robot.Commands.Climber;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.Climber.Climber;
 
-public class ClimbCommand extends Command{
+public class OpenClimberCommand extends Command{
 
     @Override
     public void initialize() {
