@@ -10,7 +10,7 @@ public class Climber extends SubsystemBase{
     private final double CLIMB_SPEED = 0.3;
     private final boolean DEBUG_MODE = false;
 
-    private static Climber m_instance = new Climber();
+    private static Climber m_instance = null;
 
     private EverMotorController m_climbMotor;
     private DigitalInput m_bottomLS;

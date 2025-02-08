@@ -8,6 +8,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Commands.Dispenser.DispenseCoralCommand;
+import frc.robot.Commands.Dispenser.RemoveAlgeaCommand;
 import frc.robot.Commands.Swerve.ChangeTeleopSpeedModeCommand;
 import frc.robot.Commands.Swerve.DriveToBranch;
 import frc.robot.Commands.Swerve.DriveToClosestBranch;
@@ -73,7 +75,8 @@ public class RobotContainer {
     // chassisPovUp.onTrue(new DriveToClosestBranch(true));
     // chassisPovDown.onTrue(new DriveToClosestBranch(false));
     
-
+    chassisA.whileTrue(new DispenseCoralCommand());
+    chassisB.whileTrue(new RemoveAlgeaCommand());
 
   }
 

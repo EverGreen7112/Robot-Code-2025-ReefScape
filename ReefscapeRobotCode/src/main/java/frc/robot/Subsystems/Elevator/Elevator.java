@@ -36,7 +36,7 @@ public class Elevator extends SubsystemBase {
 
     }
 
-    private static Elevator m_instance = new Elevator();
+    private static Elevator m_instance = null;
 
     public EverMotorController m_motor;
     private EverPIDController m_pidController;
@@ -47,28 +47,29 @@ public class Elevator extends SubsystemBase {
 
     private Elevator(){
 
-        EverTalonFX talon = new EverTalonFX(13);
+        EverTalonFX talon = new EverTalonFX(6);
         talon.setIdleMode(IdleMode.kBrake);
         talon.getControllerInstance().setNeutralMode(NeutralModeValue.Brake);
 
-        EverMotionMagicPIDController talonPidController = new EverMotionMagicPIDController(talon, 0, 0);
-        Slot0Configs a = new Slot0Configs();
-        a.kD = 0;
-        a.kG = 0.45;
-        a.kI = 0;
-        a.kP = 0.5;
-        a.kV = 0;
-        a.GravityType = GravityTypeValue.Elevator_Static;
-        talonPidController.setPID(a);
+        // EverMotionMagicPIDController talonPidController = new EverMotionMagicPIDController(talon, 40, 55);
+        // Slot0Configs a = new Slot0Configs();
+        // a.kD = 0.3;
+        // a.kG = 0.45;
+        // a.kI = 0;
+        // a.kP = 1;
+        // a.kV = 1/2.6;
+        // a.kS = 0.2;
+        // a.GravityType = GravityTypeValue.Elevator_Static;
+        // talonPidController.setPID(a);
 
         EverTalonFXInternalEncoder encoder = new EverTalonFXInternalEncoder(talon);
         encoder.setPosConversionFactor(1);
         
-        m_topLS = new DigitalInput(1);
-        m_bottomLS = new DigitalInput(2);
+        m_topLS = new DigitalInput(2);
+        m_bottomLS = new DigitalInput(1);
 
         m_motor = talon;
-        m_pidController = talonPidController;
+        m_pidController = null;
         m_encoder = encoder;
         
     }
@@ -103,8 +104,10 @@ public class Elevator extends SubsystemBase {
         if(cantGoUp() && m_motor.get() > 0)
             m_motor.stop();
 
-        if(cantGoDown() && m_motor.get() < 0)
+        if(cantGoDown() && m_motor.get() <= 0){
             m_motor.stop();
+            m_encoder.setPos(0);
+        }
 
         if(DEBUG_MODE)
             log();
@@ -113,7 +116,7 @@ public class Elevator extends SubsystemBase {
     private void log(){
         SmartDashboard.putBoolean("topLs", m_topLS.get());
         SmartDashboard.putBoolean("bottomLs", m_bottomLS.get());
-        SmartDashboard.putNumber("motor output", m_motor.get());
+        SmartDashboard.putNumber("motor output", m_motor.get() * 12);
         SmartDashboard.putNumber("height",m_encoder.getPos());
     }
 

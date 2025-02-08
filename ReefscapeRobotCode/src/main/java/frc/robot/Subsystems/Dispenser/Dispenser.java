@@ -6,7 +6,6 @@ import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.config.LimitSwitchConfig;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.EverKit.EverMotorController;
@@ -20,23 +19,31 @@ public class Dispenser extends SubsystemBase {
   private static Dispenser m_instance = new Dispenser();
 
   public EverMotorController m_dispenserMotor;
-  private Supplier <Boolean> m_isAtEntry, m_isAtExit;
-  private boolean m_dispensingMode = false;
-  private SparkMaxConfig m_config = new SparkMaxConfig();
-  private LimitSwitchConfig m_LimitSwitchConfig = new LimitSwitchConfig();
+  private Supplier<Boolean> m_isAtEntry, m_isAtExit;
+  
+  private boolean m_algaeDropDispenseMode;
+  private boolean m_dispenseMode;
+  private boolean m_dispenseIgnoreSensorsMode;
 
   private Dispenser() {
     EverSparkMax motor = new EverSparkMax(14);
-    motor.setInverted(false);
-    motor.setIdleMode(IdleMode.kCoast);
-    m_dispenserMotor = motor;
-    m_LimitSwitchConfig.forwardLimitSwitchEnabled(false);
-    m_LimitSwitchConfig.reverseLimitSwitchEnabled(false);
-    m_config.apply(m_LimitSwitchConfig);
-    motor.getControllerInstance().configure(m_config, null, null);
-    m_isAtEntry = () -> {return motor.getControllerInstance().getForwardLimitSwitch().isPressed();};
-    m_isAtExit = () -> {return motor.getControllerInstance().getReverseLimitSwitch().isPressed();};
+    
+    SparkMaxConfig config = new SparkMaxConfig();
+    LimitSwitchConfig limitSwitchConfig = new LimitSwitchConfig();
 
+    limitSwitchConfig.forwardLimitSwitchEnabled(false);
+    limitSwitchConfig.reverseLimitSwitchEnabled(false);
+    config.apply(limitSwitchConfig);
+    motor.getControllerInstance().configure(config, null, null);
+
+    m_isAtExit = () -> {return motor.getControllerInstance().getForwardLimitSwitch().isPressed();};
+    m_isAtEntry = () -> {return motor.getControllerInstance().getReverseLimitSwitch().isPressed();};
+
+    m_dispenserMotor = motor;
+
+    m_algaeDropDispenseMode = false; 
+    m_dispenseMode = false;
+    m_dispenseIgnoreSensorsMode = false;
   }
 
   public static Dispenser getInstance() {
@@ -44,31 +51,34 @@ public class Dispenser extends SubsystemBase {
   }
 
   public void dispenseCoral() {
-    m_dispensingMode = true;
-    m_dispenserMotor.set(DISPENSER_SPEED);
+    m_dispenseMode = true;
+  }
+
+  public void dispenseCoralIgnoreSensors(){
+    m_dispenseIgnoreSensorsMode = true;
   }
 
   public void dropAlgea() { 
-    if (m_isAtExit.get() && !m_isAtEntry.get())
-      stop();
-    dispenseCoral();
-  }
-
-  public void getCoralInPosition(){
-    if (m_isAtEntry.get() && !m_isAtExit.get())  
-      m_dispenserMotor.set(CORAL_POSITIONING_SPEED);
+    m_algaeDropDispenseMode = true;
   }
 
   public void stop(){
     m_dispenserMotor.stop();
+    m_dispenseMode = false;
+    m_dispenseIgnoreSensorsMode = false;
+    m_algaeDropDispenseMode = false;
   }
 
-  public boolean isCoralInPosition() { 
+  public boolean isCoralInside() { 
     return m_isAtExit.get() && m_isAtEntry.get(); 
   }
 
-  public void setDispensingMode(boolean mode) {
-    m_dispensingMode = mode;
+  public boolean isCoralReadyToIntake(){
+    return !m_isAtExit.get() && m_isAtEntry.get();
+  }
+
+  public boolean isCoralAtAlgaeDropPosition(){
+    return m_isAtExit.get() && m_isAtEntry.get();
   }
 
 
@@ -77,10 +87,26 @@ public class Dispenser extends SubsystemBase {
     if (DEBUG_MODE) 
       log();
     
-    getCoralInPosition();
-    if (isCoralInPosition() && !m_dispensingMode)
+    if(isCoralReadyToIntake() && !m_dispenseMode && !m_algaeDropDispenseMode && !m_dispenseIgnoreSensorsMode){
+      m_dispenserMotor.set(CORAL_POSITIONING_SPEED);
+    }
+    if(isCoralInside() && !m_dispenseMode && !m_algaeDropDispenseMode && !m_dispenseIgnoreSensorsMode){
       stop();
+    }
+    if(isCoralInside() && m_dispenseMode){
+      m_dispenserMotor.set(DISPENSER_SPEED);
+    }
+    if(isCoralInside() && m_algaeDropDispenseMode){
+      m_dispenserMotor.set(CORAL_POSITIONING_SPEED);
+    }
+    if(isCoralAtAlgaeDropPosition() && m_algaeDropDispenseMode){
+      stop();
+    }
 
+
+
+
+      
   } 
 
   private void log() {
@@ -89,7 +115,7 @@ public class Dispenser extends SubsystemBase {
       SmartDashboard.putBoolean("Exit Sensor", m_isAtExit.get());
       SmartDashboard.putBoolean("Inverted", true);
       SmartDashboard.putString("Idle mode", "Brake");
-      SmartDashboard.putBoolean("Has coral", isCoralInPosition());
+      SmartDashboard.putBoolean("Has coral", isCoralInside());
     
   }
 

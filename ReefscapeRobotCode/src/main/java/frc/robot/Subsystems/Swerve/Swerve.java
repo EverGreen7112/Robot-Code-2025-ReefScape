@@ -48,8 +48,7 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
         m_velocity = new Vector2d(0, 0);
         m_angularVelocity = 0;
         m_isGyroOriented = true;
-
-        m_gyro.resetYaw();
+        m_gyro = new EverNavX(NavXComType.kMXP_SPI);
     }
 
     /**

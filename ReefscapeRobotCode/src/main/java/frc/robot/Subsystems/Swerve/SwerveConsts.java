@@ -38,7 +38,6 @@ public interface SwerveConsts{
     public static final double GYRO_DIRECTION = -1; //decide the direction of the gyro(counter clock wise should be positive)
     
     public static final SwerveModule[] MODULES = new SwerveModule[4];
-    public static final EverGyro GYRO = new EverNavX(NavXComType.kMXP_SPI);;
 
     // motor controllers
     public static final EverTalonFX 
