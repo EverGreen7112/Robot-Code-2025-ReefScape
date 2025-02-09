@@ -15,30 +15,32 @@ import frc.robot.Utils.EverKit.EverPIDController.ControlType;
 import frc.robot.Utils.EverKit.Implementations.Encoders.EverTalonFXInternalEncoder;
 import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverTalonFX;
 import frc.robot.Utils.EverKit.Implementations.PIDControllers.EverMotionMagicPIDController;
-import frc.robot.Utils.EverKit.Implementations.PIDControllers.EverTalonFXPIDController;
 
 public class Elevator extends SubsystemBase {
 
     private static final boolean DEBUG_MODE = true;
 
     public enum ElevatorLevel{
-        GROUND(0),
-        L1(2),
-        L2(23.5),
-        L3(52.5),
-        L4(99);
+        CLOSED(0, 0.2),
+        L1(2, 0.2),
+        L2(23.5, 0.2),
+        L3(52.5, 0.2),
+        L4(99, 0.4);
 
         public final double height;
+        public final double dispenseSpeed;
 
-        private ElevatorLevel(double height){
+        private ElevatorLevel(double height, double dispenseSpeed){
             this.height = height;
+            this.dispenseSpeed = dispenseSpeed;
         }
 
     }
 
     private static Elevator m_instance = new Elevator();
 
-    public EverMotorController m_motor;
+    private ElevatorLevel m_targetLevel;
+    private EverMotorController m_motor;
     private EverPIDController m_pidController;
     private EverEncoder m_encoder;
 
@@ -46,6 +48,7 @@ public class Elevator extends SubsystemBase {
     private DigitalInput m_bottomLS;
 
     private Elevator(){
+        m_targetLevel = ElevatorLevel.CLOSED;
 
         EverTalonFX talon = new EverTalonFX(13);
         talon.setIdleMode(IdleMode.kCoast);
@@ -86,12 +89,13 @@ public class Elevator extends SubsystemBase {
         m_motor.set(output);
     }
 
-    public void moveTo(double pos){
-        m_pidController.activate(pos, ControlType.kPos);
+    public void moveToDesiredLevel(ElevatorLevel desiredLevel){
+        m_targetLevel = desiredLevel;
+        m_pidController.activate(desiredLevel.height, ControlType.kPos);
     }
 
-    public void moveToDesiredLevel(ElevatorLevel desiredLevel){
-        moveTo(desiredLevel.height);
+    public ElevatorLevel getTargetLevel(){
+        return m_targetLevel;
     }
 
     public boolean cantGoUp(){
@@ -104,7 +108,9 @@ public class Elevator extends SubsystemBase {
 
     @Override
     public void periodic() {
-        
+        if(DEBUG_MODE)
+            log();
+
         if(cantGoUp() && m_motor.get() > 0)
             m_motor.stop();
 
@@ -113,14 +119,12 @@ public class Elevator extends SubsystemBase {
             m_encoder.setPos(0);
         }
 
-        if(DEBUG_MODE)
-            log();
     }  
 
     private void log(){
         SmartDashboard.putBoolean("topLs", m_topLS.get());
         SmartDashboard.putBoolean("bottomLs", m_bottomLS.get());
-        SmartDashboard.putNumber("motor output", m_motor.get() * 12);
+        SmartDashboard.putNumber("motor output", m_motor.get());
         SmartDashboard.putNumber("height",m_encoder.getPos());
     }
 

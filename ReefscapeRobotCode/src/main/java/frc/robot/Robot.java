@@ -58,7 +58,7 @@ public class Robot extends TimedRobot {
 
     //create and add robot field data to dashboard
     m_field = new Field2d();
-    SmartDashboard.putData("field", m_field);
+    // SmartDashboard.putData("field", m_field);
     
 
     // SwerveAutoController.getInstance().addChoosersToDashboard();
@@ -83,15 +83,10 @@ public class Robot extends TimedRobot {
                          SwerveLocalizer.getInstance().getCurrentPoint().getY(),
                         new Rotation2d(Math.toRadians(SwerveLocalizer.getInstance().getFieldOrientedAngle())));
 
-   
-    SmartDashboard.putNumber("pose", Elevator.getInstance().getPose());
-
-
   }
 
   @Override
   public void disabledInit() {
-    // Elevator.getInstance().m_motor.setIdleMode(frc.robot.Utils.EverKit.EverMotorController.IdleMode.kBrake);
   }
 
   @Override

@@ -17,7 +17,7 @@ public class Climber extends SubsystemBase{
     
     private Climber(){
         m_climbMotor = new EverTalonFX(12);
-        m_bottomLS = new DigitalInput(0);
+        m_bottomLS = new DigitalInput(3);
 
     }
 
@@ -27,13 +27,11 @@ public class Climber extends SubsystemBase{
 
     @Override
     public void periodic() {
-        // if(cantOpen() && m_climbMotor.get() > 0)
-        //     stop();
+        if(cantOpen() && m_climbMotor.get() > 0)
+            stop();
 
-        if(DEBUG_MODE){
-            SmartDashboard.putBoolean("bottom limit switch", cantOpen());
-            SmartDashboard.putNumber("climber", m_climbMotor.get());
-        }
+        if(DEBUG_MODE)
+            log();
 
     }
 
@@ -51,6 +49,11 @@ public class Climber extends SubsystemBase{
 
     private boolean cantOpen(){
         return m_bottomLS.get();
+    }
+
+    private void log(){
+        SmartDashboard.putBoolean("bottom limit switch", cantOpen());
+        SmartDashboard.putNumber("climber", m_climbMotor.get());
     }
 
     

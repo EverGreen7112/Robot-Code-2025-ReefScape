@@ -11,7 +11,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.Climber.CloseClimberCommand;
 import frc.robot.Commands.Climber.OpenClimberCommand;
 import frc.robot.Commands.Dispenser.DispenseCoralCommand;
-import frc.robot.Commands.Dispenser.RemoveAlgeaCommand;
+import frc.robot.Commands.Dispenser.DropAlgeaCommand;
+import frc.robot.Commands.Elevator.MoveElevatorTo;
 import frc.robot.Commands.Swerve.ChangeTeleopSpeedModeCommand;
 import frc.robot.Commands.Swerve.DriveToBranch;
 import frc.robot.Commands.Swerve.DriveToClosestBranch;
@@ -53,10 +54,14 @@ public class RobotContainer {
   public static final Trigger chassisBack = chassis.back();
   public static final Trigger chassisA = chassis.a();
   public static final Trigger chassisB = chassis.b();
+  public static final Trigger chassisX = chassis.x();
+  public static final Trigger chassisY = chassis.y();
   public static final Trigger chassisRT = chassis.rightTrigger();
   public static final Trigger chassisLT = chassis.leftTrigger();
   public static final Trigger chassisPovUp = chassis.povUp();
   public static final Trigger chassisPovDown = chassis.povDown();
+  public static final Trigger chassisPovRight = chassis.povRight();
+  public static final Trigger chassisPovLeft = chassis.povLeft();
   public static final TeleopDriveCommand teleopCommand = new TeleopDriveCommand(chassis::getLeftX, chassis::getLeftY, chassis::getRightX);
 
   public RobotContainer() {
@@ -72,17 +77,22 @@ public class RobotContainer {
 
     //chassis
     // Swerve.getInstance().setDefaultCommand(teleopCommand);
-    // chassisPovDown.onTrue(new InstantCommand(() -> {Elevator.getInstance().moveToDesiredLevel(ElevatorLevel.GROUND);}));
-    // chassisA.onTrue(new InstantCommand(() -> {      Elevator.getInstance().moveToDesiredLevel(ElevatorLevel.L1);}));
-    // chassisB.onTrue(new InstantCommand(() -> {      Elevator.getInstance().moveToDesiredLevel(ElevatorLevel.L2);}));
-    // chassisStart.onTrue(new InstantCommand(() -> {  Elevator.getInstance().moveToDesiredLevel(ElevatorLevel.L3);}));
-    // chassisBack.onTrue(new InstantCommand(() -> {   Elevator.getInstance().moveToDesiredLevel(ElevatorLevel.L4);}));
 
+    //elevator
+    chassisA.onTrue(       new MoveElevatorTo(ElevatorLevel.CLOSED));
+    chassisPovDown.onTrue( new MoveElevatorTo(ElevatorLevel.L1));
+    chassisPovRight.onTrue(new MoveElevatorTo(ElevatorLevel.L2));
+    chassisPovUp.onTrue(   new MoveElevatorTo(ElevatorLevel.L3));
+    chassisPovLeft.onTrue( new MoveElevatorTo(ElevatorLevel.L4));
 
+    //climber
     chassisRT.whileTrue(new OpenClimberCommand());
-    
-
     chassisLT.whileTrue(new CloseClimberCommand());
+
+    //dispenser
+    chassisX.whileTrue(new DispenseCoralCommand());
+    chassisB.whileTrue(new DropAlgeaCommand());
+
     // chassisB.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
     // chassisRT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kTurbo));
     // chassisLT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kSlow));
