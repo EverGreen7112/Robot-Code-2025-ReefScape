@@ -8,6 +8,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Commands.Climber.CloseClimberCommand;
+import frc.robot.Commands.Climber.OpenClimberCommand;
 import frc.robot.Commands.Dispenser.DispenseCoralCommand;
 import frc.robot.Commands.Dispenser.RemoveAlgeaCommand;
 import frc.robot.Commands.Swerve.ChangeTeleopSpeedModeCommand;
@@ -16,6 +18,10 @@ import frc.robot.Commands.Swerve.DriveToClosestBranch;
 import frc.robot.Commands.Swerve.RotateByCommand;
 import frc.robot.Commands.Swerve.TeleopDriveCommand;
 import frc.robot.Commands.Swerve.ChangeTeleopSpeedModeCommand.SpeedMode;
+import frc.robot.Subsystems.Climber.Climber;
+import frc.robot.Subsystems.Dispenser.Dispenser;
+import frc.robot.Subsystems.Elevator.Elevator;
+import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
 import frc.robot.Subsystems.Swerve.Swerve;
 import frc.robot.Subsystems.Swerve.SwerveLocalizer;
 import frc.robot.Utils.ReefFace;
@@ -66,7 +72,17 @@ public class RobotContainer {
 
     //chassis
     // Swerve.getInstance().setDefaultCommand(teleopCommand);
-    // chassisA.onTrue(new RotateByCommand(90));
+    // chassisPovDown.onTrue(new InstantCommand(() -> {Elevator.getInstance().moveToDesiredLevel(ElevatorLevel.GROUND);}));
+    // chassisA.onTrue(new InstantCommand(() -> {      Elevator.getInstance().moveToDesiredLevel(ElevatorLevel.L1);}));
+    // chassisB.onTrue(new InstantCommand(() -> {      Elevator.getInstance().moveToDesiredLevel(ElevatorLevel.L2);}));
+    // chassisStart.onTrue(new InstantCommand(() -> {  Elevator.getInstance().moveToDesiredLevel(ElevatorLevel.L3);}));
+    // chassisBack.onTrue(new InstantCommand(() -> {   Elevator.getInstance().moveToDesiredLevel(ElevatorLevel.L4);}));
+
+
+    chassisRT.whileTrue(new OpenClimberCommand());
+    
+
+    chassisLT.whileTrue(new CloseClimberCommand());
     // chassisB.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
     // chassisRT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kTurbo));
     // chassisLT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kSlow));
@@ -75,8 +91,8 @@ public class RobotContainer {
     // chassisPovUp.onTrue(new DriveToClosestBranch(true));
     // chassisPovDown.onTrue(new DriveToClosestBranch(false));
     
-    chassisA.whileTrue(new DispenseCoralCommand());
-    chassisB.whileTrue(new RemoveAlgeaCommand());
+    // chassisA.whileTrue(new DispenseCoralCommand());
+    // chassisB.whileTrue(new RemoveAlgeaCommand());
 
   }
 

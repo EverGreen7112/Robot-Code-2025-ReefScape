@@ -87,21 +87,21 @@ public class Dispenser extends SubsystemBase {
     if (DEBUG_MODE) 
       log();
     
-    if(isCoralReadyToIntake() && !m_dispenseMode && !m_algaeDropDispenseMode && !m_dispenseIgnoreSensorsMode){
-      m_dispenserMotor.set(CORAL_POSITIONING_SPEED);
-    }
-    if(isCoralInside() && !m_dispenseMode && !m_algaeDropDispenseMode && !m_dispenseIgnoreSensorsMode){
-      stop();
-    }
-    if(isCoralInside() && m_dispenseMode){
-      m_dispenserMotor.set(DISPENSER_SPEED);
-    }
-    if(isCoralInside() && m_algaeDropDispenseMode){
-      m_dispenserMotor.set(CORAL_POSITIONING_SPEED);
-    }
-    if(isCoralAtAlgaeDropPosition() && m_algaeDropDispenseMode){
-      stop();
-    }
+    // if(isCoralReadyToIntake() && !m_dispenseMode && !m_algaeDropDispenseMode && !m_dispenseIgnoreSensorsMode){
+    //   m_dispenserMotor.set(CORAL_POSITIONING_SPEED);
+    // }
+    // if(isCoralInside() && !m_dispenseMode && !m_algaeDropDispenseMode && !m_dispenseIgnoreSensorsMode){
+    //   stop();
+    // }
+    // if(isCoralInside() && m_dispenseMode){
+    //   m_dispenserMotor.set(DISPENSER_SPEED);
+    // }
+    // if(isCoralInside() && m_algaeDropDispenseMode){
+    //   m_dispenserMotor.set(CORAL_POSITIONING_SPEED);
+    // }
+    // if(isCoralAtAlgaeDropPosition() && m_algaeDropDispenseMode){
+    //   stop();
+    // }
 
 
 

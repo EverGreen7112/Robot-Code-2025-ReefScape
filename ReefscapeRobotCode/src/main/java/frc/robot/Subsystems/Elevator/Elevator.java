@@ -22,11 +22,11 @@ public class Elevator extends SubsystemBase {
     private static final boolean DEBUG_MODE = true;
 
     public enum ElevatorLevel{
-        
-        L1(0),
-        L2(0),
-        L3(0),
-        L4(0);
+        GROUND(0),
+        L1(2),
+        L2(23.5),
+        L3(52.5),
+        L4(99);
 
         public final double height;
 
@@ -36,7 +36,7 @@ public class Elevator extends SubsystemBase {
 
     }
 
-    private static Elevator m_instance = null;
+    private static Elevator m_instance = new Elevator();
 
     public EverMotorController m_motor;
     private EverPIDController m_pidController;
@@ -47,20 +47,20 @@ public class Elevator extends SubsystemBase {
 
     private Elevator(){
 
-        EverTalonFX talon = new EverTalonFX(6);
-        talon.setIdleMode(IdleMode.kBrake);
+        EverTalonFX talon = new EverTalonFX(13);
+        talon.setIdleMode(IdleMode.kCoast);
         talon.getControllerInstance().setNeutralMode(NeutralModeValue.Brake);
 
-        // EverMotionMagicPIDController talonPidController = new EverMotionMagicPIDController(talon, 40, 55);
-        // Slot0Configs a = new Slot0Configs();
-        // a.kD = 0.3;
-        // a.kG = 0.45;
-        // a.kI = 0;
-        // a.kP = 1;
-        // a.kV = 1/2.6;
-        // a.kS = 0.2;
-        // a.GravityType = GravityTypeValue.Elevator_Static;
-        // talonPidController.setPID(a);
+        EverMotionMagicPIDController talonPidController = new EverMotionMagicPIDController(talon, 90, 75);
+        Slot0Configs a = new Slot0Configs();
+        a.kD = 0;
+        a.kG = 0.4;
+        a.kI = 0;
+        a.kP = 2.8;
+        a.kV = 1/2.6;
+        a.kS = 0.2;
+        a.GravityType = GravityTypeValue.Elevator_Static;
+        talonPidController.setPID(a);
 
         EverTalonFXInternalEncoder encoder = new EverTalonFXInternalEncoder(talon);
         encoder.setPosConversionFactor(1);
@@ -69,13 +69,17 @@ public class Elevator extends SubsystemBase {
         m_bottomLS = new DigitalInput(1);
 
         m_motor = talon;
-        m_pidController = null;
+        m_pidController = talonPidController;
         m_encoder = encoder;
         
     }
 
     public static Elevator getInstance(){
         return m_instance;
+    }
+
+    public double getPose(){
+        return m_encoder.getPos();
     }
 
     public void moveManually(double output){
@@ -90,11 +94,11 @@ public class Elevator extends SubsystemBase {
         moveTo(desiredLevel.height);
     }
 
-    private boolean cantGoUp(){
+    public boolean cantGoUp(){
         return m_topLS.get();
     }
 
-    private boolean cantGoDown(){
+    public boolean cantGoDown(){
         return m_bottomLS.get();
     }
 

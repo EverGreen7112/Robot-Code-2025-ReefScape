@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Subsystems.Swerve.SwerveLocalizer;
+import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Subsystems.Dispenser.Dispenser;
 import frc.robot.Subsystems.Elevator.Elevator;
 import frc.robot.Subsystems.Swerve.Swerve;
@@ -61,15 +62,8 @@ public class Robot extends TimedRobot {
     
 
     // SwerveAutoController.getInstance().addChoosersToDashboard();
-    SmartDashboard.putNumber("target", 30);
-    SmartDashboard.putNumber("kd",0.425);
-    SmartDashboard.putNumber("kg", 0.5);
-    SmartDashboard.putNumber("ki", 0);
-    SmartDashboard.putNumber("kp", 0.25);
-    SmartDashboard.putNumber("kv", 1/4.7);
-    SmartDashboard.putNumber("ks", 0.1);
+    
       
-    motor.getControllerInstance().setNeutralMode(NeutralModeValue.Brake);
   }
 
   @Override
@@ -89,9 +83,9 @@ public class Robot extends TimedRobot {
                          SwerveLocalizer.getInstance().getCurrentPoint().getY(),
                         new Rotation2d(Math.toRadians(SwerveLocalizer.getInstance().getFieldOrientedAngle())));
 
-    // SmartDashboard.putString("pose", SwerveLocalizer.getInstance().getCurrentPoint().toString());
-    SmartDashboard.putNumber("current rot", motor.getControllerInstance().getPosition().getValueAsDouble());
-    SmartDashboard.putNumber("velocity", motor.getControllerInstance().getVelocity().getValueAsDouble());
+   
+    SmartDashboard.putNumber("pose", Elevator.getInstance().getPose());
+
 
   }
 
@@ -132,9 +126,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousExit() {}
 
-  EverTalonFX motor = new EverTalonFX(13);
-  EverMotionMagicPIDController talonPidController = new EverMotionMagicPIDController(motor, 50, 55);
-  Slot0Configs a = new Slot0Configs();
   
 
   @Override
@@ -142,19 +133,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
-    a.kD = SmartDashboard.getNumber("kd",0);
-    a.kG = SmartDashboard.getNumber("kg", 0.45);
-    a.kI = SmartDashboard.getNumber("ki", 0);
-    a.kP = SmartDashboard.getNumber("kp", 0.4);
-    a.kV = SmartDashboard.getNumber("kv", 1/2.6);
-    a.kS = SmartDashboard.getNumber("ks", 0.2);
-    double target = SmartDashboard.getNumber("target", 20);
-    a.GravityType = GravityTypeValue.Elevator_Static;
     
-    talonPidController.setPID(a);
-    talonPidController.activate(target, ControlType.kPos);
-    // motor.getControllerInstance().setControl(new VoltageOut(1));
+   
+    
   }
 
   @Override
@@ -167,7 +148,6 @@ public class Robot extends TimedRobot {
         e.printStackTrace();
       }
     }   
-    //Dispenser.getInstance().getCoralInPosition();
   }
 
   @Override
