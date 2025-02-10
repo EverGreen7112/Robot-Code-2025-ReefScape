@@ -76,7 +76,7 @@ public class RobotContainer {
   private void configureBindings() {
 
     //chassis
-    // Swerve.getInstance().setDefaultCommand(teleopCommand);
+    Swerve.getInstance().setDefaultCommand(teleopCommand);
 
     //elevator
     chassisA.onTrue(       new MoveElevatorTo(ElevatorLevel.CLOSED));

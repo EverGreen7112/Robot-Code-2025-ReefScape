@@ -71,7 +71,7 @@ public class Dispenser extends SubsystemBase {
   }
 
   public boolean isCoralAtAlgaeDropPosition(){
-    return m_isAtExit.get() && m_isAtEntry.get();
+    return m_isAtExit.get() && !m_isAtEntry.get();
   }
 
 

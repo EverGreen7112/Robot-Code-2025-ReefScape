@@ -31,7 +31,7 @@ import frc.robot.Utils.Math.Vector2d;
 NWU - positive X is forward positive Y is left positive rotation is counter-clock wise
  * */
 public class Swerve extends SubsystemBase implements SwerveConsts{
-    final boolean DEBUG_MODE = false;
+    final boolean DEBUG_MODE = true;
 
     private static Swerve m_instance = new Swerve();
 
@@ -219,11 +219,10 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
     }
 
     private void log(){
-        SmartDashboard.putNumber("TL", m_modules[0].getSpeed());
-        SmartDashboard.putNumber("TR", m_modules[1].getSpeed());
-        SmartDashboard.putNumber("DL", m_modules[2].getSpeed());
-        SmartDashboard.putNumber("DR", m_modules[3].getSpeed());
-        SmartDashboard.putNumber("gyro angle", getGyroOrientedAngle());
+        SmartDashboard.putNumber("TL", m_modules[0].getAngle());
+        SmartDashboard.putNumber("TR", m_modules[1].getAngle());
+        SmartDashboard.putNumber("DL", m_modules[2].getAngle());
+        SmartDashboard.putNumber("DR", m_modules[3].getAngle());
 
         SmartDashboard.putString("velocity", getRobotOrientedVelocity().toString());
         SmartDashboard.putNumber("angular velocity", getAngularVelocity());
