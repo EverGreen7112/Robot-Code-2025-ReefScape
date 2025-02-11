@@ -3,6 +3,7 @@ package frc.robot.Subsystems.Climber;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Utils.EverKit.EverEncoder;
 import frc.robot.Utils.EverKit.EverMotorController;
 import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverTalonFX;
 
@@ -11,13 +12,12 @@ public class Climber extends SubsystemBase{
     private final boolean DEBUG_MODE = false;
 
     private static Climber m_instance = new Climber();
-
-    private EverMotorController m_climbMotor;
-    private DigitalInput m_bottomLS;
     
+    private EverMotorController m_climbMotor;
+    private EverEncoder m_encoder;
+
     private Climber(){
         m_climbMotor = new EverTalonFX(0);
-        m_bottomLS = new DigitalInput(0);
 
     }
 
