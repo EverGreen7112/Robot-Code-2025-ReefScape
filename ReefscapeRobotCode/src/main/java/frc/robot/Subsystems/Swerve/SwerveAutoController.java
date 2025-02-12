@@ -4,6 +4,7 @@ import java.util.Currency;
 import java.util.List;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
@@ -21,6 +22,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
+import frc.robot.Commands.Dispenser.WaitUntilCoralIsInPlace;
+import frc.robot.Commands.Elevator.MoveElevatorTo;
+import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
 import frc.robot.Utils.Math.Funcs;
 
 public class SwerveAutoController {
@@ -67,6 +71,8 @@ public class SwerveAutoController {
         m_allianceChooser = new SendableChooser<Alliance>();
         m_allianceChooser.addOption("blue", Alliance.Blue);
         m_allianceChooser.addOption("red", Alliance.Red);
+
+        ConfigureCommands();
     }
 
     public static SwerveAutoController getInstance(){
@@ -97,4 +103,12 @@ public class SwerveAutoController {
         return AutoBuilder.pathfindThenFollowPath(path, PATH_CONSTRAINTS);
     }
     
+
+    public void ConfigureCommands(){
+        NamedCommands.registerCommand("MoveElevatorToL3", new MoveElevatorTo(ElevatorLevel.L3));
+        NamedCommands.registerCommand("MoveElevatorToL4", new MoveElevatorTo(ElevatorLevel.L4));
+        NamedCommands.registerCommand("MoveElevatorToGround", new MoveElevatorTo(ElevatorLevel.CLOSED));
+
+        NamedCommands.registerCommand("IsCoralAtEntry", new WaitUntilCoralIsInPlace());
+    }
 }

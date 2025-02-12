@@ -31,6 +31,7 @@ import frc.robot.Subsystems.Swerve.Swerve;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
 import frc.robot.Utils.Elastic;
 import frc.robot.Utils.LocalizationCamera;
+import frc.robot.Utils.ReefFace;
 import frc.robot.Utils.TalonFxCalib;
 import frc.robot.Utils.EverKit.Periodic;
 import frc.robot.Utils.EverKit.EverPIDController.ControlType;
@@ -62,6 +63,11 @@ public class Robot extends TimedRobot {
     
 
     // SwerveAutoController.getInstance().addChoosersToDashboard();
+    for( int i=0; i<ReefFace.BLUE_REEF.length; i++){
+      SmartDashboard.putString(i + "", ReefFace.BLUE_REEF[i].getLeftBranchPose().toString());
+      SmartDashboard.putString(i + "", ReefFace.RED_REEF[i].getLeftBranchPose().toString());
+
+    }
     
       
   }

@@ -104,4 +104,8 @@ public class Dispenser extends SubsystemBase {
     
   }
 
+  public boolean isAtEntry(){
+    return m_isAtEntry.get();
+  }
+
 }
