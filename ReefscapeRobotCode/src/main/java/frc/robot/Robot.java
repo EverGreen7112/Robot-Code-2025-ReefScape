@@ -83,6 +83,11 @@ public class Robot extends TimedRobot {
                          SwerveLocalizer.getInstance().getCurrentPoint().getY(),
                         new Rotation2d(Math.toRadians(SwerveLocalizer.getInstance().getFieldOrientedAngle())));
 
+                        SmartDashboard.putNumber("TL", Swerve.getInstance().m_modules[0].getAngle());
+                        SmartDashboard.putNumber("TR", Swerve.getInstance().m_modules[1].getAngle());
+                        SmartDashboard.putNumber("DL", Swerve.getInstance().m_modules[2].getAngle());
+                        SmartDashboard.putNumber("DR", Swerve.getInstance().m_modules[3].getAngle());
+
   }
 
   @Override

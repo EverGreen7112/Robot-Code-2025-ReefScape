@@ -93,7 +93,7 @@ public class RobotContainer {
     chassisX.whileTrue(new DispenseCoralCommand());
     chassisB.whileTrue(new DropAlgeaCommand());
 
-    // chassisB.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
+    chassisBack.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
     // chassisRT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kTurbo));
     // chassisLT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kSlow));
     // chassisBack.onTrue(new InstantCommand(() -> {SwerveLocalizer.getInstance().setCurrentPoint(new Pose2d());}));

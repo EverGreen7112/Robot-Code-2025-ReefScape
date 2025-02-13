@@ -1,6 +1,7 @@
 package frc.robot.Subsystems.Swerve;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -33,10 +34,10 @@ NWU - positive X is forward positive Y is left positive rotation is counter-cloc
 public class Swerve extends SubsystemBase implements SwerveConsts{
     final boolean DEBUG_MODE = true;
 
-    private static Swerve m_instance = new Swerve();
+    public static Swerve m_instance = new Swerve();
 
-    private SwerveModule[] m_modules;
-    private EverGyro m_gyro;
+    public SwerveModule[] m_modules;
+    private AHRS m_gyro;
 
     private Vector2d m_velocity;
     private double m_angularVelocity;
@@ -48,7 +49,7 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
         m_velocity = new Vector2d(0, 0);
         m_angularVelocity = 0;
         m_isGyroOriented = true;
-        m_gyro = new EverNavX(NavXComType.kMXP_SPI);
+        m_gyro = new AHRS(NavXComType.kMXP_SPI);
     }
 
     /**
@@ -198,7 +199,7 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
      * every action that depends on the localization might not work 
      */
     public void resetGyro(){
-        m_gyro.resetYaw();
+        m_gyro.reset();
     }
 
    
@@ -219,14 +220,17 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
     }
 
     private void log(){
-        SmartDashboard.putNumber("TL", m_modules[0].getAngle());
-        SmartDashboard.putNumber("TR", m_modules[1].getAngle());
-        SmartDashboard.putNumber("DL", m_modules[2].getAngle());
-        SmartDashboard.putNumber("DR", m_modules[3].getAngle());
+        // SmartDashboard.putNumber("TL", m_modules[0].getAngle());
+        // SmartDashboard.putNumber("TR", m_modules[1].getAngle());
+        // SmartDashboard.putNumber("DL", m_modules[2].getAngle());
+        // SmartDashboard.putNumber("DR", m_modules[3].getAngle());
 
         SmartDashboard.putString("velocity", getRobotOrientedVelocity().toString());
         SmartDashboard.putNumber("angular velocity", getAngularVelocity());
         SmartDashboard.putNumber("gyro angle", m_gyro.getYaw());
+        SmartDashboard.putBoolean("is connecgted", m_gyro.isConnected());
+
+
     }
 
 }
