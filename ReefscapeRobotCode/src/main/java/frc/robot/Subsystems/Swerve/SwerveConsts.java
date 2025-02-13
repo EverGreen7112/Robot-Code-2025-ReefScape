@@ -90,8 +90,8 @@ public interface SwerveConsts{
     // chassis encoders 
     public static final EverAbsEncoder
             TL_ABS_ENCODER = new EverCANCoder(3),
-            TR_ABS_ENCODER = new EverCANCoder(2),
-            DL_ABS_ENCODER = new EverCANCoder(1),
+            TR_ABS_ENCODER = new EverCANCoder(1),
+            DL_ABS_ENCODER = new EverCANCoder(2),
             DR_ABS_ENCODER = new EverCANCoder(0);
 
     public static final EverAbsEncoder[] ABS_ENCODERS = {TL_ABS_ENCODER, TR_ABS_ENCODER, DL_ABS_ENCODER, DR_ABS_ENCODER};
@@ -160,8 +160,8 @@ public interface SwerveConsts{
            }
    
            ABS_ENCODERS[0].setOffset(-59.4140625);
-           ABS_ENCODERS[1].setOffset(58.71094512939453);
-           ABS_ENCODERS[2].setOffset(173.583984375);
+           ABS_ENCODERS[1].setOffset(173.583984375);
+           ABS_ENCODERS[2].setOffset(58.71094512939453 );
            ABS_ENCODERS[3].setOffset(-131.66015625);
    
            for (EverTalonFXPIDController velocityController : WHEEL_VELOCITY_CONTROLLERS) {

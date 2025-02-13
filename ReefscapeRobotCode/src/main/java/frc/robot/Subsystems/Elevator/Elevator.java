@@ -25,7 +25,7 @@ public class Elevator extends SubsystemBase {
         L1(2, 0.2),
         L2(23, 0.2),
         L3(52, 0.2),
-        L4(98, 0.2); //98, 0.08
+        L4(99, 0.1); //98, 0.08
 
         public final double height;
         public final double dispenseSpeed;
