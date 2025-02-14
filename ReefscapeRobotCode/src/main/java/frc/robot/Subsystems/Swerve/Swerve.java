@@ -106,7 +106,6 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
     }
 
     /**
-     * see math on pdf document for more information
      * NWU - positive X is forward positive Y is left positive rotation is counter-clock wise
      * 
      * @param velocity    - robot's target velocity(m/s)

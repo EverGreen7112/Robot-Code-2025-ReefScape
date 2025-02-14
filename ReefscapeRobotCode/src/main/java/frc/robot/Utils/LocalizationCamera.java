@@ -15,9 +15,9 @@ import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
  
- public class LocalizationCamera {
-    private final PhotonCamera m_cam;
-    private final PhotonPoseEstimator m_poseEstimator;
+public class LocalizationCamera {
+    private PhotonCamera m_cam;
+    private PhotonPoseEstimator m_poseEstimator;
     private Matrix<N3, N1> m_singleTagStdDevs;
     private Matrix<N3, N1> m_multiTagStdDevs;
     private Matrix<N3, N1> m_curStdDevs;
@@ -37,6 +37,7 @@ import org.photonvision.targeting.PhotonTrackedTarget;
          Optional<EstimatedRobotPose> visionEst = Optional.empty();
          List<PhotonPipelineResult> res =  m_cam.getAllUnreadResults();
          for (PhotonPipelineResult change : res) {
+            
              visionEst = m_poseEstimator.update(change);
              updateEstimationStdDevs(visionEst, change.getTargets());
          }  

@@ -14,11 +14,11 @@ import frc.robot.Commands.Dispenser.DispenseCoralCommand;
 import frc.robot.Commands.Dispenser.DropAlgeaCommand;
 import frc.robot.Commands.Elevator.MoveElevatorTo;
 import frc.robot.Commands.Swerve.ChangeTeleopSpeedModeCommand;
-import frc.robot.Commands.Swerve.DriveToBranch;
-import frc.robot.Commands.Swerve.DriveToClosestBranch;
 import frc.robot.Commands.Swerve.RotateByCommand;
 import frc.robot.Commands.Swerve.TeleopDriveCommand;
 import frc.robot.Commands.Swerve.ChangeTeleopSpeedModeCommand.SpeedMode;
+import frc.robot.Commands.Swerve.Reef.DriveToBranchCommand;
+import frc.robot.Commands.Swerve.Reef.DriveToClosestBranchCommand;
 import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Subsystems.Dispenser.Dispenser;
 import frc.robot.Subsystems.Elevator.Elevator;
@@ -31,7 +31,7 @@ public class RobotContainer {
 
   private static final int CHASSIS_PORT = 0;
   private static final int OPERATOR_PORT = 1;
-
+  private static final double JOYSTICK_DRIVE_INTERRUPT_THRESHOLD = 0.2;
 
   //controllers
   public static final CommandXboxController chassis = new CommandXboxController(CHASSIS_PORT);
@@ -49,7 +49,6 @@ public class RobotContainer {
   public static final Trigger operatorRT = operator.rightTrigger();
   public static final Trigger operatorLT = operator.leftTrigger();
   public static final Trigger operatorStart = operator.start();
-
   public static final Trigger chassisStart = chassis.start();
   public static final Trigger chassisBack = chassis.back();
   public static final Trigger chassisA = chassis.a();
@@ -60,6 +59,8 @@ public class RobotContainer {
   public static final Trigger chassisLT = chassis.leftTrigger();
   public static final Trigger chassisPovUp = chassis.povUp();
   public static final Trigger chassisPovDown = chassis.povDown();
+
+  //commands
   public static final Trigger chassisPovRight = chassis.povRight();
   public static final Trigger chassisPovLeft = chassis.povLeft();
   public static final TeleopDriveCommand teleopCommand = new TeleopDriveCommand(chassis::getLeftX, chassis::getLeftY, chassis::getRightX);
@@ -77,6 +78,12 @@ public class RobotContainer {
 
     //chassis
     Swerve.getInstance().setDefaultCommand(teleopCommand);
+    chassisA.onTrue(new RotateByCommand(90));
+    chassisB.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
+    chassisRT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kTurbo));
+    chassisLT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kSlow));
+    chassisPovUp.onTrue(new DriveToClosestBranchCommand(true, () -> {return chassis.getLeftX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD;}));
+    chassisPovDown.onTrue(new DriveToClosestBranchCommand(false, () -> {return chassis.getLeftX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD;}));
 
     //elevator
     chassisA.onTrue(       new MoveElevatorTo(ElevatorLevel.CLOSED));

@@ -1,4 +1,6 @@
-package frc.robot.Commands.Swerve;
+package frc.robot.Commands.Swerve.Reef;
+
+import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform2d;
@@ -10,21 +12,23 @@ import frc.robot.Subsystems.Swerve.SwerveAutoController;
 import frc.robot.Subsystems.Swerve.SwerveLocalizer;
 import frc.robot.Utils.ReefFace;
 
-public class DriveToClosestBranch extends Command {
+public class DriveToClosestBranchCommand extends Command {
 
     private boolean m_isRightBranch;
+    private BooleanSupplier m_stopCommand;
+    private Command m_driveCommand;
 
-    public DriveToClosestBranch(boolean isRightBranch) {
+    public DriveToClosestBranchCommand(boolean isRightBranch, BooleanSupplier stopCommand) {
         m_isRightBranch = isRightBranch;
+        m_stopCommand = stopCommand;
     }
 
     @Override
     public void initialize() {
-
         ReefFace[] reef = (SwerveAutoController.getInstance().getAlliance() == Alliance.Blue ? ReefFace.BLUE_REEF : ReefFace.RED_REEF);
-        SmartDashboard.putBoolean("isBlue", SwerveAutoController.getInstance().getAlliance() == Alliance.Blue);
         Pose2d currentPoint = SwerveLocalizer.getInstance().getCurrentPoint();
         double minDis = getDis(currentPoint, reef[0].getFacePose());
+
         ReefFace closestFace = reef[0];
         for (int i = 1; i < 6; i++) {
             double currentDistance = getDis(currentPoint, reef[i].getFacePose());
@@ -33,13 +37,14 @@ public class DriveToClosestBranch extends Command {
                 closestFace = reef[i];
             }
         }
-        SmartDashboard.putString("closestFace", closestFace.toString());
-        (new DriveToBranch(closestFace, m_isRightBranch)).schedule();
+        
+        m_driveCommand = (new DriveToBranchCommand(closestFace, m_isRightBranch, m_stopCommand));
+        m_driveCommand.schedule();
     }
 
     @Override
     public boolean isFinished() {
-        return true;
+        return !m_driveCommand.isScheduled() || m_stopCommand.getAsBoolean();
     }
 
     private double getDis(Pose2d first, Pose2d second){
