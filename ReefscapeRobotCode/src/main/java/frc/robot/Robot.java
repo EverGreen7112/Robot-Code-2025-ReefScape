@@ -31,6 +31,7 @@ import frc.robot.Subsystems.Swerve.Swerve;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
 import frc.robot.Utils.Elastic;
 import frc.robot.Utils.LocalizationCamera;
+import frc.robot.Utils.ReefFace;
 import frc.robot.Utils.TalonFxCalib;
 import frc.robot.Utils.EverKit.Periodic;
 import frc.robot.Utils.EverKit.EverPIDController.ControlType;
@@ -58,11 +59,11 @@ public class Robot extends TimedRobot {
 
     //create and add robot field data to dashboard
     m_field = new Field2d();
-    // SmartDashboard.putData("field", m_field);
+    SmartDashboard.putData("field", m_field);
     
 
     // SwerveAutoController.getInstance().addChoosersToDashboard();
-    
+    m_field.setRobotPose(ReefFace.BLUE_REEF[0].getLeftBranchRobotPose());
       
   }
 
@@ -79,14 +80,14 @@ public class Robot extends TimedRobot {
 
    
     // update the robot position of dashboard
-    m_field.setRobotPose(SwerveLocalizer.getInstance().getCurrentPoint().getX(),
-                         SwerveLocalizer.getInstance().getCurrentPoint().getY(),
-                        new Rotation2d(Math.toRadians(SwerveLocalizer.getInstance().getFieldOrientedAngle())));
+    // m_field.setRobotPose(SwerveLocalizer.getInstance().getCurrentPoint().getX(),
+    //                      SwerveLocalizer.getInstance().getCurrentPoint().getY(),
+    //                     new Rotation2d(Math.toRadians(SwerveLocalizer.getInstance().getFieldOrientedAngle())));
 
-                        SmartDashboard.putNumber("TL", Swerve.getInstance().m_modules[0].getAbsAngle());
-                        SmartDashboard.putNumber("TR", Swerve.getInstance().m_modules[1].getAbsAngle());
-                        SmartDashboard.putNumber("DL", Swerve.getInstance().m_modules[2].getAbsAngle());
-                        SmartDashboard.putNumber("DR", Swerve.getInstance().m_modules[3].getAbsAngle());
+    SmartDashboard.putNumber("TL", Swerve.getInstance().m_modules[0].getAngle());
+    SmartDashboard.putNumber("TR", Swerve.getInstance().m_modules[1].getAngle());
+    SmartDashboard.putNumber("DL", Swerve.getInstance().m_modules[2].getAngle());
+    SmartDashboard.putNumber("DR", Swerve.getInstance().m_modules[3].getAngle());
 
   }
 

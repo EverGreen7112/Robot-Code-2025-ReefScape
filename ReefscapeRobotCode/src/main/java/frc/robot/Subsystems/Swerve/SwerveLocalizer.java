@@ -20,10 +20,11 @@ import frc.robot.Utils.LocalizationCamera;
 import frc.robot.Utils.EverKit.Periodic;
 
 public class SwerveLocalizer implements Periodic, SwerveConsts {
+    private final boolean DEBUG_MODE = false;
     public static final LocalizationCamera[] CAMS = {
-            new LocalizationCamera("front",
+            new LocalizationCamera("reef_cam",
                     AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
-                    new Transform3d(new Translation3d(0.035, -0.015, 0.07), new Rotation3d(0, Math.toRadians(-23), 0)),
+                    new Transform3d(new Translation3d(0.148892, 0, 0.27457 + 0.03), new Rotation3d(0, 0 ,0)),
                     VecBuilder.fill(0.06, 0.02, 0), VecBuilder.fill(0.0, 0.0, 0)),
     };
 
@@ -118,16 +119,19 @@ public class SwerveLocalizer implements Periodic, SwerveConsts {
         avgDist /= numTags;
 
         boolean isTooFar = avgDist > MAX_DISTANCE_FROM_TAG;
-        SmartDashboard.putBoolean("out of field", outOfField);
-        SmartDashboard.putBoolean("to far", isTooFar);
-        SmartDashboard.putBoolean("above camera", aboveCamera);
-        SmartDashboard.putBoolean("underGround", underGround);
+        if(DEBUG_MODE){    
+            SmartDashboard.putBoolean("out of field", outOfField);
+            SmartDashboard.putBoolean("to far", isTooFar);
+            SmartDashboard.putBoolean("above camera", aboveCamera);
+            SmartDashboard.putBoolean("underGround", underGround);
+        }
         return !outOfField && !aboveCamera && !underGround && !isTooFar;
     }
 
     private void addCameraVisionMeasurements(LocalizationCamera cam) {
         Optional<EstimatedRobotPose> est = cam.getEstimatedGlobalPose();
-        // SmartDashboard.putString("vision pose", est.get().estimatedPose.toString());
+        if(DEBUG_MODE)
+            SmartDashboard.putString("vision pose", est.get().estimatedPose.toString());
         if (!takeVisionPoseEstimation(est))
             return;
         m_poseEstimator.addVisionMeasurement(est.get().estimatedPose.toPose2d(), est.get().timestampSeconds,

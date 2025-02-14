@@ -43,16 +43,16 @@ public interface SwerveConsts{
 
     // motor controllers
     public static final EverTalonFX 
-            TL_DRIVE_MOTOR = new EverTalonFX(1),
-            TR_DRIVE_MOTOR = new EverTalonFX(18),
-            DL_DRIVE_MOTOR = new EverTalonFX(3),
-            DR_DRIVE_MOTOR = new EverTalonFX(16);
+            TL_DRIVE_MOTOR = new EverTalonFX(18),
+            TR_DRIVE_MOTOR = new EverTalonFX(16), 
+            DL_DRIVE_MOTOR = new EverTalonFX(3),  
+            DR_DRIVE_MOTOR = new EverTalonFX(1); 
     
     public static final EverSparkMax 
-            TL_STEER_MOTOR = new EverSparkMax(10),
-            TR_STEER_MOTOR = new EverSparkMax(19),
-            DL_STEER_MOTOR = new EverSparkMax(2),
-            DR_STEER_MOTOR = new EverSparkMax(17);
+            TL_STEER_MOTOR = new EverSparkMax(19),
+            TR_STEER_MOTOR = new EverSparkMax(17),
+            DL_STEER_MOTOR = new EverSparkMax(010),
+            DR_STEER_MOTOR = new EverSparkMax(2);
 
     public static final EverTalonFX[] DRIVE_MOTORS = {TL_DRIVE_MOTOR, TR_DRIVE_MOTOR, DL_DRIVE_MOTOR, DR_DRIVE_MOTOR};
     public static final EverSparkMax[] STEER_MOTORS = {TL_STEER_MOTOR, TR_STEER_MOTOR, DL_STEER_MOTOR, DR_STEER_MOTOR};
@@ -91,9 +91,9 @@ public interface SwerveConsts{
             
     // chassis encoders 
     public static final EverAbsEncoder
-            TL_ABS_ENCODER = new EverCANCoder(3),
-            TR_ABS_ENCODER = new EverCANCoder(1),
-            DL_ABS_ENCODER = new EverCANCoder(2),
+            TL_ABS_ENCODER = new EverCANCoder(0),
+            TR_ABS_ENCODER = new EverCANCoder(0),
+            DL_ABS_ENCODER = new EverCANCoder(0),
             DR_ABS_ENCODER = new EverCANCoder(0);
 
     public static final EverAbsEncoder[] ABS_ENCODERS = {TL_ABS_ENCODER, TR_ABS_ENCODER, DL_ABS_ENCODER, DR_ABS_ENCODER};
@@ -163,10 +163,10 @@ public interface SwerveConsts{
                absEncoder.setPosConversionFactor(360.0);
            }
    
-           ABS_ENCODERS[0].setOffset(-59.4140625);
-           ABS_ENCODERS[1].setOffset(173.583984375);
-           ABS_ENCODERS[2].setOffset(58.71094512939453 );
-           ABS_ENCODERS[3].setOffset(-131.66015625);
+           ABS_ENCODERS[0].setOffset();
+           ABS_ENCODERS[1].setOffset();
+           ABS_ENCODERS[2].setOffset();
+           ABS_ENCODERS[3].setOffset();
    
            for (EverTalonFXPIDController velocityController : WHEEL_VELOCITY_CONTROLLERS) {
                Slot0Configs configs = new Slot0Configs();
