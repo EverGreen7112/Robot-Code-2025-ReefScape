@@ -22,7 +22,7 @@ public class LocalizationCamera {
     private Matrix<N3, N1> m_multiTagStdDevs;
     private Matrix<N3, N1> m_curStdDevs;
  
-     public LocalizationCamera(String camName, AprilTagFieldLayout tagFieldLayout, Transform3d robotToCam, Matrix<N3, N1> singleTagStdDevs, Matrix<N3, N1> multiTagStdDevs) {
+    public LocalizationCamera(String camName, AprilTagFieldLayout tagFieldLayout, Transform3d robotToCam, Matrix<N3, N1> singleTagStdDevs, Matrix<N3, N1> multiTagStdDevs) {
          m_cam = new PhotonCamera(camName);
          m_poseEstimator =
                  new PhotonPoseEstimator(tagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, robotToCam);

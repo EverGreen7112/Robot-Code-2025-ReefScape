@@ -3,6 +3,7 @@ package frc.robot.Utils;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -42,6 +43,10 @@ public class TalonFxCalib{
     public void activatePosPid(double setpoint){
         updatePIDValsFromDashboard();
         m_controller.setControl(new PositionVoltage(setpoint));
+    }
+
+    public void setVoltage(double voltage){
+        m_controller.setControl(new VoltageOut(voltage));
     }
 
     private void updatePIDValsFromDashboard(){

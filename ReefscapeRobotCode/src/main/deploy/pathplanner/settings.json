@@ -3,15 +3,7 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
-    "Autonomous Plans",
-    "bottom coral station to reef blue",
-    "bottom coral station to reef red",
-    "reef to bottom coral station blue",
-    "reef to bottom coral station red",
-    "reef to top coral station blue",
-    "reef to top coral station red",
-    "top corral station to reef blue",
-    "top corral station to reef red"
+    "New Folder"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,
