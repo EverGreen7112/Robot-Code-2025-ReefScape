@@ -20,11 +20,11 @@ import frc.robot.Utils.LocalizationCamera;
 import frc.robot.Utils.EverKit.Periodic;
 
 public class SwerveLocalizer implements Periodic, SwerveConsts {
-    private final boolean DEBUG_MODE = false;
+    private final boolean DEBUG_MODE = true;
     public static final LocalizationCamera[] CAMS = {
             new LocalizationCamera("reef_cam",
                     AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
-                    new Transform3d(new Translation3d(0.148892, 0, 0.27457 + 0.03), new Rotation3d(0, 0 ,0)),
+                    new Transform3d(new Translation3d(0.148892, 0, -0.27457), new Rotation3d(0, 0 ,0)),
                     VecBuilder.fill(0.06, 0.02, 0), VecBuilder.fill(0.0, 0.0, 0)),
     };
 
@@ -130,7 +130,7 @@ public class SwerveLocalizer implements Periodic, SwerveConsts {
 
     private void addCameraVisionMeasurements(LocalizationCamera cam) {
         Optional<EstimatedRobotPose> est = cam.getEstimatedGlobalPose();
-        if(DEBUG_MODE)
+        if(DEBUG_MODE && est.isPresent())
             SmartDashboard.putString("vision pose", est.get().estimatedPose.toString());
         if (!takeVisionPoseEstimation(est))
             return;

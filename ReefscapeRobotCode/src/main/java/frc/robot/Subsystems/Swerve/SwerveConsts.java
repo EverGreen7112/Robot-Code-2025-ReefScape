@@ -45,13 +45,13 @@ public interface SwerveConsts{
     public static final EverTalonFX 
             TL_DRIVE_MOTOR = new EverTalonFX(18),
             TR_DRIVE_MOTOR = new EverTalonFX(16), 
-            DL_DRIVE_MOTOR = new EverTalonFX(3),  
-            DR_DRIVE_MOTOR = new EverTalonFX(1); 
+            DL_DRIVE_MOTOR = new EverTalonFX(1),  
+            DR_DRIVE_MOTOR = new EverTalonFX(3); 
     
     public static final EverSparkMax 
             TL_STEER_MOTOR = new EverSparkMax(19),
             TR_STEER_MOTOR = new EverSparkMax(17),
-            DL_STEER_MOTOR = new EverSparkMax(010),
+            DL_STEER_MOTOR = new EverSparkMax(10),
             DR_STEER_MOTOR = new EverSparkMax(2);
 
     public static final EverTalonFX[] DRIVE_MOTORS = {TL_DRIVE_MOTOR, TR_DRIVE_MOTOR, DL_DRIVE_MOTOR, DR_DRIVE_MOTOR};
@@ -91,10 +91,10 @@ public interface SwerveConsts{
             
     // chassis encoders 
     public static final EverAbsEncoder
-            TL_ABS_ENCODER = new EverCANCoder(0),
+            TL_ABS_ENCODER = new EverCANCoder(1),
             TR_ABS_ENCODER = new EverCANCoder(0),
-            DL_ABS_ENCODER = new EverCANCoder(0),
-            DR_ABS_ENCODER = new EverCANCoder(0);
+            DL_ABS_ENCODER = new EverCANCoder(3),
+            DR_ABS_ENCODER = new EverCANCoder(2);
 
     public static final EverAbsEncoder[] ABS_ENCODERS = {TL_ABS_ENCODER, TR_ABS_ENCODER, DL_ABS_ENCODER, DR_ABS_ENCODER};
     
@@ -163,10 +163,10 @@ public interface SwerveConsts{
                absEncoder.setPosConversionFactor(360.0);
            }
    
-           ABS_ENCODERS[0].setOffset();
-           ABS_ENCODERS[1].setOffset();
-           ABS_ENCODERS[2].setOffset();
-           ABS_ENCODERS[3].setOffset();
+           ABS_ENCODERS[0].setOffset(83.43325805664062);
+           ABS_ENCODERS[1].setOffset(-222.35971069335938);
+           ABS_ENCODERS[2].setOffset(209.41041564941406);
+           ABS_ENCODERS[3].setOffset(-31.289077758789062);
    
            for (EverTalonFXPIDController velocityController : WHEEL_VELOCITY_CONTROLLERS) {
                Slot0Configs configs = new Slot0Configs();

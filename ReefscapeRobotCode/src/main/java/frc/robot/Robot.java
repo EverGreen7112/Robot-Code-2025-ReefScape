@@ -63,7 +63,7 @@ public class Robot extends TimedRobot {
     
 
     // SwerveAutoController.getInstance().addChoosersToDashboard();
-    m_field.setRobotPose(ReefFace.BLUE_REEF[0].getLeftBranchRobotPose());
+   
       
   }
 
@@ -80,9 +80,9 @@ public class Robot extends TimedRobot {
 
    
     // update the robot position of dashboard
-    // m_field.setRobotPose(SwerveLocalizer.getInstance().getCurrentPoint().getX(),
-    //                      SwerveLocalizer.getInstance().getCurrentPoint().getY(),
-    //                     new Rotation2d(Math.toRadians(SwerveLocalizer.getInstance().getFieldOrientedAngle())));
+    m_field.setRobotPose(SwerveLocalizer.getInstance().getCurrentPoint().getX(),
+                         SwerveLocalizer.getInstance().getCurrentPoint().getY(),
+                        new Rotation2d(Math.toRadians(SwerveLocalizer.getInstance().getFieldOrientedAngle())));
 
     SmartDashboard.putNumber("TL", Swerve.getInstance().m_modules[0].getAngle());
     SmartDashboard.putNumber("TR", Swerve.getInstance().m_modules[1].getAngle());

@@ -105,8 +105,6 @@ public class RobotContainer {
     // chassisLT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kSlow));
     // chassisBack.onTrue(new InstantCommand(() -> {SwerveLocalizer.getInstance().setCurrentPoint(new Pose2d());}));
     // chassisStart.onTrue(new DriveToBranch(ReefFace.BLUE_REEF[3], true));
-    // chassisPovUp.onTrue(new DriveToClosestBranch(true));
-    // chassisPovDown.onTrue(new DriveToClosestBranch(false));
     
     // chassisA.whileTrue(new DispenseCoralCommand());
     // chassisB.whileTrue(new RemoveAlgeaCommand());
