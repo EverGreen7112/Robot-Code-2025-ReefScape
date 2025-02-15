@@ -62,7 +62,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("field", m_field);
     
 
-    // SwerveAutoController.getInstance().addChoosersToDashboard();
+    SwerveAutoController.getInstance().addChoosersToDashboard();
    
       
   }

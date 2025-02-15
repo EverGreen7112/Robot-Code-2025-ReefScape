@@ -37,7 +37,6 @@ public class DriveToClosestBranchCommand extends Command {
                 closestFace = reef[i];
             }
         }
-        
         m_driveCommand = (new DriveToBranchCommand(closestFace, m_isRightBranch, m_stopCommand));
         m_driveCommand.schedule();
     }
@@ -47,6 +46,11 @@ public class DriveToClosestBranchCommand extends Command {
         return !m_driveCommand.isScheduled() || m_stopCommand.getAsBoolean();
     }
 
+
+    @Override
+    public void end(boolean interrupted) {
+        SmartDashboard.putBoolean("false", false);
+    }
     private double getDis(Pose2d first, Pose2d second){
         return (first.minus(second)).getTranslation().getNorm();
     }

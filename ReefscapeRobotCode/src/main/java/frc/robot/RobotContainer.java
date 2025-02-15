@@ -57,6 +57,8 @@ public class RobotContainer {
   public static final Trigger chassisY = chassis.y();
   public static final Trigger chassisRT = chassis.rightTrigger();
   public static final Trigger chassisLT = chassis.leftTrigger();
+  public static final Trigger chassisRB = chassis.rightBumper();
+  public static final Trigger chassisLB = chassis.leftBumper();
   public static final Trigger chassisPovUp = chassis.povUp();
   public static final Trigger chassisPovDown = chassis.povDown();
 
@@ -78,13 +80,17 @@ public class RobotContainer {
 
     //chassis
     Swerve.getInstance().setDefaultCommand(teleopCommand);
-    chassisA.onTrue(new RotateByCommand(90));
-    chassisB.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
-    chassisRT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kTurbo));
-    chassisLT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kSlow));
-    chassisPovUp.onTrue(new DriveToClosestBranchCommand(true, () -> {return chassis.getLeftX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD;}));
-    chassisPovDown.onTrue(new DriveToClosestBranchCommand(false, () -> {return chassis.getLeftX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD;}));
+    
+    chassisRB.onTrue(new DriveToClosestBranchCommand(true, () -> {return  (chassis.getLeftX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
+                                                                                        (chassis.getLeftY() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
+                                                                                        (chassis.getRightX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD);}));
+                                                                                        
+    chassisLB.onTrue(new DriveToClosestBranchCommand(false, () -> {return (chassis.getLeftX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
+                                                                                        (chassis.getLeftY() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
+                                                                                        (chassis.getRightX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD);}));
+    
 
+                                                                                        
     //elevator
     chassisA.onTrue(       new MoveElevatorTo(ElevatorLevel.CLOSED));
     chassisPovDown.onTrue( new MoveElevatorTo(ElevatorLevel.L1));
@@ -93,8 +99,8 @@ public class RobotContainer {
     chassisPovLeft.onTrue( new MoveElevatorTo(ElevatorLevel.L4));
 
     //climber
-    chassisRT.whileTrue(new OpenClimberCommand());
-    chassisLT.whileTrue(new CloseClimberCommand());
+    // chassisRT.whileTrue(new OpenClimberCommand());
+    // chassisLT.whileTrue(new CloseClimberCommand());
 
     //dispenser
     chassisX.whileTrue(new DispenseCoralCommand());

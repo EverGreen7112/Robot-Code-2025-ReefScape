@@ -15,6 +15,7 @@ import com.pathplanner.lib.path.Waypoint;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.units.measure.LinearVelocity;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -27,7 +28,7 @@ public class SwerveAutoController {
 
     private static final PIDConstants TRANSLATION_PID =  new PIDConstants(5.0, 0.0, 0.0),
                                       ROTATION_PID = new PIDConstants(5.0, 0.0 ,0.0);
-    private static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(1.0, 3.0, 2 * Math.PI, 4 * Math.PI);
+    private static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(1, 0.5, 1 * Math.PI, 4 * Math.PI);
 
     private static SwerveAutoController m_instance = new SwerveAutoController();
     private SendableChooser<Command> m_autoChooser;
@@ -87,15 +88,8 @@ public class SwerveAutoController {
     }
     
 
-    public Command generateDriveToCommand(GoalEndState endState, Pose2d...waypoints){
-        PathPlannerPath path = new PathPlannerPath(
-            PathPlannerPath.waypointsFromPoses(waypoints),
-            PATH_CONSTRAINTS,
-            null,
-            endState);
-        path.preventFlipping = true;
-        
-        return AutoBuilder.pathfindThenFollowPath(path, PATH_CONSTRAINTS);
-    }
+    public Command generateDriveToCommand(Pose2d waypoint){
+        return AutoBuilder.pathfindToPose(waypoint,PATH_CONSTRAINTS);
+    };
     
 }

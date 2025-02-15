@@ -54,7 +54,7 @@ public class Elevator extends SubsystemBase {
         talon.setIdleMode(IdleMode.kCoast);
         talon.getControllerInstance().setNeutralMode(NeutralModeValue.Brake);
 
-        EverMotionMagicPIDController talonPidController = new EverMotionMagicPIDController(talon, 200, 75);
+        EverMotionMagicPIDController talonPidController = new EverMotionMagicPIDController(talon, 200, 90);
         Slot0Configs a = new Slot0Configs();
         a.kD = 0;
         a.kG = 0.4;
@@ -114,7 +114,7 @@ public class Elevator extends SubsystemBase {
         if(cantGoUp() && m_motor.get() > 0)
             m_motor.stop();
 
-        if(cantGoDown() && m_motor.get() <= 0){
+        if(cantGoDown() && m_motor.get() < 0){
             m_motor.stop();
             m_encoder.setPos(0);
         }

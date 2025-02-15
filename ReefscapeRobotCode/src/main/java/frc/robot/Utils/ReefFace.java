@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import frc.robot.Subsystems.Swerve.Swerve;
 import frc.robot.Subsystems.Swerve.SwerveConsts;
 
+
 public class ReefFace {
     private Pose2d m_facePose;
     private Pose2d m_leftBranchPose;
@@ -30,7 +31,7 @@ public class ReefFace {
         new ReefFace(12.64, 4.75, 300,  12.78,4.835,0,12.5,4.665,0)
 
     };
-    private final double SCORE_MECHANISM_OFFSET = -0.12;
+    private final double SCORE_MECHANISM_OFFSET = 0.12;
 
     public ReefFace(Pose2d facePose, Pose2d leftBranchPose, Pose2d rightBranchPose){
         m_facePose = facePose;

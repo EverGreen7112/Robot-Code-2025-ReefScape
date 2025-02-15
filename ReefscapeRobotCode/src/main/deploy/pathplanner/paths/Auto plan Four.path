@@ -157,7 +157,7 @@
     "rotation": 61.82140989004086
   },
   "reversed": false,
-  "folder": "Autonomous Plans",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

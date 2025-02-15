@@ -89,7 +89,7 @@
       },
       "nextControl": {
         "x": 4.368549618644741,
-        "y": 1.8804613727093258
+        "y": 1.880461372709326
       },
       "isLocked": false,
       "linkedName": null
@@ -125,7 +125,7 @@
     "rotation": 54.24611274556325
   },
   "reversed": false,
-  "folder": "Autonomous Plans",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0
