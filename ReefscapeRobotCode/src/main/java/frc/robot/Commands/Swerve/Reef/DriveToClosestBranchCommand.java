@@ -15,12 +15,10 @@ import frc.robot.Utils.ReefFace;
 public class DriveToClosestBranchCommand extends Command {
 
     private boolean m_isRightBranch;
-    private BooleanSupplier m_stopCommand;
     private Command m_driveCommand;
 
-    public DriveToClosestBranchCommand(boolean isRightBranch, BooleanSupplier stopCommand) {
+    public DriveToClosestBranchCommand(boolean isRightBranch) {
         m_isRightBranch = isRightBranch;
-        m_stopCommand = stopCommand;
     }
 
     @Override
@@ -37,18 +35,19 @@ public class DriveToClosestBranchCommand extends Command {
                 closestFace = reef[i];
             }
         }
-        m_driveCommand = (new DriveToBranchCommand(closestFace, m_isRightBranch, m_stopCommand));
+        m_driveCommand = (new DriveToBranchCommand(closestFace, m_isRightBranch));
         m_driveCommand.schedule();
     }
 
     @Override
     public boolean isFinished() {
-        return !m_driveCommand.isScheduled() || m_stopCommand.getAsBoolean();
+        return !m_driveCommand.isScheduled();
     }
 
 
     @Override
     public void end(boolean interrupted) {
+        m_driveCommand.cancel();
         SmartDashboard.putBoolean("false", false);
     }
     private double getDis(Pose2d first, Pose2d second){

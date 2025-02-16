@@ -12,26 +12,24 @@ public class DriveToBranchCommand extends Command {
     private ReefFace m_reefFace;
     private boolean m_isRightBranch;
     private Command m_driveCommand;
-    private BooleanSupplier m_stopCommand;
     private Pose2d m_targetBranch;
 
-    public DriveToBranchCommand(ReefFace reefFace, boolean isRightBranch, BooleanSupplier stopCommand) {
+    public DriveToBranchCommand(ReefFace reefFace, boolean isRightBranch) {
         m_reefFace = reefFace;
         m_isRightBranch = isRightBranch;
-        m_stopCommand = stopCommand;
     }
 
     @Override
     public void initialize() {
         m_targetBranch = (m_isRightBranch) ? m_reefFace.getRightBranchRobotPose() : m_reefFace.getLeftBranchRobotPose();
         m_driveCommand = SwerveAutoController.getInstance().generateDriveToCommand(
-            m_targetBranch).andThen(new AlignToBranchCommand(m_reefFace, m_isRightBranch, m_stopCommand));
+            m_targetBranch).andThen(new AlignToBranchCommand(m_reefFace, m_isRightBranch));
         m_driveCommand.schedule();
     }
 
     @Override
     public boolean isFinished() {
-        return !m_driveCommand.isScheduled() || m_stopCommand.getAsBoolean();
+        return !m_driveCommand.isScheduled();
     }
 
     @Override

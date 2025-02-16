@@ -24,16 +24,14 @@ public class AlignToBranchCommand extends Command{
     private boolean m_isRightBranch;
     private PIDController m_xController;
     private PIDController m_yController;
-    private BooleanSupplier m_stopCommand;
 
-    public AlignToBranchCommand(ReefFace reefFace, boolean isRightBranch, BooleanSupplier stopCommand) {
+    public AlignToBranchCommand(ReefFace reefFace, boolean isRightBranch) {
         addRequirements(Swerve.getInstance());
         m_xController = new PIDController(1.7, 0, 0);
         m_yController = new PIDController(1.7, 0, 0);
 
         m_reefFace = reefFace;
         m_isRightBranch = isRightBranch;
-        m_stopCommand = stopCommand;
     }
 
     @Override
@@ -63,8 +61,7 @@ public class AlignToBranchCommand extends Command{
         Pose2d pose = SwerveLocalizer.getInstance().getCurrentPoint();
         return (Math.abs(pose.getX() - m_target.getX()) < POS_ERROR_TOLERANCE && 
                 Math.abs(pose.getY() - m_target.getY()) < POS_ERROR_TOLERANCE && 
-                Math.abs(SwerveLocalizer.getInstance().getFieldOrientedAngle() - m_target.getRotation().getDegrees()) < ANGLE_ERROR_TOLERANCE)
-                || m_stopCommand.getAsBoolean();
+                Math.abs(SwerveLocalizer.getInstance().getFieldOrientedAngle() - m_target.getRotation().getDegrees()) < ANGLE_ERROR_TOLERANCE);
 
     }
     

@@ -81,11 +81,11 @@ public class RobotContainer {
     //chassis
     Swerve.getInstance().setDefaultCommand(teleopCommand);
     
-    chassisRB.onTrue(new DriveToClosestBranchCommand(true, () -> {return  (chassis.getLeftX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
+    chassisRB.onTrue(new DriveToClosestBranchCommand(true).until( () -> {return  (chassis.getLeftX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
                                                                                         (chassis.getLeftY() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
                                                                                         (chassis.getRightX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD);}));
                                                                                         
-    chassisLB.onTrue(new DriveToClosestBranchCommand(false, () -> {return (chassis.getLeftX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
+    chassisLB.onTrue(new DriveToClosestBranchCommand(false).until( () -> {return (chassis.getLeftX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
                                                                                         (chassis.getLeftY() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
                                                                                         (chassis.getRightX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD);}));
     
