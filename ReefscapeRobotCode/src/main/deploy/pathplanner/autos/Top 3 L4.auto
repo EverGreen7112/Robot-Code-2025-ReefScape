@@ -25,6 +25,18 @@
         {
           "type": "named",
           "data": {
+            "name": "DispenceCoral"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitUntilCoralIsOut"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "MoveElevatorToGround"
           }
         },
@@ -61,6 +73,18 @@
         {
           "type": "named",
           "data": {
+            "name": "DispenceCoral"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitUntilCoralIsOut"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "MoveElevatorToGround"
           }
         },
@@ -85,13 +109,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "CTb12"
+            "pathName": "CTB12"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "MoveElevatorToL4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DispenceCoral"
           }
         }
       ]
