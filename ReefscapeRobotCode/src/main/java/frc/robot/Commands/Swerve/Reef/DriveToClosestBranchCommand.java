@@ -50,6 +50,7 @@ public class DriveToClosestBranchCommand extends Command {
         m_driveCommand.cancel();
         SmartDashboard.putBoolean("false", false);
     }
+    
     private double getDis(Pose2d first, Pose2d second){
         return (first.minus(second)).getTranslation().getNorm();
     }

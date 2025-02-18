@@ -107,7 +107,7 @@ public interface SwerveConsts{
 
     // swerve dimensions
     public static final double CHASSIS_WIDTH = 0.75, CHASSIS_LENGTH = 0.75;
-    public static final double BUMPERS_THICKNESS = 0.08;
+    public static final double BUMPERS_THICKNESS = 0.06;
     
     public static final double ROBOT_BOUNDING_CIRCLE_PERIMETER = Math.PI * Math.sqrt(
             CHASSIS_WIDTH * CHASSIS_WIDTH + CHASSIS_LENGTH * CHASSIS_LENGTH);

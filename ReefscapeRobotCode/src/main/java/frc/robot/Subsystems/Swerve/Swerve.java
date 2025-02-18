@@ -1,30 +1,13 @@
 package frc.robot.Subsystems.Swerve;
 
-import com.ctre.phoenix6.configs.Slot0Configs;
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Utils.EverKit.EverAbsEncoder;
-import frc.robot.Utils.EverKit.EverEncoder;
-import frc.robot.Utils.EverKit.EverGyro;
-import frc.robot.Utils.EverKit.EverMotorController;
-import frc.robot.Utils.EverKit.EverMotorController.IdleMode;
-import frc.robot.Utils.EverKit.EverPIDController.ControlType;
-import frc.robot.Utils.EverKit.Implementations.Encoders.EverCANCoder;
-import frc.robot.Utils.EverKit.Implementations.Encoders.EverSparkInternalEncoder;
-import frc.robot.Utils.EverKit.Implementations.Encoders.EverTalonFXInternalEncoder;
-import frc.robot.Utils.EverKit.Implementations.Gyros.EverNavX;
-import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverSparkMax;
-import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverTalonFX;
-import frc.robot.Utils.EverKit.Implementations.PIDControllers.EverSparkMaxPIDController;
-import frc.robot.Utils.EverKit.Implementations.PIDControllers.EverTalonFXPIDController;
 import frc.robot.Utils.Math.Funcs;
 import frc.robot.Utils.Math.Vector2d;
 

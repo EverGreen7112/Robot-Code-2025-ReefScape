@@ -17,6 +17,7 @@ import frc.robot.Commands.Swerve.ChangeTeleopSpeedModeCommand;
 import frc.robot.Commands.Swerve.RotateByCommand;
 import frc.robot.Commands.Swerve.TeleopDriveCommand;
 import frc.robot.Commands.Swerve.ChangeTeleopSpeedModeCommand.SpeedMode;
+import frc.robot.Commands.Swerve.Reef.AlignToBranchCommand;
 import frc.robot.Commands.Swerve.Reef.DriveToBranchCommand;
 import frc.robot.Commands.Swerve.Reef.DriveToClosestBranchCommand;
 import frc.robot.Subsystems.Climber.Climber;
@@ -81,15 +82,15 @@ public class RobotContainer {
     //chassis
     Swerve.getInstance().setDefaultCommand(teleopCommand);
     
-    chassisRB.onTrue(new DriveToClosestBranchCommand(true).until( () -> {return  (chassis.getLeftX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
+    chassisRB.whileTrue(new DriveToClosestBranchCommand(true).until( () -> {return  (chassis.getLeftX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
                                                                                         (chassis.getLeftY() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
                                                                                         (chassis.getRightX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD);}));
                                                                                         
-    chassisLB.onTrue(new DriveToClosestBranchCommand(false).until( () -> {return (chassis.getLeftX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
+    chassisLB.whileTrue(new DriveToClosestBranchCommand(false).until( () -> {return (chassis.getLeftX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
                                                                                         (chassis.getLeftY() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
                                                                                         (chassis.getRightX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD);}));
     
-
+    chassisLB.whileTrue(new AlignToBranchCommand(ReefFace.BLUE_REEF[2], true));
                                                                                         
     //elevator
     chassisA.onTrue(       new MoveElevatorTo(ElevatorLevel.CLOSED));

@@ -24,8 +24,12 @@ public class SwerveLocalizer implements Periodic, SwerveConsts {
     public static final LocalizationCamera[] CAMS = {
             new LocalizationCamera("reef_cam",
                     AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
-                    new Transform3d(new Translation3d(0.148892, 0, 0.26457), new Rotation3d(0, 0 ,0)),
+                    new Transform3d(new Translation3d(0.148892, 0, 0.30), new Rotation3d(0, 0 ,0)),
                     VecBuilder.fill(-0.02, -0.02, 0), VecBuilder.fill(-0.02, -0.02, 0)),
+            new LocalizationCamera("back_cam",
+                                        AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
+                                        new Transform3d(0.293421, -0.242241, 0.388, new Rotation3d(0, 0, Math.toRadians(-180))),
+                                        VecBuilder.fill(0, 0, 0), VecBuilder.fill(0, 0, 0))
     };
 
     private static final double FIELD_WIDTH = 8.05;
@@ -98,7 +102,7 @@ public class SwerveLocalizer implements Periodic, SwerveConsts {
 
         boolean outOfField = x < 0.0 || x > FIELD_HEIGHT || y < 0.0 || y > FIELD_WIDTH;
         boolean aboveCamera = z > MAX_CAMERA_HEIGHT;
-        boolean underGround = z < 0;
+        boolean underGround = z < -0.02;
 
         int numTags = 0;
         double avgDist = 0;

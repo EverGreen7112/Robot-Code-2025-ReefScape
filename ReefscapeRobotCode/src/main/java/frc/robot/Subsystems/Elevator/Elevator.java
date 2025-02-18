@@ -22,10 +22,10 @@ public class Elevator extends SubsystemBase {
 
     public enum ElevatorLevel{
         CLOSED(0, 0.2),
-        L1(2, 0.2),
-        L2(23, 0.2),
-        L3(52, 0.2),
-        L4(99, 0.1); //98, 0.08
+        L1(6, 0.2),
+        L2(25, 0.2),
+        L3(54, 0.2),
+        L4(103, 0.2); //98, 0.08
 
         public final double height;
         public final double dispenseSpeed;

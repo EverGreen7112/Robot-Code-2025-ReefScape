@@ -16,8 +16,8 @@ import frc.robot.Utils.Math.Vector2d;
 
 public class AlignToBranchCommand extends Command{
 
-    private final double POS_ERROR_TOLERANCE = 0.75;
-    private final double ANGLE_ERROR_TOLERANCE = 0.75;
+    private final double POS_ERROR_TOLERANCE = 0.02;
+    private final double ANGLE_ERROR_TOLERANCE = 0.5;
 
     private Pose2d m_target;
     private ReefFace m_reefFace;
@@ -27,8 +27,8 @@ public class AlignToBranchCommand extends Command{
 
     public AlignToBranchCommand(ReefFace reefFace, boolean isRightBranch) {
         addRequirements(Swerve.getInstance());
-        m_xController = new PIDController(1.7, 0, 0);
-        m_yController = new PIDController(1.7, 0, 0);
+        m_xController = new PIDController(0.2, 0, 0);
+        m_yController = new PIDController(0.2, 0, 0);
 
         m_reefFace = reefFace;
         m_isRightBranch = isRightBranch;
@@ -43,7 +43,7 @@ public class AlignToBranchCommand extends Command{
     @Override
     public void execute() {
         Pose2d pose = SwerveLocalizer.getInstance().getCurrentPoint();
-        double xOutput = -m_xController.calculate(pose.getX(), m_target.getX());
+        double xOutput = m_xController.calculate(pose.getX(), m_target.getX());
         double yOutput = -m_yController.calculate(pose.getY(), m_target.getY());
 
         if(Math.abs(pose.getX() - m_target.getX()) < POS_ERROR_TOLERANCE)
@@ -51,24 +51,24 @@ public class AlignToBranchCommand extends Command{
         if(Math.abs(pose.getY() - m_target.getY()) < POS_ERROR_TOLERANCE)
            yOutput = 0;
 
-        Swerve.getInstance().driveByVelocity(new Vector2d(xOutput, yOutput), true);
-        SwerveAngleController.getInstance().start(m_target.getRotation().getDegrees(), true);
+
+        Swerve.getInstance().driveByVelocity(new Vector2d(xOutput, yOutput), false);
 
     }
 
     @Override
     public boolean isFinished() {
         Pose2d pose = SwerveLocalizer.getInstance().getCurrentPoint();
-        return (Math.abs(pose.getX() - m_target.getX()) < POS_ERROR_TOLERANCE && 
-                Math.abs(pose.getY() - m_target.getY()) < POS_ERROR_TOLERANCE && 
-                Math.abs(SwerveLocalizer.getInstance().getFieldOrientedAngle() - m_target.getRotation().getDegrees()) < ANGLE_ERROR_TOLERANCE);
+        return Math.abs(pose.getX() - m_target.getX()) < POS_ERROR_TOLERANCE && 
+                Math.abs(pose.getY() - m_target.getY()) < POS_ERROR_TOLERANCE ;
+                // Math.abs(SwerveLocalizer.getInstance().getFieldOrientedAngle() - m_target.getRotation().getDegrees()) < ANGLE_ERROR_TOLERANCE);
 
     }
     
     @Override
     public void end(boolean interrupted) {
         SwerveAngleController.getInstance().stop();
-        SmartDashboard.putBoolean("true", true);
+        SmartDashboard.putBoolean("dsa", true);
     }
 
 

@@ -33,8 +33,8 @@ public class Dispenser extends SubsystemBase {
     config.apply(limitSwitchConfig);
     motor.getControllerInstance().configure(config, null, null);
 
-    m_isAtExit = () -> {return motor.getControllerInstance().getForwardLimitSwitch().isPressed();};
-    m_isAtEntry = () -> {return motor.getControllerInstance().getReverseLimitSwitch().isPressed();};
+    m_isAtExit = () -> {return motor.getControllerInstance().getReverseLimitSwitch().isPressed();};
+    m_isAtEntry = () -> {return motor.getControllerInstance().getForwardLimitSwitch().isPressed();};
 
     m_dispenserMotor = motor;
 

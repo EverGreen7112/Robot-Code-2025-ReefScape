@@ -63,7 +63,11 @@ public class Robot extends TimedRobot {
     
 
     SwerveAutoController.getInstance().addChoosersToDashboard();
-   
+    
+    for(int i = 0 ; i < ReefFace.BLUE_REEF.length; i++){
+      SmartDashboard.putString( "reef " + (i+1) + ":"," left " + ReefFace.BLUE_REEF[i].getLeftBranchRobotPose() + " right " + ReefFace.BLUE_REEF[i].getRightBranchRobotPose()); 
+    }
+
       
   }
 
