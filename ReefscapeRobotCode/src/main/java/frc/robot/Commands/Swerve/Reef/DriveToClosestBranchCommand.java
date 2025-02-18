@@ -11,6 +11,7 @@ import frc.robot.Subsystems.Swerve.Swerve;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
 import frc.robot.Subsystems.Swerve.SwerveLocalizer;
 import frc.robot.Utils.ReefFace;
+import frc.robot.Utils.Math.Funcs;
 
 public class DriveToClosestBranchCommand extends Command {
 
@@ -25,11 +26,11 @@ public class DriveToClosestBranchCommand extends Command {
     public void initialize() {
         ReefFace[] reef = (SwerveAutoController.getInstance().getAlliance() == Alliance.Blue ? ReefFace.BLUE_REEF : ReefFace.RED_REEF);
         Pose2d currentPoint = SwerveLocalizer.getInstance().getCurrentPoint();
-        double minDis = getDis(currentPoint, reef[0].getFacePose());
+        double minDis = Funcs.getDis(currentPoint, reef[0].getFacePose());
 
         ReefFace closestFace = reef[0];
         for (int i = 1; i < 6; i++) {
-            double currentDistance = getDis(currentPoint, reef[i].getFacePose());
+            double currentDistance = Funcs.getDis(currentPoint, reef[i].getFacePose());
             if (minDis > currentDistance) {
                 minDis = currentDistance;
                 closestFace = reef[i];
@@ -50,9 +51,7 @@ public class DriveToClosestBranchCommand extends Command {
         m_driveCommand.cancel();
         SmartDashboard.putBoolean("false", false);
     }
+
     
-    private double getDis(Pose2d first, Pose2d second){
-        return (first.minus(second)).getTranslation().getNorm();
-    }
 
 }

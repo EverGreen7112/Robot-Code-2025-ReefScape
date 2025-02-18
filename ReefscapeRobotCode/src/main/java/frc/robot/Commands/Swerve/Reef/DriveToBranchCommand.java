@@ -5,9 +5,13 @@ import java.util.function.BooleanSupplier;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
+import frc.robot.Subsystems.Swerve.SwerveLocalizer;
 import frc.robot.Utils.ReefFace;
+import frc.robot.Utils.Math.Funcs;
 
 public class DriveToBranchCommand extends Command {
+
+    private final double ALIGNMENT_DIS = 0.2;
 
     private ReefFace m_reefFace;
     private boolean m_isRightBranch;
@@ -22,8 +26,17 @@ public class DriveToBranchCommand extends Command {
     @Override
     public void initialize() {
         m_targetBranch = (m_isRightBranch) ? m_reefFace.getRightBranchRobotPose() : m_reefFace.getLeftBranchRobotPose();
-        m_driveCommand = SwerveAutoController.getInstance().generateDriveToCommand(
-            m_targetBranch).andThen(new AlignToBranchCommand(m_reefFace, m_isRightBranch));
+        Pose2d currentPose = SwerveLocalizer.getInstance().getCurrentPoint();
+        
+        //use pathplanner only for long distances
+        if(Funcs.getDis(currentPose, m_targetBranch) > ALIGNMENT_DIS){
+            m_driveCommand = SwerveAutoController.getInstance().generateDriveToCommand(m_targetBranch)
+                             .andThen(new AlignToBranchCommand(m_reefFace, m_isRightBranch));
+        }
+        else{
+            m_driveCommand = new AlignToBranchCommand(m_reefFace, m_isRightBranch);
+        }
+
         m_driveCommand.schedule();
     }
 
