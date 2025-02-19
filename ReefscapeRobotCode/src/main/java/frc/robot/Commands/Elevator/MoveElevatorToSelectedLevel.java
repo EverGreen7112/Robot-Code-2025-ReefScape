@@ -14,6 +14,8 @@ public class MoveElevatorToSelectedLevel extends Command {
     public void initialize() {
         ElevatorLevel elevatorLevel;
         switch(m_elevatorLevel){
+            case 0:
+                elevatorLevel = ElevatorLevel.CLOSED;
             case 1 :
                 elevatorLevel = ElevatorLevel.L1;
                 break;

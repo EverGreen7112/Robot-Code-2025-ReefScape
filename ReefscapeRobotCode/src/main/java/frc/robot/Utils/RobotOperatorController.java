@@ -22,13 +22,12 @@ public class RobotOperatorController implements Periodic{
     public RobotOperatorController(){
         m_networkTableInst = NetworkTableInstance.getDefault();
 
-        m_table = m_networkTableInst.getTable("z");
+        m_table = m_networkTableInst.getTable("RobotController");
 
-        m_branchSubscriber = m_table.getDoubleTopic("y").subscribe(1);
-        m_elevatorSubscriber = m_table.getDoubleTopic("x").subscribe(1);
+        m_branchSubscriber = m_table.getDoubleTopic("branch").subscribe(1);
+        m_elevatorSubscriber = m_table.getDoubleTopic("elevator").subscribe(1);
 
         m_networkTableInst.startServer();
-        
         start(Periodic.PeriodicTime.kRobotPeriodic);
     }   
 
@@ -44,6 +43,10 @@ public class RobotOperatorController implements Periodic{
 
     public double getBranch(){
         return m_branch;
+    }
+
+    public double getElevatorLevel(){
+        return m_elevatorLevel;
     }
 
 }

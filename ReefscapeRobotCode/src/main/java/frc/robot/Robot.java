@@ -90,6 +90,8 @@ public class Robot extends TimedRobot {
                          SwerveLocalizer.getInstance().getCurrentPoint().getY(),
                         new Rotation2d(Math.toRadians(SwerveLocalizer.getInstance().getFieldOrientedAngle())));
     SmartDashboard.putNumber("branch", RobotOperatorController.getInstance().getBranch());
+    SmartDashboard.putNumber("elevator", RobotOperatorController.getInstance().getElevatorLevel());
+
 
   }
 
