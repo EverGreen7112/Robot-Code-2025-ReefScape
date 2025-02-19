@@ -4,6 +4,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,6 +20,7 @@ import frc.robot.Utils.EverKit.Implementations.PIDControllers.EverMotionMagicPID
 public class Elevator extends SubsystemBase {
 
     private static final boolean DEBUG_MODE = true;
+    private final double ELEVATOR_TOLERANCE = 1;
 
     public enum ElevatorLevel{
         CLOSED(0, 0.2),
@@ -106,13 +108,17 @@ public class Elevator extends SubsystemBase {
         return m_bottomLS.get();
     }
 
+    public boolean isOpenAt(ElevatorLevel level){
+        return MathUtil.isNear(level.height, getPose(), ELEVATOR_TOLERANCE);
+    }
+
     @Override
     public void periodic() {
         if(DEBUG_MODE)
             log();
 
-        // if(cantGoUp() && m_motor.get() > 0)
-        //     m_motor.stop();
+        if(cantGoUp() && m_motor.get() > 0)
+            m_motor.stop();
 
         if(cantGoDown() && m_motor.get() < 0){
             m_motor.stop();

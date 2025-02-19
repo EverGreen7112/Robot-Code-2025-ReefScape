@@ -85,6 +85,8 @@ public class RobotContainer {
     Swerve.getInstance().setDefaultCommand(teleopCommand);
     chassisRB.whileTrue(new DriveToClosestBranchCommand(true));                                                                                        
     chassisLB.whileTrue(new DriveToClosestBranchCommand(false));
+    chassisLB.whileTrue(new AlignToBranchCommand(ReefFace.BLUE_REEF[0], true));
+
 
     //elevator
     chassisA.onTrue(       new MoveElevatorTo(ElevatorLevel.CLOSED));
