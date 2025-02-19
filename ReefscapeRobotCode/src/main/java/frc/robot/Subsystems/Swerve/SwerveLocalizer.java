@@ -21,7 +21,8 @@ import frc.robot.Utils.EverKit.Periodic;
 
 public class SwerveLocalizer implements Periodic, SwerveConsts {
     private final boolean DEBUG_MODE = true;
-    public static final LocalizationCamera[] CAMS = {
+
+    private static final LocalizationCamera[] CAMS = {
             new LocalizationCamera("reef_cam",
                     AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
                     new Transform3d(new Translation3d(0.148892, 0, 0.30), new Rotation3d(0, 0 ,0)),

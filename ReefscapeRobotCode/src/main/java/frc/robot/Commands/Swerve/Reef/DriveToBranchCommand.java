@@ -3,6 +3,9 @@ package frc.robot.Commands.Swerve.Reef;
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
 import frc.robot.Subsystems.Swerve.SwerveLocalizer;
@@ -30,7 +33,8 @@ public class DriveToBranchCommand extends Command {
         
         //use pathplanner only for long distances
         if(Funcs.getDis(currentPose, m_targetBranch) > ALIGNMENT_DIS){
-            m_driveCommand = SwerveAutoController.getInstance().generateDriveToCommand(m_targetBranch)
+            Pose2d beforeBranch = m_targetBranch.plus(new Transform2d(-ALIGNMENT_DIS, 0, new Rotation2d()));
+            m_driveCommand = SwerveAutoController.getInstance().generateDriveToCommand(beforeBranch)
                              .andThen(new AlignToBranchCommand(m_reefFace, m_isRightBranch));
         }
         else{

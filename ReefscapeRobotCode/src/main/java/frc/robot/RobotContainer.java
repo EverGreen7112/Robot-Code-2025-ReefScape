@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -34,7 +35,6 @@ public class RobotContainer {
 
   private static final int CHASSIS_PORT = 0;
   private static final int OPERATOR_PORT = 1;
-  private static final double JOYSTICK_DRIVE_INTERRUPT_THRESHOLD = 0.2;
 
   //controllers
   public static final CommandXboxController chassis = new CommandXboxController(CHASSIS_PORT);

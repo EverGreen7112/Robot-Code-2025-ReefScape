@@ -12,14 +12,14 @@ import frc.robot.Utils.Math.Funcs;
 import frc.robot.Utils.Math.Vector2d;
 
 /**
-NWU - positive X is forward positive Y is left positive rotation is counter-clock wise
+    NWU - positive X is forward positive Y is left positive rotation is counter-clock wise
  * */
 public class Swerve extends SubsystemBase implements SwerveConsts{
     final boolean DEBUG_MODE = true;
 
     public static Swerve m_instance = new Swerve();
 
-    public SwerveModule[] m_modules;
+    private SwerveModule[] m_modules;
     private AHRS m_gyro;
 
     private Vector2d m_velocity;
@@ -53,11 +53,9 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
         //convert to m/s
         double angularVel = (m_angularVelocity / 360.0) * SwerveConsts.ROBOT_BOUNDING_CIRCLE_PERIMETER;
 
-        if (m_velocity.mag() == 0 && angularVel == 0) {
-            for (int i = 0; i < m_modules.length; i++) {
-                m_modules[i].stopModule();
-            }
-        }
+        if (m_velocity.mag() < SwerveConsts.MIN_SPEED) 
+            stop();
+        
 
         // convert to gyro oriented
         if(m_isGyroOriented)
@@ -117,6 +115,12 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
             Math.toDegrees(speeds.omegaRadiansPerSecond));
     }
 
+    public void stop(){
+        for (int i = 0; i < m_modules.length; i++) {
+            m_modules[i].stopModule();
+        }
+    }
+
     /**
      * @return robot's angular velocity in NWU - positive X is forward positive Y is left positive rotation is counter-clock wise
      * degrees/sec 
@@ -144,9 +148,6 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
         return angularVelocity;
     }
 
-    /**
-     * @return robot's velocity in NWU - positive X is forward positive Y is left positive rotation is counter-clock wise
-     */
     public Vector2d getRobotOrientedVelocity(){
         Vector2d vel = new Vector2d();
         for(int i = 0; i < m_modules.length; i++){
@@ -176,15 +177,10 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
         }
     }
 
-    /**
-     * DO NOT use it in the middle of the game unless you have to.
-     * every action that depends on the localization might not work 
-     */
     public void resetGyro(){
         m_gyro.reset();
     }
 
-   
     public SwerveModulePosition[] getModulesPositions() {
         return new SwerveModulePosition[]{
             m_modules[0].getPosition(), 

@@ -1,19 +1,21 @@
 package frc.robot.Subsystems.Swerve;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Utils.EverKit.Periodic;
 import frc.robot.Utils.Math.Funcs;
 
 public class SwerveAngleController implements Periodic{
 
-    private PIDController m_angleController;
+    private ProfiledPIDController m_angleController;
     private double m_targetAngle;
     private boolean m_isFieldOriented;
     private static SwerveAngleController m_instance = new SwerveAngleController();
 
     private SwerveAngleController(){
-        m_angleController = new PIDController(6, 0, 0);
+        m_angleController = new ProfiledPIDController(0.02675, 0, 0, new Constraints(180, 180));
         m_isFieldOriented = false;   
     }
 
@@ -25,6 +27,7 @@ public class SwerveAngleController implements Periodic{
         stop();
         m_targetAngle = targetAngle;
         m_isFieldOriented = false;
+        m_angleController.reset(Swerve.getInstance().getGyroOrientedAngle());
         start(PeriodicTime.kAutonomousPeriodic, PeriodicTime.kTeleopPeriodic, PeriodicTime.kTestPeriodic);
     }
 
@@ -32,6 +35,8 @@ public class SwerveAngleController implements Periodic{
         stop();
         m_targetAngle = targetAngle;
         m_isFieldOriented = isFieldOriented;
+        m_angleController.reset( (m_isFieldOriented) ? SwerveLocalizer.getInstance().getFieldOrientedAngle() : Swerve.getInstance().getGyroOrientedAngle());
+
         start(PeriodicTime.kAutonomousPeriodic, PeriodicTime.kTeleopPeriodic, PeriodicTime.kTestPeriodic);
     }
 
@@ -40,8 +45,8 @@ public class SwerveAngleController implements Periodic{
         
         double currentAngle = (m_isFieldOriented) ? SwerveLocalizer.getInstance().getFieldOrientedAngle():
                                                     Swerve.getInstance().getGyroOrientedAngle();
-        m_angleController.setSetpoint(currentAngle + Funcs.getShortestAnglePath(currentAngle, m_targetAngle));
-        double angularVelocity = m_angleController.calculate(currentAngle);
+        
+        double angularVelocity = m_angleController.calculate(currentAngle, currentAngle + Funcs.getShortestAnglePath(currentAngle, m_targetAngle));
         Swerve.getInstance().driveByAngularVelocity(angularVelocity);   
     }
 
