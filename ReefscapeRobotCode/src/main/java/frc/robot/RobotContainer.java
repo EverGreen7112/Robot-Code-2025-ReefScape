@@ -15,6 +15,7 @@ import frc.robot.Commands.Dispenser.DropAlgeaCommand;
 import frc.robot.Commands.Elevator.MoveElevatorTo;
 import frc.robot.Commands.Swerve.ChangeTeleopSpeedModeCommand;
 import frc.robot.Commands.Swerve.RotateByCommand;
+import frc.robot.Commands.Swerve.RotateToCommand;
 import frc.robot.Commands.Swerve.TeleopDriveCommand;
 import frc.robot.Commands.Swerve.ChangeTeleopSpeedModeCommand.SpeedMode;
 import frc.robot.Commands.Swerve.Reef.AlignToBranchCommand;
@@ -25,6 +26,7 @@ import frc.robot.Subsystems.Dispenser.Dispenser;
 import frc.robot.Subsystems.Elevator.Elevator;
 import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
 import frc.robot.Subsystems.Swerve.Swerve;
+import frc.robot.Subsystems.Swerve.SwerveAngleController;
 import frc.robot.Subsystems.Swerve.SwerveLocalizer;
 import frc.robot.Utils.ReefFace;
 
@@ -81,17 +83,9 @@ public class RobotContainer {
 
     //chassis
     Swerve.getInstance().setDefaultCommand(teleopCommand);
-    
-    chassisRB.whileTrue(new DriveToClosestBranchCommand(true).until( () -> {return  (chassis.getLeftX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
-                                                                                        (chassis.getLeftY() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
-                                                                                        (chassis.getRightX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD);}));
-                                                                                        
-    chassisLB.whileTrue(new DriveToClosestBranchCommand(false).until( () -> {return (chassis.getLeftX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
-                                                                                        (chassis.getLeftY() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD) && 
-                                                                                        (chassis.getRightX() > JOYSTICK_DRIVE_INTERRUPT_THRESHOLD);}));
-    
-    chassisLB.whileTrue(new AlignToBranchCommand(ReefFace.BLUE_REEF[2], true));
-                                                                                        
+    chassisRB.whileTrue(new DriveToClosestBranchCommand(true));                                                                                        
+    chassisLB.whileTrue(new DriveToClosestBranchCommand(false));
+
     //elevator
     chassisA.onTrue(       new MoveElevatorTo(ElevatorLevel.CLOSED));
     chassisPovDown.onTrue( new MoveElevatorTo(ElevatorLevel.L1));
@@ -105,11 +99,11 @@ public class RobotContainer {
 
     //dispenser
     chassisX.whileTrue(new DispenseCoralCommand());
-    chassisB.whileTrue(new DropAlgeaCommand());
+    // chassisB.whileTrue(new DropAlgeaCommand());
 
     chassisBack.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
-    // chassisRT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kTurbo));
-    // chassisLT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kSlow));
+    chassisRT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kTurbo));
+    chassisLT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kSlow));
     // chassisBack.onTrue(new InstantCommand(() -> {SwerveLocalizer.getInstance().setCurrentPoint(new Pose2d());}));
     // chassisStart.onTrue(new DriveToBranch(ReefFace.BLUE_REEF[3], true));
     

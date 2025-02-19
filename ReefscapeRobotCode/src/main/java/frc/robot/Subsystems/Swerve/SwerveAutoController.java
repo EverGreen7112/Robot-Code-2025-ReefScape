@@ -89,7 +89,7 @@ public class SwerveAutoController {
     
 
     public Command generateDriveToCommand(Pose2d waypoint){
-        return AutoBuilder.pathfindToPose(waypoint,PATH_CONSTRAINTS);
+        return AutoBuilder.pathfindToPose(waypoint, PATH_CONSTRAINTS);
     };
     
 }

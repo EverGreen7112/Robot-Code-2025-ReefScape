@@ -37,6 +37,7 @@ import frc.robot.Utils.EverKit.Periodic;
 import frc.robot.Utils.EverKit.EverPIDController.ControlType;
 import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverTalonFX;
 import frc.robot.Utils.EverKit.Implementations.PIDControllers.EverMotionMagicPIDController;
+import frc.robot.Utils.Math.Vector2d;
 
 public class Robot extends TimedRobot {
 
@@ -138,7 +139,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    
+   
    
     
   }

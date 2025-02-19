@@ -49,7 +49,6 @@ public class DriveToClosestBranchCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         m_driveCommand.cancel();
-        SmartDashboard.putBoolean("false", false);
     }
 
     

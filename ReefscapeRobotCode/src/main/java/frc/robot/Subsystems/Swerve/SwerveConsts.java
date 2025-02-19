@@ -31,11 +31,11 @@ public interface SwerveConsts{
 
     public static final boolean DEBUG_MODE = false;    
     // speed values
-    public static final double MAX_NORMAL_DRIVE_SPEED = 1; // m/s
-    public static final double MAX_TURBO_DRIVE_SPEED = 2;
+    public static final double MAX_NORMAL_DRIVE_SPEED = 2; // m/s
+    public static final double MAX_TURBO_DRIVE_SPEED = 3;
     public static final double MAX_SLOW_DRIVE_SPEED = 0.5;
     public static final double MAX_ANGULAR_SPEED = 180; // deg/s/
-    public static final double MIN_SPEED = 0.07;
+    public static final double MIN_SPEED = 0.0;
     
     public static final double GYRO_DIRECTION = -1; //decide the direction of the gyro(counter clock wise should be positive)
     
@@ -107,7 +107,7 @@ public interface SwerveConsts{
 
     // swerve dimensions
     public static final double CHASSIS_WIDTH = 0.75, CHASSIS_LENGTH = 0.75;
-    public static final double BUMPERS_THICKNESS = 0.06;
+    public static final double BUMPERS_THICKNESS = 0.08;
     
     public static final double ROBOT_BOUNDING_CIRCLE_PERIMETER = Math.PI * Math.sqrt(
             CHASSIS_WIDTH * CHASSIS_WIDTH + CHASSIS_LENGTH * CHASSIS_LENGTH);

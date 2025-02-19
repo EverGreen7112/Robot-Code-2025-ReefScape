@@ -20,6 +20,7 @@ public class ReefFace {
         new ReefFace(5.32, 4.03, 180, 5.32,3.83,180,5.32,4.2,180), 
         new ReefFace(4.90, 4.75, 240, 5.04,4.665,240,4.76,4.835,240),
         new ReefFace(4.07, 4.75, 300, 4.21,4.835,300,3.93,4.665,300)
+    
     };
 
     public static final ReefFace[] RED_REEF = {
@@ -31,7 +32,7 @@ public class ReefFace {
         new ReefFace(12.64, 4.75, 300,  12.78,4.835,0,12.5,4.665,0)
 
     };
-    private final double SCORE_MECHANISM_OFFSET = 0.13 + 0.03;
+    private final double SCORE_MECHANISM_OFFSET = 0.2;
 
     public ReefFace(Pose2d facePose, Pose2d leftBranchPose, Pose2d rightBranchPose){
         m_facePose = facePose;

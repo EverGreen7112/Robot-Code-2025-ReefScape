@@ -22,9 +22,9 @@ public class Elevator extends SubsystemBase {
 
     public enum ElevatorLevel{
         CLOSED(0, 0.2),
-        L1(6, 0.2),
-        L2(25, 0.2),
-        L3(54, 0.2),
+        L1(8, 0.2),
+        L2(26.5, 0.2),
+        L3(55.5, 0.2),
         L4(103, 0.2); //98, 0.08
 
         public final double height;
@@ -69,7 +69,7 @@ public class Elevator extends SubsystemBase {
         encoder.setPosConversionFactor(1);
         
         m_topLS = new DigitalInput(2);
-        m_bottomLS = new DigitalInput(1);
+        m_bottomLS = new DigitalInput(0);
 
         m_motor = talon;
         m_pidController = talonPidController;
@@ -111,8 +111,8 @@ public class Elevator extends SubsystemBase {
         if(DEBUG_MODE)
             log();
 
-        if(cantGoUp() && m_motor.get() > 0)
-            m_motor.stop();
+        // if(cantGoUp() && m_motor.get() > 0)
+        //     m_motor.stop();
 
         if(cantGoDown() && m_motor.get() < 0){
             m_motor.stop();
