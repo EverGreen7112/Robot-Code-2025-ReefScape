@@ -135,6 +135,8 @@ public interface SwerveConsts{
                                                                  DL,
                                                                  DR
     };// array of vectors from robot center to swerves module
+    public static final double BUMPERS_THICKNESS = 0.085;
+    public static final double CHASSIS_LENGTH = 0.75;
 
 
     

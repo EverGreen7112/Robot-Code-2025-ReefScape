@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.DeferredCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -14,6 +16,7 @@ import frc.robot.Commands.Climber.OpenClimberCommand;
 import frc.robot.Commands.Dispenser.DispenseCoralCommand;
 import frc.robot.Commands.Dispenser.DropAlgeaCommand;
 import frc.robot.Commands.Elevator.MoveElevatorTo;
+import frc.robot.Commands.Elevator.MoveElevatorToSelectedLevel;
 import frc.robot.Commands.Swerve.ChangeTeleopSpeedModeCommand;
 import frc.robot.Commands.Swerve.RotateByCommand;
 import frc.robot.Commands.Swerve.RotateToCommand;
@@ -30,6 +33,7 @@ import frc.robot.Subsystems.Swerve.Swerve;
 import frc.robot.Subsystems.Swerve.SwerveAngleController;
 import frc.robot.Subsystems.Swerve.SwerveLocalizer;
 import frc.robot.Utils.ReefFace;
+import frc.robot.Utils.RobotOperatorController;
 
 public class RobotContainer {
 
@@ -71,6 +75,8 @@ public class RobotContainer {
   public static final TeleopDriveCommand teleopCommand = new TeleopDriveCommand(chassis::getLeftX, chassis::getLeftY, chassis::getRightX);
 
   public RobotContainer() {
+
+
     registerNamedCommands();
     configureBindings();
   }
