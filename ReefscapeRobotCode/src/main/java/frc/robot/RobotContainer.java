@@ -96,16 +96,16 @@ public class RobotContainer {
     chassisPovLeft.onTrue( new MoveElevatorTo(ElevatorLevel.L4));
 
     //climber
-    // chassisRT.whileTrue(new OpenClimberCommand());
-    // chassisLT.whileTrue(new CloseClimberCommand());
+    chassisRT.whileTrue(new OpenClimberCommand());
+    chassisLT.whileTrue(new CloseClimberCommand());
 
     //dispenser
     chassisX.whileTrue(new DispenseCoralCommand());
     // chassisB.whileTrue(new DropAlgeaCommand());
 
     chassisBack.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
-    chassisRT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kTurbo));
-    chassisLT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kSlow));
+    // chassisRT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kTurbo));
+    // chassisLT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kSlow));
     // chassisBack.onTrue(new InstantCommand(() -> {SwerveLocalizer.getInstance().setCurrentPoint(new Pose2d());}));
     // chassisStart.onTrue(new DriveToBranch(ReefFace.BLUE_REEF[3], true));
     

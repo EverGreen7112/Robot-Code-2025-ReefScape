@@ -27,8 +27,8 @@ public class Climber extends SubsystemBase{
 
     @Override
     public void periodic() {
-        if(cantOpen() && m_climbMotor.get() > 0)
-            stop();
+        // if(cantOpen() && m_climbMotor.get() > 0)
+        //     stop();
 
         if(DEBUG_MODE)
             log();

@@ -117,8 +117,8 @@ public class Elevator extends SubsystemBase {
         if(DEBUG_MODE)
             log();
 
-        if(cantGoUp() && m_motor.get() > 0)
-            m_motor.stop();
+        // if(cantGoUp() && m_motor.get() > 0)
+        //     m_motor.stop();
 
         if(cantGoDown() && m_motor.get() < 0){
             m_motor.stop();
