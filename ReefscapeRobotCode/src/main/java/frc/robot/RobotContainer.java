@@ -15,6 +15,7 @@ import frc.robot.Commands.Climber.OpenClimberCommand;
 import frc.robot.Commands.Dispenser.DispenseCoralCommand;
 import frc.robot.Commands.Dispenser.DropAlgeaCommand;
 import frc.robot.Commands.Elevator.MoveElevatorTo;
+import frc.robot.Commands.Elevator.MoveElevatorToSelectedLevel;
 import frc.robot.Commands.Swerve.ChangeTeleopSpeedModeCommand;
 import frc.robot.Commands.Swerve.DriveToBranch;
 import frc.robot.Commands.Swerve.DriveToClosestBranch;
@@ -28,6 +29,7 @@ import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
 import frc.robot.Subsystems.Swerve.Swerve;
 import frc.robot.Subsystems.Swerve.SwerveLocalizer;
 import frc.robot.Utils.ReefFace;
+import frc.robot.Utils.RobotOperatorController;
 
 public class RobotContainer {
 
@@ -95,7 +97,7 @@ public class RobotContainer {
 
     //dispenser
     chassisX.whileTrue(new DispenseCoralCommand());
-    chassisB.whileTrue(new DropAlgeaCommand());
+    chassisB.onTrue(new MoveElevatorToSelectedLevel());
 
     // chassisB.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
     // chassisRT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kTurbo));

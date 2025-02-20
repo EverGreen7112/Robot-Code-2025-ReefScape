@@ -68,8 +68,8 @@ public class Elevator extends SubsystemBase {
         EverTalonFXInternalEncoder encoder = new EverTalonFXInternalEncoder(talon);
         encoder.setPosConversionFactor(1);
         
-        m_topLS = new DigitalInput(2);
-        m_bottomLS = new DigitalInput(1);
+        m_topLS = new DigitalInput(1);
+        m_bottomLS = new DigitalInput(0);
 
         m_motor = talon;
         m_pidController = talonPidController;
@@ -118,8 +118,8 @@ public class Elevator extends SubsystemBase {
             m_motor.stop();
             m_encoder.setPos(0);
         }
+    }
 
-    }  
 
     private void log(){
         SmartDashboard.putBoolean("topLs", m_topLS.get());

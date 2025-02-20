@@ -2,20 +2,24 @@ package frc.robot.Commands.Elevator;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
+import frc.robot.Utils.RobotOperatorController;
 
 public class MoveElevatorToSelectedLevel extends Command {
     private int m_elevatorLevel;
 
-    public MoveElevatorToSelectedLevel(double elevetorLevel){
-        m_elevatorLevel = (int)elevetorLevel;
+    public MoveElevatorToSelectedLevel(){
+        
     }
 
     @Override
     public void initialize() {
         ElevatorLevel elevatorLevel;
+        m_elevatorLevel = (int)RobotOperatorController.getInstance().getElevatorLevel();
+
         switch(m_elevatorLevel){
             case 0:
                 elevatorLevel = ElevatorLevel.CLOSED;
+                break;
             case 1 :
                 elevatorLevel = ElevatorLevel.L1;
                 break;
@@ -29,8 +33,13 @@ public class MoveElevatorToSelectedLevel extends Command {
                 elevatorLevel = ElevatorLevel.L4;
                 break;
             default:
-                elevatorLevel = ElevatorLevel.L1;
+                elevatorLevel = ElevatorLevel.CLOSED;
         }
         (new MoveElevatorTo(elevatorLevel)).schedule();
+    }
+
+    @Override
+    public boolean isFinished(){
+        return true;
     }
 }
