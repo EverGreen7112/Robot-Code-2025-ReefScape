@@ -32,6 +32,7 @@ import frc.robot.Subsystems.Swerve.SwerveAutoController;
 import frc.robot.Utils.Elastic;
 import frc.robot.Utils.LocalizationCamera;
 import frc.robot.Utils.ReefFace;
+import frc.robot.Utils.RobotOperatorController;
 import frc.robot.Utils.TalonFxCalib;
 import frc.robot.Utils.EverKit.Periodic;
 import frc.robot.Utils.EverKit.EverPIDController.ControlType;

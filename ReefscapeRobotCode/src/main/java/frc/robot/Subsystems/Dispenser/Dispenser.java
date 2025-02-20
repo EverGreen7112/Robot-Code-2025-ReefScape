@@ -33,8 +33,8 @@ public class Dispenser extends SubsystemBase {
     config.apply(limitSwitchConfig);
     motor.getControllerInstance().configure(config, null, null);
 
-    m_isAtExit = () -> {return motor.getControllerInstance().getReverseLimitSwitch().isPressed();};
-    m_isAtEntry = () -> {return motor.getControllerInstance().getForwardLimitSwitch().isPressed();};
+    m_isAtExit = () -> {return motor.getControllerInstance().getForwardLimitSwitch().isPressed();};
+    m_isAtEntry = () -> {return motor.getControllerInstance().getReverseLimitSwitch().isPressed();};
 
     m_dispenserMotor = motor;
 
@@ -80,9 +80,9 @@ public class Dispenser extends SubsystemBase {
     if (DEBUG_MODE) 
       log();
 
-    if((isCoralReadyToIntake() && !m_dispenseMode && !m_algaeDropDispenseMode) || (isCoralInside() && m_algaeDropDispenseMode)){
-      m_dispenserMotor.set(CORAL_POSITIONING_SPEED);
-    }
+    // if((isCoralReadyToIntake() && !m_dispenseMode && !m_algaeDropDispenseMode) || (isCoralInside() && m_algaeDropDispenseMode)){
+    //   m_dispenserMotor.set(CORAL_POSITIONING_SPEED);
+    // }
     if((isCoralInside() && !m_dispenseMode && !m_algaeDropDispenseMode) || (isCoralAtAlgaeDropPosition() && m_algaeDropDispenseMode)){
       stop();
     }

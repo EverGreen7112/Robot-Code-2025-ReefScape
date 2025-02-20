@@ -15,7 +15,7 @@ public class SwerveAngleController implements Periodic{
     private static SwerveAngleController m_instance = new SwerveAngleController();
 
     private SwerveAngleController(){
-        m_angleController = new ProfiledPIDController(0.02675, 0, 0, new Constraints(180, 180));
+        m_angleController = new ProfiledPIDController(5, 0, 0, new Constraints(180, 180));
         m_isFieldOriented = false;   
     }
 
@@ -35,7 +35,7 @@ public class SwerveAngleController implements Periodic{
         stop();
         m_targetAngle = targetAngle;
         m_isFieldOriented = isFieldOriented;
-        m_angleController.reset( (m_isFieldOriented) ? SwerveLocalizer.getInstance().getFieldOrientedAngle() : Swerve.getInstance().getGyroOrientedAngle());
+        m_angleController.reset( (m_isFieldOriented) ? Funcs.modulo(SwerveLocalizer.getInstance().getFieldOrientedAngle(), 360) : Swerve.getInstance().getGyroOrientedAngle());
 
         start(PeriodicTime.kAutonomousPeriodic, PeriodicTime.kTeleopPeriodic, PeriodicTime.kTestPeriodic);
     }
@@ -43,7 +43,7 @@ public class SwerveAngleController implements Periodic{
     @Override
     public void periodic() {
         
-        double currentAngle = (m_isFieldOriented) ? SwerveLocalizer.getInstance().getFieldOrientedAngle():
+        double currentAngle = (m_isFieldOriented) ? Funcs.modulo(SwerveLocalizer.getInstance().getFieldOrientedAngle(), 360):
                                                     Swerve.getInstance().getGyroOrientedAngle();
         
         double angularVelocity = m_angleController.calculate(currentAngle, currentAngle + Funcs.getShortestAnglePath(currentAngle, m_targetAngle));

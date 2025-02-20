@@ -23,11 +23,11 @@ public class Elevator extends SubsystemBase {
     private final double ELEVATOR_TOLERANCE = 1;
 
     public enum ElevatorLevel{
-        CLOSED(0, 0.2),
-        L1(8, 0.2),
-        L2(26.5, 0.2),
-        L3(55.5, 0.2),
-        L4(103, 0.2); //98, 0.08
+        CLOSED(0, 0.3),
+        L1(8, 0.3),
+        L2(26.5, 0.3),
+        L3(55.5, 0.3),
+        L4(103, 0.3); 
 
         public final double height;
         public final double dispenseSpeed;
@@ -122,7 +122,6 @@ public class Elevator extends SubsystemBase {
 
         if(cantGoDown() && m_motor.get() < 0){
             m_motor.stop();
-            m_encoder.setPos(0);
         }
     }
 

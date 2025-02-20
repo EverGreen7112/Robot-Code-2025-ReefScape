@@ -24,7 +24,7 @@ import frc.robot.Utils.Math.Vector2d;
 
 public class AlignToBranchCommand extends Command{
 
-    private final double POS_ERROR_TOLERANCE = 0.02;
+    private final double POS_ERROR_TOLERANCE = 0.01;
     private final double ANGLE_ERROR_TOLERANCE = 0.5;
 
     private Pose2d m_target;
@@ -35,8 +35,8 @@ public class AlignToBranchCommand extends Command{
 
     public AlignToBranchCommand(ReefFace reefFace, boolean isRightBranch) {
         addRequirements(Swerve.getInstance());
-        m_xController = new ProfiledPIDController(5, 0, 0, new Constraints(1, 1));
-        m_yController = new ProfiledPIDController(5, 0, 0, new Constraints(1, 1));
+        m_xController = new ProfiledPIDController(8, 0, 0, new Constraints(1, 1));
+        m_yController = new ProfiledPIDController(8, 0, 0, new Constraints(1, 1));
     
         m_reefFace = reefFace;
         m_isRightBranch = isRightBranch;

@@ -2,6 +2,7 @@ package frc.robot.Commands.Swerve;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Commands.Swerve.Reef.DriveToBranchCommand;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
 import frc.robot.Utils.ReefFace;
 
@@ -13,7 +14,7 @@ public class RobotControllerBranchCommand extends Command {
 
     @Override
     public void initialize() {
-        (new DriveToBranch(getReefFace(),isRightBranch())).schedule();
+        (new DriveToBranchCommand(getReefFace(),isRightBranch())).schedule();
     }
 
     @Override

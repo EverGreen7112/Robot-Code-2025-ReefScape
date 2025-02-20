@@ -7,14 +7,16 @@ import frc.robot.Subsystems.Swerve.SwerveAngleController;
 public class RotateToCommand extends Command{
     
     private double m_targetAngle;
+    private boolean m_fieldOriented;
 
-    public RotateToCommand(double targetAngle){
+    public RotateToCommand(double targetAngle, boolean fieldOriented){
         m_targetAngle = targetAngle;
+        m_fieldOriented = fieldOriented;
     }
 
     @Override
     public void initialize() {
-        SwerveAngleController.getInstance().start(m_targetAngle);
+        SwerveAngleController.getInstance().start(m_targetAngle, m_fieldOriented);
     }
 
     @Override

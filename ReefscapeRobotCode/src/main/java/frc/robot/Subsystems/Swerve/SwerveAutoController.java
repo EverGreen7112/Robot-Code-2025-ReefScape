@@ -32,7 +32,7 @@ public class SwerveAutoController {
 
     private static final PIDConstants TRANSLATION_PID =  new PIDConstants(1.0, 0.0, 0.0),
                                       ROTATION_PID = new PIDConstants(1.0, 0.0 ,0.0);
-    private static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(1, 0.5, 1 * Math.PI, 4 * Math.PI);
+    private static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(1.4, 1, 1 * Math.PI, 4 * Math.PI);
 
     private static SwerveAutoController m_instance = new SwerveAutoController();
     private SendableChooser<Command> m_autoChooser;

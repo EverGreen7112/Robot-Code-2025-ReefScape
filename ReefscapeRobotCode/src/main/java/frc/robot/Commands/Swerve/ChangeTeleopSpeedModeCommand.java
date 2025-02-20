@@ -39,24 +39,7 @@ public class ChangeTeleopSpeedModeCommand extends Command{
 
     @Override
     public void execute() {
-        if(Elevator.getInstance().isOpenAt(ElevatorLevel.L4)){
-            TeleopDriveCommand.maxSpeed = SwerveConsts.MAX_SLOW_DRIVE_SPEED;
-        }
-        else{
-            switch (m_mode) {
-                case kSlow:
-                    TeleopDriveCommand.maxSpeed = SwerveConsts.MAX_SLOW_DRIVE_SPEED;    
-                    break;
-                case kTurbo:
-                    TeleopDriveCommand.maxSpeed = SwerveConsts.MAX_TURBO_DRIVE_SPEED;    
-                    break;
-                case kNormal:
-                    TeleopDriveCommand.maxSpeed = SwerveConsts.MAX_NORMAL_DRIVE_SPEED;
-                    break;
-                default:
-                    break;
-            }
-        }
+        
     }
 
     @Override
