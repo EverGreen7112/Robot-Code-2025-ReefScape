@@ -3,7 +3,26 @@
   "command": {
     "type": "sequential",
     "data": {
-      "commands": []
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "MoveElevatorToL3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Mb7"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "DispenceCoral"
+          }
+        }
+      ]
     }
   },
   "resetOdom": true,
