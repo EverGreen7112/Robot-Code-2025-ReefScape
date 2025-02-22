@@ -5,21 +5,47 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "MoveElevatorToL3"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Bb5"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "MoveElevatorToL3"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "WaitUntilElevatorL3"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "MoveElevatorToL4"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "Bb5"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "MoveElevatorToL4"
+            "name": "WaitUntilElevatorL4"
           }
         },
         {
@@ -29,9 +55,21 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "WaitUntilCoralIsOut"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopDispense"
           }
         },
         {
@@ -73,13 +111,31 @@
         {
           "type": "named",
           "data": {
+            "name": "WaitUntilElevatorL4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "DispenceCoral"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
           }
         },
         {
           "type": "named",
           "data": {
             "name": "WaitUntilCoralIsOut"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopDispense"
           }
         },
         {
@@ -121,7 +177,37 @@
         {
           "type": "named",
           "data": {
+            "name": "WaitUntilElevatorL4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "DispenceCoral"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitUntilCoralIsOut"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopDispense"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "MoveElevatorToGround"
           }
         }
       ]

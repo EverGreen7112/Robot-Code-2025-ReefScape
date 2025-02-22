@@ -6,13 +6,12 @@ import frc.robot.Subsystems.Dispenser.Dispenser;
 public class WaitUntilCoralIsOut extends Command {
     @Override
     public void initialize() {
-        addRequirements(Dispenser.getInstance());
         
     }
 
     @Override
     public boolean isFinished() {
-        return Dispenser.getInstance().isCoralInside();
+        return !Dispenser.getInstance().isAtEntry();
     }   
     
 }

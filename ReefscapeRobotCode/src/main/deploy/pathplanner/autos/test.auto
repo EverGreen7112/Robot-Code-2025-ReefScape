@@ -5,21 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "Mb7"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "MoveElevatorToL4"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "DispenceCoral"
+            "pathName": "nothing"
           }
         }
       ]

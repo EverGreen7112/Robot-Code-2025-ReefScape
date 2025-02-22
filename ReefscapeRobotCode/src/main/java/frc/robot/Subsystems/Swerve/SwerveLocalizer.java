@@ -26,7 +26,7 @@ public class SwerveLocalizer implements Periodic, SwerveConsts {
             new LocalizationCamera("reef_cam",
                     AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
                     new Transform3d(new Translation3d(0.148892, 0.025, 0.305), new Rotation3d(0, 0 ,0)),
-                    VecBuilder.fill(-0.02, -0.02, 0), VecBuilder.fill(-0.02, -0.02, 0)),
+                    VecBuilder.fill(0.0, 0.0, 0), VecBuilder.fill(0.0, 0.0, 0)),
             new LocalizationCamera("back_cam",
                                         AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
                                         new Transform3d(-0.293421, -0.242241, 0.388, new Rotation3d(0, 0, Math.toRadians(-180))),
@@ -35,8 +35,8 @@ public class SwerveLocalizer implements Periodic, SwerveConsts {
 
     private static final double FIELD_WIDTH = 8.05;
     private static final double FIELD_HEIGHT = 17.55;
-    private static final double MAX_CAMERA_HEIGHT = 0.27;
-    private static final double MAX_DISTANCE_FROM_TAG = 3.5;
+    private static final double MAX_CAMERA_HEIGHT = 0.05;
+    private static final double MAX_DISTANCE_FROM_TAG = 3;
 
     private static SwerveLocalizer m_instance = new SwerveLocalizer();
     private ArrayList<LocalizationCamera> m_cams;

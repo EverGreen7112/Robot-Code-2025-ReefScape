@@ -2,6 +2,7 @@ package frc.robot.Subsystems.Swerve;
 
 import java.util.Currency;
 import java.util.List;
+import java.util.jar.Attributes.Name;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -22,18 +23,22 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Robot;
 import frc.robot.Commands.Dispenser.WaitUntilCoralIsInPlace;
+import frc.robot.Commands.Dispenser.WaitUntilCoralIsOut;
 import frc.robot.Commands.Elevator.MoveElevatorTo;
+import frc.robot.Commands.Elevator.WaitUntilElevatorAt;
+import frc.robot.Subsystems.Dispenser.Dispenser;
 import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
 import frc.robot.Utils.Math.Funcs;
 
 public class SwerveAutoController {
 
-    private static final PIDConstants TRANSLATION_PID =  new PIDConstants(1.0, 0.0, 0.0),
+    private static final PIDConstants TRANSLATION_PID =  new PIDConstants(5.0, 0.0, 0.0),
                                       ROTATION_PID = new PIDConstants(1.0, 0.0 ,0.0);
     private static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(1.4, 1, 1 * Math.PI, 4 * Math.PI);
-    private static final double GOAL_END_VELOCITY = 1;
+    private static final double GOAL_END_VELOCITY = 0;
 
     private static SwerveAutoController m_instance = new SwerveAutoController();
     private SendableChooser<Command> m_autoChooser;
@@ -52,13 +57,13 @@ public class SwerveAutoController {
         }
 
         AutoBuilder.configure(
-            SwerveLocalizer.getInstance()::getCurrentPoint, // Robot pose supplier
-            SwerveLocalizer.getInstance()::setCurrentPoint, // Method to reset odometry
-            Swerve.getInstance()::getRobotOrientedSpeeds, // ChassisSpeeds supplier
-            ((speeds, feedforwards) -> Swerve.getInstance().driveRobotOrientedBySpeeds(speeds)), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+            SwerveLocalizer.getInstance()::getCurrentPoint, 
+            SwerveLocalizer.getInstance()::setCurrentPoint, 
+            Swerve.getInstance()::getRobotOrientedSpeeds, 
+            ((speeds, feedforwards) -> Swerve.getInstance().driveRobotOrientedBySpeeds(speeds)), 
             new PPHolonomicDriveController( 
-                TRANSLATION_PID, // Translation PID constants
-                ROTATION_PID // Rotation PID constants
+                TRANSLATION_PID, 
+                ROTATION_PID 
             ),
             config, 
             () -> { //flip path
@@ -67,14 +72,18 @@ public class SwerveAutoController {
             Swerve.getInstance()
         );
 
-        m_autoChooser = new SendableChooser<Command>();
-        m_autoChooser.addOption("test", new PathPlannerAuto("test"));
+        configureCommands(); //configure commands must be registered before the creation of any paths
 
+        m_autoChooser = new SendableChooser<Command>();
+        m_autoChooser.addOption("middle", new PathPlannerAuto("Middle 1 L4"));
+        m_autoChooser.addOption("bottom", new PathPlannerAuto("Bottom 3 L4"));
+        m_autoChooser.addOption("top", new PathPlannerAuto("Top 3 L4"));
+        m_autoChooser.addOption("test", new PathPlannerAuto("test"));
+        
         m_allianceChooser = new SendableChooser<Alliance>();
         m_allianceChooser.addOption("blue", Alliance.Blue);
         m_allianceChooser.addOption("red", Alliance.Red);
 
-        ConfigureCommands();
     }
 
     public static SwerveAutoController getInstance(){
@@ -100,11 +109,15 @@ public class SwerveAutoController {
     };
     
 
-    public void ConfigureCommands(){
+    public void configureCommands(){
         NamedCommands.registerCommand("MoveElevatorToL3", new MoveElevatorTo(ElevatorLevel.L3));
         NamedCommands.registerCommand("MoveElevatorToL4", new MoveElevatorTo(ElevatorLevel.L4));
         NamedCommands.registerCommand("MoveElevatorToGround", new MoveElevatorTo(ElevatorLevel.CLOSED));
-
         NamedCommands.registerCommand("IsCoralAtEntry", new WaitUntilCoralIsInPlace());
+        NamedCommands.registerCommand("DispenceCoral", new InstantCommand(() -> {Dispenser.getInstance().dispenseCoral();}));
+        NamedCommands.registerCommand("StopDispense", new InstantCommand(() -> {Dispenser.getInstance().stop();}));
+        NamedCommands.registerCommand("WaitUntilCoralIsOut", new WaitUntilCoralIsOut());
+        NamedCommands.registerCommand("WaitUntilElevatorL4", new WaitUntilElevatorAt(ElevatorLevel.L4));
+        NamedCommands.registerCommand("WaitUntilElevatorL3", new WaitUntilElevatorAt(ElevatorLevel.L3));
     }
 }

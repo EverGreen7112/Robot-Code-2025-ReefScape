@@ -25,8 +25,8 @@ public class Elevator extends SubsystemBase {
     public enum ElevatorLevel{
         CLOSED(0, 0.3),
         L1(8, 0.3),
-        L2(26.5, 0.3),
-        L3(55.5, 0.3),
+        L2(26.5 + 0.9, 0.3),
+        L3(55.5 + 0.9, 0.3),
         L4(103, 0.3); 
 
         public final double height;

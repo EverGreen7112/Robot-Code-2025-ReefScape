@@ -7,6 +7,8 @@ package frc.robot;
 
 import java.util.ArrayList;
 
+import org.photonvision.PhotonCamera;
+
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -48,6 +50,9 @@ public class Robot extends TimedRobot {
   public static ArrayList<Periodic> testPeriodicFuncs = new ArrayList<Periodic>();
   public static ArrayList<Periodic> autonomousPeriodicFuncs = new ArrayList<Periodic>();
   public static ArrayList<Periodic> simulationPeriodicFuncs = new ArrayList<Periodic>();
+  public static PhotonCamera cam = new PhotonCamera("reef_cam");
+
+
 
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
@@ -93,7 +98,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("branch", RobotOperatorController.getInstance().getBranch());
     SmartDashboard.putNumber("elevator", RobotOperatorController.getInstance().getElevatorLevel());
 
-
+    // SmartDashboard.putString("pos", cam.getLatestResult().getBestTarget().toString());
   }
 
   @Override

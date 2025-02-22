@@ -36,10 +36,12 @@ public class LocalizationCamera {
      public Optional<EstimatedRobotPose> getEstimatedGlobalPose() {
          Optional<EstimatedRobotPose> visionEst = Optional.empty();
          List<PhotonPipelineResult> res =  m_cam.getAllUnreadResults();
+        
          for (PhotonPipelineResult change : res) {
             
              visionEst = m_poseEstimator.update(change);
              updateEstimationStdDevs(visionEst, change.getTargets());
+             
          }  
 
          return visionEst;

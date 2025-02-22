@@ -61,7 +61,7 @@ public class ReefFace {
     }
 
     public Pose2d getLeftBranchRobotPose(){
-        return m_leftBranchPose.plus(getDeltaToScoringPoint(m_leftBranchPose));
+        return m_leftBranchPose.plus(getDeltaToScoringPoint(m_leftBranchPose).plus(new Transform2d(0, -0.0, new Rotation2d())));
     }
 
     public Pose2d getRightBranchPose(){

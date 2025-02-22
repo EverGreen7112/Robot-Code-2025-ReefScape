@@ -25,12 +25,14 @@ import frc.robot.Commands.Swerve.ChangeTeleopSpeedModeCommand.SpeedMode;
 import frc.robot.Commands.Swerve.Reef.AlignToBranchCommand;
 import frc.robot.Commands.Swerve.Reef.DriveToBranchCommand;
 import frc.robot.Commands.Swerve.Reef.DriveToClosestBranchCommand;
+import frc.robot.Commands.Swerve.Reef.RotateToIntake;
 import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Subsystems.Dispenser.Dispenser;
 import frc.robot.Subsystems.Elevator.Elevator;
 import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
 import frc.robot.Subsystems.Swerve.Swerve;
 import frc.robot.Subsystems.Swerve.SwerveAngleController;
+import frc.robot.Subsystems.Swerve.SwerveAutoController;
 import frc.robot.Subsystems.Swerve.SwerveLocalizer;
 import frc.robot.Utils.ReefFace;
 import frc.robot.Utils.RobotOperatorController;
@@ -75,15 +77,9 @@ public class RobotContainer {
   public static final TeleopDriveCommand teleopCommand = new TeleopDriveCommand(chassis::getLeftX, chassis::getLeftY, chassis::getRightX);
 
   public RobotContainer() {
-
-
-    registerNamedCommands();
     configureBindings();
   }
 
-  private void registerNamedCommands(){
-  
-  }
 
   private void configureBindings() {
 
@@ -118,7 +114,8 @@ public class RobotContainer {
     // chassisA.whileTrue(new DispenseCoralCommand());
     // chassisB.whileTrue(new RemoveAlgeaCommand());
 
-    chassisStart.onTrue(new RotateToCommand(90, true));
+    chassis.rightStick().onTrue(new RotateToIntake(true));
+    chassis.leftStick().onTrue(new RotateToIntake(false));
 
   }
 
