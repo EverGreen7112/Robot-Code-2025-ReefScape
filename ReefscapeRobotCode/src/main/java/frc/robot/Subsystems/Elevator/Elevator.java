@@ -24,7 +24,7 @@ public class Elevator extends SubsystemBase {
 
     public enum ElevatorLevel{
         CLOSED(0, 0.3),
-        L1(8, 0.3),
+        L1(8, 0.1),
         L2(26.5 + 0.9, 0.3),
         L3(55.5 + 0.9, 0.3),
         L4(103, 0.3); 
@@ -56,7 +56,7 @@ public class Elevator extends SubsystemBase {
         talon.setIdleMode(IdleMode.kCoast);
         talon.getControllerInstance().setNeutralMode(NeutralModeValue.Brake);
 
-        EverMotionMagicPIDController talonPidController = new EverMotionMagicPIDController(talon, 200, 90);
+        EverMotionMagicPIDController talonPidController = new EverMotionMagicPIDController(talon, 205, 97);
         Slot0Configs a = new Slot0Configs();
         a.kD = 0;
         a.kG = 0.4;
@@ -132,6 +132,7 @@ public class Elevator extends SubsystemBase {
         SmartDashboard.putNumber("motor output", m_motor.get());
         SmartDashboard.putNumber("height",m_encoder.getPos());
     }
+
 
   
 }

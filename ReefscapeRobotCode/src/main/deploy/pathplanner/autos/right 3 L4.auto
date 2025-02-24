@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "MoveElevatorToL3"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -13,33 +19,14 @@
                 "data": {
                   "pathName": "Bb5"
                 }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "MoveElevatorToL3"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "WaitUntilElevatorL3"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "MoveElevatorToL4"
-                      }
-                    }
-                  ]
-                }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "MoveElevatorToL4"
           }
         },
         {
@@ -52,12 +39,6 @@
           "type": "named",
           "data": {
             "name": "DispenceCoral"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
           }
         },
         {
@@ -91,15 +72,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "MoveElevatorToL3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "CBb4"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL3"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "CBb4"
+                }
+              }
+            ]
           }
         },
         {
@@ -118,12 +106,6 @@
           "type": "named",
           "data": {
             "name": "DispenceCoral"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
           }
         },
         {
@@ -157,15 +139,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "MoveElevatorToL3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "CBb3"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL3"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "CBb3"
+                }
+              }
+            ]
           }
         },
         {
@@ -184,12 +173,6 @@
           "type": "named",
           "data": {
             "name": "DispenceCoral"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
           }
         },
         {

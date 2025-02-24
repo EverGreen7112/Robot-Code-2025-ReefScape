@@ -11,7 +11,7 @@ public class WaitUntilCoralIsOut extends Command {
 
     @Override
     public boolean isFinished() {
-        return !Dispenser.getInstance().isAtEntry();
+        return !Dispenser.getInstance().isAtEntry() && !Dispenser.getInstance().isAtExit();
     }   
     
 }

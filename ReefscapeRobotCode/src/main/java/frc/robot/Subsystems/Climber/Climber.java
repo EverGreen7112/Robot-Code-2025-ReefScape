@@ -1,23 +1,33 @@
 package frc.robot.Subsystems.Climber;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Utils.EverKit.EverEncoder;
 import frc.robot.Utils.EverKit.EverMotorController;
+import frc.robot.Utils.EverKit.Implementations.Encoders.EverTalonFXInternalEncoder;
 import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverTalonFX;
 
 public class Climber extends SubsystemBase{
     private final double CLIMB_SPEED = 0.3;
-    private final boolean DEBUG_MODE = false;
+    private final boolean DEBUG_MODE = true;
 
     private static Climber m_instance = new Climber();
 
     private EverMotorController m_climbMotor;
     private DigitalInput m_bottomLS;
+    private EverEncoder m_encoder;
     
     private Climber(){
-        m_climbMotor = new EverTalonFX(12);
+        EverTalonFX climbMotor = new EverTalonFX(12);
+        m_climbMotor = climbMotor;
         m_bottomLS = new DigitalInput(3);
+
+        EverTalonFXInternalEncoder encoder = new EverTalonFXInternalEncoder(climbMotor);
+        encoder.setPosConversionFactor(1);
+
+        m_encoder = encoder;
 
     }
 
@@ -32,6 +42,8 @@ public class Climber extends SubsystemBase{
 
         if(DEBUG_MODE)
             log();
+        
+        
 
     }
 
@@ -47,13 +59,17 @@ public class Climber extends SubsystemBase{
         m_climbMotor.stop();
     }
 
-    private boolean cantOpen(){
-        return m_bottomLS.get();
+    public boolean cantOpen(){
+        return m_encoder.getPos() >= 185;
+        
     }
+
+    
 
     private void log(){
         SmartDashboard.putBoolean("bottom limit switch", cantOpen());
         SmartDashboard.putNumber("climber", m_climbMotor.get());
+        SmartDashboard.putNumber("climbe encoder", m_encoder.getPos());
     }
 
     

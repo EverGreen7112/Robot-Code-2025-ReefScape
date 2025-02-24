@@ -15,9 +15,11 @@ import frc.robot.Commands.Climber.CloseClimberCommand;
 import frc.robot.Commands.Climber.OpenClimberCommand;
 import frc.robot.Commands.Dispenser.DispenseCoralCommand;
 import frc.robot.Commands.Dispenser.DropAlgeaCommand;
+import frc.robot.Commands.Dispenser.SlowDispanse;
 import frc.robot.Commands.Elevator.MoveElevatorTo;
 import frc.robot.Commands.Elevator.MoveElevatorToSelectedLevel;
 import frc.robot.Commands.Swerve.ChangeTeleopSpeedModeCommand;
+import frc.robot.Commands.Swerve.RobotControllerBranchCommand;
 import frc.robot.Commands.Swerve.RotateByCommand;
 import frc.robot.Commands.Swerve.RotateToCommand;
 import frc.robot.Commands.Swerve.TeleopDriveCommand;
@@ -87,20 +89,25 @@ public class RobotContainer {
     Swerve.getInstance().setDefaultCommand(teleopCommand);
     chassisRB.whileTrue(new DriveToClosestBranchCommand(true));                                                                                        
     chassisLB.whileTrue(new DriveToClosestBranchCommand(false));
-    // chassisLB.whileTrue(new AlignToBranchCommand(ReefFace.BLUE_REEF[3], true));
 
+    //chassisB.whileTrue(new RobotControllerBranchCommand());
+
+    chassisRT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kTurbo));
+    chassisLT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kSlow));
+    
 
     //elevator
-    chassisA.onTrue(       new MoveElevatorTo(ElevatorLevel.CLOSED));
-    chassisPovDown.onTrue( new MoveElevatorTo(ElevatorLevel.L1));
-    chassisPovRight.onTrue(new MoveElevatorTo(ElevatorLevel.L2));
-    chassisPovUp.onTrue(   new MoveElevatorTo(ElevatorLevel.L3));
-    chassisPovLeft.onTrue( new MoveElevatorTo(ElevatorLevel.L4));
+
+    chassisA.whileTrue( new MoveElevatorTo(ElevatorLevel.CLOSED));
+    chassisY.onTrue( new MoveElevatorToSelectedLevel());
+    chassisPovLeft.whileTrue(new SlowDispanse());
+    //chassisPovUp.onTrue(   new MoveElevatorTo(ElevatorLevel.L3));
+    //chassisPovLeft.whileTrue( new MoveElevatorTo(ElevatorLevel.L4));
 
     //climber
-    chassisRT.whileTrue(new OpenClimberCommand());
-    chassisLT.whileTrue(new CloseClimberCommand());
-
+    chassisPovDown.whileTrue(new OpenClimberCommand());
+    chassisPovUp.whileTrue(new CloseClimberCommand());
+  
     //dispenser
     chassisX.whileTrue(new DispenseCoralCommand());
     // chassisB.whileTrue(new DropAlgeaCommand());

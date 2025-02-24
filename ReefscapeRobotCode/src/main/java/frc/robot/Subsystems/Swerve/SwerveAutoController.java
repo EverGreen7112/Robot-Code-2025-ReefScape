@@ -76,8 +76,8 @@ public class SwerveAutoController {
 
         m_autoChooser = new SendableChooser<Command>();
         m_autoChooser.addOption("middle", new PathPlannerAuto("Middle 1 L4"));
-        m_autoChooser.addOption("bottom", new PathPlannerAuto("Bottom 3 L4"));
-        m_autoChooser.addOption("top", new PathPlannerAuto("Top 3 L4"));
+        m_autoChooser.addOption("right", new PathPlannerAuto("right 3 L4"));
+        m_autoChooser.addOption("left", new PathPlannerAuto("left 3 L4"));
         m_autoChooser.addOption("test", new PathPlannerAuto("test"));
         
         m_allianceChooser = new SendableChooser<Alliance>();

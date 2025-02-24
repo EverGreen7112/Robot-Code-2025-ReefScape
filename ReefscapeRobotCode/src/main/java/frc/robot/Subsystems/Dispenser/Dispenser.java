@@ -7,6 +7,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Subsystems.Elevator.Elevator;
+import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
 import frc.robot.Utils.EverKit.EverMotorController;
 import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverSparkMax;
 
@@ -18,6 +19,7 @@ public class Dispenser extends SubsystemBase {
 
   private EverMotorController m_dispenserMotor;
   private Supplier<Boolean> m_isAtEntry, m_isAtExit;
+
   
   private boolean m_algaeDropDispenseMode;
   private boolean m_dispenseMode;
@@ -30,12 +32,14 @@ public class Dispenser extends SubsystemBase {
 
     limitSwitchConfig.forwardLimitSwitchEnabled(false);
     limitSwitchConfig.reverseLimitSwitchEnabled(false);
+    //config.alternateEncoder.countsPerRevolution(1);
     config.apply(limitSwitchConfig);
     
     motor.getControllerInstance().configure(config, null, null);
 
+    //m_isAtExit = () -> {return motor.getControllerInstance().getForwardLimitSwitch().isPressed();};
+    m_isAtEntry = () -> {return  motor.getControllerInstance().getReverseLimitSwitch().isPressed();};
     m_isAtExit = () -> {return motor.getControllerInstance().getForwardLimitSwitch().isPressed();};
-    m_isAtEntry = () -> {return motor.getControllerInstance().getReverseLimitSwitch().isPressed();};
 
     m_dispenserMotor = motor;
 
@@ -49,6 +53,10 @@ public class Dispenser extends SubsystemBase {
 
   public void dispenseCoral() {
     m_dispenseMode = true;
+  }
+
+  public void dispenseCoralSlow() {
+    m_dispenserMotor.set(0.2);
   }
 
  
@@ -91,6 +99,8 @@ public class Dispenser extends SubsystemBase {
       double dispenseSpeed = Elevator.getInstance().getTargetLevel().dispenseSpeed;
       m_dispenserMotor.set(dispenseSpeed);
     }
+
+    
    
   
   } 
@@ -107,6 +117,10 @@ public class Dispenser extends SubsystemBase {
 
   public boolean isAtEntry(){
     return m_isAtEntry.get();
+  }
+
+  public boolean isAtExit(){
+    return m_isAtExit.get();
   }
 
 }

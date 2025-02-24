@@ -5,6 +5,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "MoveElevatorToL3"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "Mb7"
@@ -19,7 +25,25 @@
         {
           "type": "named",
           "data": {
+            "name": "WaitUntilElevatorL4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "DispenceCoral"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitUntilCoralIsOut"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopDispense"
           }
         }
       ]

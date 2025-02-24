@@ -5,21 +5,24 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Commands.Swerve.Reef.DriveToBranchCommand;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
 import frc.robot.Utils.ReefFace;
+import frc.robot.Utils.RobotOperatorController;
 
 public class RobotControllerBranchCommand extends Command {
     private int m_branchNum;
-    public RobotControllerBranchCommand(double branch){
-        m_branchNum = (int)branch;
+    private DriveToBranchCommand m_command;
+    public RobotControllerBranchCommand(){
     }
 
     @Override
     public void initialize() {
-        (new DriveToBranchCommand(getReefFace(),isRightBranch())).schedule();
+        m_branchNum = (int)RobotOperatorController.getInstance().getBranch();
+        m_command = new DriveToBranchCommand(getReefFace(),isRightBranch());
+        m_command.schedule();
     }
 
     @Override
     public boolean isFinished() {
-        return true;
+        return m_command.isFinished();
     }
 
     public boolean isRightBranch(){
@@ -28,7 +31,7 @@ public class RobotControllerBranchCommand extends Command {
 
     public ReefFace getReefFace(){
         int reefIndex = m_branchNum;
-        if(reefIndex == 0 % 0){
+        if(reefIndex % 2 == 0){
             reefIndex -= 2;
         }
         else{
