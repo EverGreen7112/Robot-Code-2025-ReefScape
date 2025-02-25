@@ -24,6 +24,7 @@ public class DriveToClosestBranchCommand extends Command {
 
     @Override
     public void initialize() {
+        SmartDashboard.putBoolean("Drive to closest branch finshed", false);
         ReefFace[] reef = (SwerveAutoController.getInstance().getAlliance() == Alliance.Blue ? ReefFace.BLUE_REEF : ReefFace.RED_REEF);
         Pose2d currentPoint = SwerveLocalizer.getInstance().getCurrentPoint();
         double minDis = Funcs.getDis(currentPoint, reef[0].getFacePose());
@@ -48,6 +49,7 @@ public class DriveToClosestBranchCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        SmartDashboard.putBoolean("Drive to closest branch finshed", true);
         m_driveCommand.cancel();
     }
 

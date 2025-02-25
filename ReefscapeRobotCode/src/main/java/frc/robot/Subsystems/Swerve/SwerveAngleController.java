@@ -16,7 +16,7 @@ public class SwerveAngleController implements Periodic{
 
     private SwerveAngleController(){
         m_angleController = new ProfiledPIDController(5, 0, 0, new Constraints(180, 180));
-        m_isFieldOriented = true;   
+        m_isFieldOriented = false;   
     }
 
     public static SwerveAngleController getInstance(){
