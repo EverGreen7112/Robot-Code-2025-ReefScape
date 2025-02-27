@@ -4,11 +4,13 @@ import java.util.function.Supplier;
 
 import com.revrobotics.spark.config.LimitSwitchConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Subsystems.Elevator.Elevator;
 import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
 import frc.robot.Utils.EverKit.EverMotorController;
+import frc.robot.Utils.EverKit.EverMotorController.IdleMode;
 import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverSparkMax;
 
 public class Dispenser extends SubsystemBase {
@@ -17,12 +19,13 @@ public class Dispenser extends SubsystemBase {
 
   private static Dispenser m_instance = new Dispenser();
 
-  private EverMotorController m_dispenserMotor;
+  public EverMotorController m_dispenserMotor;
   private Supplier<Boolean> m_isAtEntry, m_isAtExit;
 
   
   private boolean m_algaeDropDispenseMode;
   private boolean m_dispenseMode;
+  private boolean m_pullMode;
 
   private Dispenser() {
     EverSparkMax motor = new EverSparkMax(14);
@@ -45,6 +48,7 @@ public class Dispenser extends SubsystemBase {
 
     m_algaeDropDispenseMode = false; 
     m_dispenseMode = false;
+    m_pullMode = false;
   }
 
   public static Dispenser getInstance() {
@@ -59,7 +63,9 @@ public class Dispenser extends SubsystemBase {
     m_dispenserMotor.set(0.2);
   }
 
- 
+ public void pullCoral(){
+  m_pullMode = true;
+ }
 
   public void dropAlgea() { 
     m_algaeDropDispenseMode = true;
@@ -69,6 +75,7 @@ public class Dispenser extends SubsystemBase {
     m_dispenserMotor.stop();
     m_dispenseMode = false;
     m_algaeDropDispenseMode = false;
+    m_pullMode = false;
   }
 
   public boolean isCoralInside() { 
@@ -92,14 +99,18 @@ public class Dispenser extends SubsystemBase {
     // if((isCoralReadyToIntake() && !m_dispenseMode && !m_algaeDropDispenseMode) || (isCoralInside() && m_algaeDropDispenseMode)){
     //   m_dispenserMotor.set(CORAL_POSITIONING_SPEED);
     // }
-    if((isCoralInside() && !m_dispenseMode && !m_algaeDropDispenseMode) || (isCoralAtAlgaeDropPosition() && m_algaeDropDispenseMode)){
-      stop();
-    }
+    
     if(m_dispenseMode){
       double dispenseSpeed = Elevator.getInstance().getTargetLevel().dispenseSpeed;
       m_dispenserMotor.set(dispenseSpeed);
     }
+    if(m_pullMode){
+      m_dispenserMotor.set(-0.2);
 
+    }
+    if(!m_pullMode && !m_dispenseMode){
+      stop();
+    }
     
    
   
