@@ -99,6 +99,12 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("elevator", RobotOperatorController.getInstance().getElevatorLevel());
 
     // SmartDashboard.putString("pos", cam.getLatestResult().getBestTarget().toString());
+
+    SmartDashboard.putNumber("TL", Swerve.getInstance().m_modules[0].getAngle());
+    SmartDashboard.putNumber("TR", Swerve.getInstance().m_modules[1].getAngle());
+    SmartDashboard.putNumber("DL", Swerve.getInstance().m_modules[2].getAngle());
+    SmartDashboard.putNumber("DR", Swerve.getInstance().m_modules[3].getAngle());
+
   }
 
   @Override

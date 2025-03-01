@@ -114,6 +114,8 @@ public class RobotContainer {
     chassisB.whileTrue(new PullBackCoral());
 
     chassisBack.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
+
+    chassisPovRight.onTrue(new InstantCommand(() -> {Elevator.getInstance().resetPose();}));
     // chassisRT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kTurbo));
     // chassisLT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kSlow));
     // chassisBack.onTrue(new InstantCommand(() -> {SwerveLocalizer.getInstance().setCurrentPoint(new Pose2d());}));

@@ -112,6 +112,10 @@ public class Elevator extends SubsystemBase {
         return MathUtil.isNear(level.height, getPose(), ELEVATOR_TOLERANCE);
     }
 
+    public void resetPose(){
+        m_encoder.setPos(0);
+    }
+
     @Override
     public void periodic() {
         if(DEBUG_MODE)
