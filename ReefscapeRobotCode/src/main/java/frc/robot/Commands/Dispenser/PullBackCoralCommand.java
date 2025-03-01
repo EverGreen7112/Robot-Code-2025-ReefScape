@@ -3,15 +3,15 @@ package frc.robot.Commands.Dispenser;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.Dispenser.Dispenser;
 
-public class DropAlgeaCommand extends Command {
+public class PullBackCoralCommand extends Command {
 
-  public DropAlgeaCommand() {
+  public PullBackCoralCommand() {
     addRequirements(Dispenser.getInstance());
   }
 
   @Override
   public void initialize(){
-    Dispenser.getInstance().dropAlgea();
+    Dispenser.getInstance().pullCoral();
   }
 
   @Override
@@ -24,6 +24,5 @@ public class DropAlgeaCommand extends Command {
     Dispenser.getInstance().stop();
   }
 
-
-    
+   
 }

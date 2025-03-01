@@ -1,14 +1,14 @@
-package frc.robot.Commands.Swerve.Reef;
+package frc.robot.Commands.Swerve.AutoDrive;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.Swerve.SwerveAngleController;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
 
-public class RotateToIntake extends Command{
+public class RotateToIntakeCommand extends Command{
     private boolean m_isRight;
     
-    public RotateToIntake(boolean isRight){
+    public RotateToIntakeCommand(boolean isRight){
         m_isRight = isRight;
     }
 
@@ -23,7 +23,12 @@ public class RotateToIntake extends Command{
 
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        SwerveAngleController.getInstance().stop();
     }
 
     

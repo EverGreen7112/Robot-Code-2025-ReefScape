@@ -14,21 +14,16 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.Climber.CloseClimberCommand;
 import frc.robot.Commands.Climber.OpenClimberCommand;
 import frc.robot.Commands.Dispenser.DispenseCoralCommand;
-import frc.robot.Commands.Dispenser.DropAlgeaCommand;
-import frc.robot.Commands.Dispenser.PullBackCoral;
-import frc.robot.Commands.Dispenser.SlowDispanse;
+import frc.robot.Commands.Dispenser.PullBackCoralCommand;
 import frc.robot.Commands.Elevator.MoveElevatorTo;
 import frc.robot.Commands.Elevator.MoveElevatorToSelectedLevel;
 import frc.robot.Commands.Swerve.ChangeTeleopSpeedModeCommand;
-import frc.robot.Commands.Swerve.RobotControllerBranchCommand;
 import frc.robot.Commands.Swerve.RotateByCommand;
 import frc.robot.Commands.Swerve.RotateToCommand;
 import frc.robot.Commands.Swerve.TeleopDriveCommand;
+import frc.robot.Commands.Swerve.AutoDrive.DriveToClosestBranchCommand;
+import frc.robot.Commands.Swerve.AutoDrive.DriveToSelectedBranchCommand;
 import frc.robot.Commands.Swerve.ChangeTeleopSpeedModeCommand.SpeedMode;
-import frc.robot.Commands.Swerve.Reef.AlignToBranchCommand;
-import frc.robot.Commands.Swerve.Reef.DriveToBranchCommand;
-import frc.robot.Commands.Swerve.Reef.DriveToClosestBranchCommand;
-import frc.robot.Commands.Swerve.Reef.RotateToIntake;
 import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Subsystems.Dispenser.Dispenser;
 import frc.robot.Subsystems.Elevator.Elevator;
@@ -101,7 +96,6 @@ public class RobotContainer {
 
     chassisA.whileTrue( new MoveElevatorTo(ElevatorLevel.CLOSED));
     chassisY.onTrue( new MoveElevatorToSelectedLevel());
-    chassisPovLeft.whileTrue(new SlowDispanse());
     //chassisPovUp.onTrue(   new MoveElevatorTo(ElevatorLevel.L3));
     //chassisPovLeft.whileTrue( new MoveElevatorTo(ElevatorLevel.L4));
 
@@ -111,11 +105,12 @@ public class RobotContainer {
   
     //dispenser
     chassisX.whileTrue(new DispenseCoralCommand());
-    chassisB.whileTrue(new PullBackCoral());
+    chassisB.whileTrue(new PullBackCoralCommand());
 
     chassisBack.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
-
     chassisPovRight.onTrue(new InstantCommand(() -> {Elevator.getInstance().resetPose();}));
+    chassisPovLeft.whileTrue(new DriveToSelectedBranchCommand());
+
     // chassisRT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kTurbo));
     // chassisLT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kSlow));
     // chassisBack.onTrue(new InstantCommand(() -> {SwerveLocalizer.getInstance().setCurrentPoint(new Pose2d());}));

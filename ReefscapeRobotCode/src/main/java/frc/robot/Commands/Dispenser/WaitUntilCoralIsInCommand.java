@@ -3,16 +3,15 @@ package frc.robot.Commands.Dispenser;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.Dispenser.Dispenser;
 
-public class DispanceCoral extends Command {
+public class WaitUntilCoralIsInCommand extends Command {
     @Override
     public void initialize() {
         addRequirements(Dispenser.getInstance());
-        new DispenseCoralCommand().schedule();
+        Dispenser.getInstance().stop();
     }
 
     @Override
     public boolean isFinished() {
-        return new WaitUntilCoralIsInPlace().isFinished();
+        return Dispenser.getInstance().isAtEntry();
     }
-    
 }

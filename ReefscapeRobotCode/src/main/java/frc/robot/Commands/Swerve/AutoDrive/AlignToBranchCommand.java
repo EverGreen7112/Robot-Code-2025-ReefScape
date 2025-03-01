@@ -1,4 +1,4 @@
-package frc.robot.Commands.Swerve.Reef;
+package frc.robot.Commands.Swerve.AutoDrive;
 
 import java.lang.annotation.Target;
 import java.util.function.BooleanSupplier;
@@ -35,8 +35,8 @@ public class AlignToBranchCommand extends Command{
 
     public AlignToBranchCommand(ReefFace reefFace, boolean isRightBranch) {
         addRequirements(Swerve.getInstance());
-        m_xController = new ProfiledPIDController(8, 0, 0, new Constraints(1, 1));
-        m_yController = new ProfiledPIDController(8, 0, 0, new Constraints(1, 1));
+        m_xController = new ProfiledPIDController(8, 0, 0, new Constraints(2, 2));
+        m_yController = new ProfiledPIDController(8, 0, 0, new Constraints(2, 2));
     
         m_reefFace = reefFace;
         m_isRightBranch = isRightBranch;

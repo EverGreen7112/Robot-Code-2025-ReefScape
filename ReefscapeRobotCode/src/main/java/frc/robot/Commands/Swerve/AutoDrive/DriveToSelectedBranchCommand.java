@@ -1,16 +1,15 @@
-package frc.robot.Commands.Swerve;
+package frc.robot.Commands.Swerve.AutoDrive;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Commands.Swerve.Reef.DriveToBranchCommand;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
 import frc.robot.Utils.ReefFace;
 import frc.robot.Utils.RobotOperatorController;
 
-public class RobotControllerBranchCommand extends Command {
+public class DriveToSelectedBranchCommand extends Command {
     private int m_branchNum;
     private DriveToBranchCommand m_command;
-    public RobotControllerBranchCommand(){
+    public DriveToSelectedBranchCommand(){
     }
 
     @Override
@@ -23,6 +22,11 @@ public class RobotControllerBranchCommand extends Command {
     @Override
     public boolean isFinished() {
         return m_command.isFinished();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        m_command.cancel();
     }
 
     public boolean isRightBranch(){

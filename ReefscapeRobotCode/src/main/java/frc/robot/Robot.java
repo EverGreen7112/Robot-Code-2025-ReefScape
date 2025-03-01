@@ -16,6 +16,8 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.pathplanner.lib.pathfinding.LocalADStar;
+import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -31,6 +33,7 @@ import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Subsystems.Dispenser.Dispenser;
 import frc.robot.Subsystems.Elevator.Elevator;
 import frc.robot.Subsystems.Swerve.Swerve;
+import frc.robot.Subsystems.Swerve.SwerveAngleController;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
 import frc.robot.Utils.Elastic;
 import frc.robot.Utils.LocalizationCamera;
@@ -63,13 +66,11 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     
     m_robotContainer = new RobotContainer();
-    // Swerve.getInstance().resetGyro();
 
     //create and add robot field data to dashboard
     m_field = new Field2d();
     SmartDashboard.putData("field", m_field);
     
-
     SwerveAutoController.getInstance().addChoosersToDashboard();
     
     for(int i = 0 ; i < ReefFace.BLUE_REEF.length; i++){
@@ -143,7 +144,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousExit() {}
 
-  
 
   @Override
   public void teleopInit() {

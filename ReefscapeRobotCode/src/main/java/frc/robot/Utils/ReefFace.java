@@ -32,7 +32,7 @@ public class ReefFace {
         new ReefFace(12.64, 4.75, 300,  12.78,4.835,0,12.5,4.665,0)
 
     };
-    private final double SCORE_MECHANISM_OFFSET = 0.16;//0.18
+    private final double SCORE_MECHANISM_OFFSET = 0.13;//0.18
 
     public ReefFace(Pose2d facePose, Pose2d leftBranchPose, Pose2d rightBranchPose){
         m_facePose = facePose;
@@ -61,7 +61,7 @@ public class ReefFace {
     }
 
     public Pose2d getLeftBranchRobotPose(){
-        return m_leftBranchPose.plus(getDeltaToScoringPoint(m_leftBranchPose).plus(new Transform2d(0, -0.0, new Rotation2d())));
+        return m_leftBranchPose.plus(getDeltaToScoringPoint(m_leftBranchPose));
     }
 
     public Pose2d getRightBranchPose(){
