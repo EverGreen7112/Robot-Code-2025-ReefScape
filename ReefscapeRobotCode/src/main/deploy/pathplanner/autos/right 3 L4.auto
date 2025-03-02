@@ -5,15 +5,22 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "MoveElevatorToL3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Bb5"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Bb5"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL3"
+                }
+              }
+            ]
           }
         },
         {
@@ -49,20 +56,27 @@
                 "data": {
                   "name": "StopDispense"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "MoveElevatorToGround"
-                }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "b5CB"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToGround"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "b5CB"
+                }
+              }
+            ]
           }
         },
         {
@@ -123,20 +137,27 @@
                 "data": {
                   "name": "StopDispense"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "MoveElevatorToGround"
-                }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "b4CB"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToGround"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "b4CB"
+                }
+              }
+            ]
           }
         },
         {
@@ -196,12 +217,6 @@
                 "type": "named",
                 "data": {
                   "name": "StopDispense"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "MoveElevatorToGround"
                 }
               }
             ]
