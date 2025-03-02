@@ -27,8 +27,8 @@ public class RobotOperatorController implements Periodic{
 
         m_table = m_networkTableInst.getTable("RobotController");
 
-        m_branchSubscriber = m_table.getDoubleTopic("branch").subscribe(1d);
-        m_elevatorSubscriber = m_table.getDoubleTopic("elevator").subscribe(1);
+        m_branchSubscriber = m_table.getDoubleTopic("branch").subscribe(5);
+        m_elevatorSubscriber = m_table.getDoubleTopic("elevator").subscribe(5);
         m_isInnerSub = m_table.getBooleanTopic("feeder").subscribe(false);
         m_isRightSub = m_table.getBooleanTopic("inner").subscribe(false);
 
