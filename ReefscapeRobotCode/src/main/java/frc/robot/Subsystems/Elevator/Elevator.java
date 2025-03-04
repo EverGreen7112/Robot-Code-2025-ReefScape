@@ -43,8 +43,8 @@ public class Elevator extends SubsystemBase {
 
     private ElevatorLevel m_targetLevel;
     private EverMotorController m_motor;
-    private EverPIDController m_pidController;
-    private EverEncoder m_encoder;
+    public EverPIDController m_pidController;
+    public EverEncoder m_encoder;
 
     private DigitalInput m_topLS;
     private DigitalInput m_bottomLS;

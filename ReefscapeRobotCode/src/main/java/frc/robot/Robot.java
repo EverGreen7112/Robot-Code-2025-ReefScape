@@ -32,6 +32,7 @@ import frc.robot.Subsystems.Swerve.SwerveLocalizer;
 import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Subsystems.Dispenser.Dispenser;
 import frc.robot.Subsystems.Elevator.Elevator;
+import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
 import frc.robot.Subsystems.Swerve.Swerve;
 import frc.robot.Subsystems.Swerve.SwerveAngleController;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
@@ -41,6 +42,7 @@ import frc.robot.Utils.ReefFace;
 import frc.robot.Utils.RobotOperatorController;
 import frc.robot.Utils.TalonFxCalib;
 import frc.robot.Utils.EverKit.Periodic;
+import frc.robot.Utils.EverKit.EverPIDController;
 import frc.robot.Utils.EverKit.EverPIDController.ControlType;
 import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverTalonFX;
 import frc.robot.Utils.EverKit.Implementations.PIDControllers.EverMotionMagicPIDController;
@@ -150,8 +152,10 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    
-    
+
+    Elevator.getInstance().m_pidController.activate(1,EverPIDController.ControlType.kPos);
+    Elevator.getInstance().moveToDesiredLevel(ElevatorLevel.CLOSED);
+
   }
 
   @Override

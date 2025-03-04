@@ -95,7 +95,9 @@ public class RobotContainer {
     //elevator
 
     chassisA.whileTrue( new MoveElevatorTo(ElevatorLevel.CLOSED));
-    chassisY.onTrue( new MoveElevatorToSelectedLevel());
+    //chassisY.onTrue( new MoveElevatorToSelectedLevel());
+    chassisY.onTrue( new MoveElevatorTo(ElevatorLevel.L1));
+
     //chassisPovUp.onTrue(   new MoveElevatorTo(ElevatorLevel.L3));
     //chassisPovLeft.whileTrue( new MoveElevatorTo(ElevatorLevel.L4));
 

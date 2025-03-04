@@ -14,7 +14,7 @@ public class MoveElevatorTo extends Command {
     
 
     @Override
-    public void initialize() {
+    public void initialize(){
         Elevator.getInstance().moveToDesiredLevel(m_targetLevel);
     }
 
