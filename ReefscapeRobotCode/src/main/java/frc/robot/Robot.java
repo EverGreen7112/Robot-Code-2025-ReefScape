@@ -6,6 +6,7 @@
 package frc.robot;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.photonvision.PhotonCamera;
 
@@ -21,6 +22,8 @@ import com.pathplanner.lib.pathfinding.Pathfinding;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
@@ -100,6 +103,8 @@ public class Robot extends TimedRobot {
                         new Rotation2d(Math.toRadians(SwerveLocalizer.getInstance().getFieldOrientedAngle())));
     SmartDashboard.putNumber("branch", RobotOperatorController.getInstance().getBranch());
     SmartDashboard.putNumber("elevator", RobotOperatorController.getInstance().getElevatorLevel());
+    SmartDashboard.putBoolean("feeder", RobotOperatorController.getInstance().getFeeder());
+    //SmartDashboard.putBoolean("is inner", RobotOperatorController.getInstance().getInner());
 
     // SmartDashboard.putString("pos", cam.getLatestResult().getBestTarget().toString());
 
@@ -153,8 +158,10 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    Elevator.getInstance().m_pidController.activate(1,EverPIDController.ControlType.kPos);
-    Elevator.getInstance().moveToDesiredLevel(ElevatorLevel.CLOSED);
+    // Elevator.getInstance().m_pidController.activate(1,EverPIDController.ControlType.kPos);
+    // Elevator.getInstance().moveToDesiredLevel(ElevatorLevel.CLOSED);
+
+
 
   }
 

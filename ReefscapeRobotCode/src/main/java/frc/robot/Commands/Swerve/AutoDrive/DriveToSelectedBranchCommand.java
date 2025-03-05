@@ -8,13 +8,18 @@ import frc.robot.Utils.RobotOperatorController;
 
 public class DriveToSelectedBranchCommand extends Command {
     private int m_branchNum;
-    private DriveToBranchCommand m_command;
+    private Command m_command;
     public DriveToSelectedBranchCommand(){
     }
 
     @Override
     public void initialize() {
         m_branchNum = (int)RobotOperatorController.getInstance().getBranch();
+        if(m_branchNum > 12){
+           boolean m_isRight = m_branchNum % 2 == 0;
+            m_command = new DriveToFeederCommand(m_isRight,isRightBranch());
+        }
+
         m_command = new DriveToBranchCommand(getReefFace(),isRightBranch());
         m_command.schedule();
     }

@@ -15,7 +15,7 @@ public class SwerveAngleController implements Periodic{
     private static SwerveAngleController m_instance = new SwerveAngleController();
 
     private SwerveAngleController(){
-        m_angleController = new ProfiledPIDController(2, 0, 0, new Constraints(180, 180));
+        m_angleController = new ProfiledPIDController(4, 0, 0, new Constraints(180, 180));
         m_isFieldOriented = false;   
     }
 
@@ -45,7 +45,9 @@ public class SwerveAngleController implements Periodic{
         
         double currentAngle = (m_isFieldOriented) ? SwerveLocalizer.getInstance().getFieldOrientedAngle():
                                                     Swerve.getInstance().getGyroOrientedAngle();
+       
         
+        SmartDashboard.putNumber("current angle", currentAngle);
         double angularVelocity = m_angleController.calculate(currentAngle, currentAngle + Funcs.getShortestAnglePath(currentAngle, m_targetAngle));
         Swerve.getInstance().driveByAngularVelocity(angularVelocity);   
     }

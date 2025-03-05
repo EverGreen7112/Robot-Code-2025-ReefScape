@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.Swerve.SwerveAngleController;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
 
-public class RotateToIntakeCommand extends Command{
+public class RotateToFeederCommand extends Command{
     private boolean m_isRight;
     
-    public RotateToIntakeCommand(boolean isRight){
+    public RotateToFeederCommand(boolean isRight){
         m_isRight = isRight;
     }
 

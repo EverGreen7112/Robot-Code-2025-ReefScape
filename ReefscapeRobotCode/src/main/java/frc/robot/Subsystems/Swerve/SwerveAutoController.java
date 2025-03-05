@@ -38,7 +38,7 @@ public class SwerveAutoController {
     private static final PIDConstants TRANSLATION_PID =  new PIDConstants(5.0, 0.0, 0.0),
                                       ROTATION_PID = new PIDConstants(1.0, 0.0 ,0.0);
     private static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(3, 2, 1 * Math.PI, 4 * Math.PI);
-    private static final double GOAL_END_VELOCITY = 0;
+    private static final double GOAL_END_VELOCITY = 1;
 
     private static SwerveAutoController m_instance = new SwerveAutoController();
     private SendableChooser<Command> m_autoChooser;
@@ -110,6 +110,8 @@ public class SwerveAutoController {
     
 
     public void configureCommands(){
+        NamedCommands.registerCommand("MoveElevatorToL1", new MoveElevatorTo(ElevatorLevel.L1));
+        NamedCommands.registerCommand("MoveElevatorToL2", new MoveElevatorTo(ElevatorLevel.L2));
         NamedCommands.registerCommand("MoveElevatorToL3", new MoveElevatorTo(ElevatorLevel.L3));
         NamedCommands.registerCommand("MoveElevatorToL4", new MoveElevatorTo(ElevatorLevel.L4));
         NamedCommands.registerCommand("MoveElevatorToGround", new MoveElevatorTo(ElevatorLevel.CLOSED));
@@ -119,5 +121,8 @@ public class SwerveAutoController {
         NamedCommands.registerCommand("StopDispense", new InstantCommand(() -> {Dispenser.getInstance().stop();}));
         NamedCommands.registerCommand("WaitUntilElevatorL4", new WaitUntilElevatorAt(ElevatorLevel.L4));
         NamedCommands.registerCommand("WaitUntilElevatorL3", new WaitUntilElevatorAt(ElevatorLevel.L3));
+        NamedCommands.registerCommand("WaitUntilElevatorL2", new WaitUntilElevatorAt(ElevatorLevel.L2));
+        NamedCommands.registerCommand("WaitUntilElevatorL1", new WaitUntilElevatorAt(ElevatorLevel.L1));
+        
     }
 }

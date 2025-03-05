@@ -16,22 +16,22 @@ public class RobotOperatorController implements Periodic{
 
     private static DoubleSubscriber m_branchSubscriber;
     private static DoubleSubscriber m_elevatorSubscriber;
-    private static BooleanSubscriber m_isInnerSub, m_isRightSub;
+    private static BooleanSubscriber m_feederSubscriber;
+    private static BooleanSubscriber m_innerSubscriber;
 
     private static double m_branch = 0;
     private static double m_elevatorLevel = 0;
-    private static boolean m_isInner = false, m_isRight = false;
+    private static boolean m_feeder = true , m_inner = true;
 
     public RobotOperatorController(){
         m_networkTableInst = NetworkTableInstance.getDefault();
 
         m_table = m_networkTableInst.getTable("RobotController");
 
-        m_branchSubscriber = m_table.getDoubleTopic("branch").subscribe(5);
-        m_elevatorSubscriber = m_table.getDoubleTopic("elevator").subscribe(5);
-        m_isInnerSub = m_table.getBooleanTopic("feeder").subscribe(false);
-        m_isRightSub = m_table.getBooleanTopic("inner").subscribe(false);
-
+        m_branchSubscriber = m_table.getDoubleTopic("branch").subscribe(1);
+        m_elevatorSubscriber = m_table.getDoubleTopic("elevator").subscribe(1);
+        m_feederSubscriber = m_table.getBooleanTopic("feeder").subscribe(true);
+        m_innerSubscriber = m_table.getBooleanTopic("inner").subscribe(true);
 
         m_networkTableInst.startServer();
         start(Periodic.PeriodicTime.kRobotPeriodic);
@@ -45,8 +45,8 @@ public class RobotOperatorController implements Periodic{
     public void periodic() {
         m_branch = m_branchSubscriber.get();
         m_elevatorLevel = m_elevatorSubscriber.get();
-        m_isInner = m_isInnerSub.get();
-        m_isRight = m_isRightSub.get();
+        m_feeder = m_feederSubscriber.get();
+        m_inner = m_innerSubscriber.get();
     }
 
     public double getBranch(){
@@ -57,12 +57,12 @@ public class RobotOperatorController implements Periodic{
         return m_elevatorLevel;
     }
 
-    public boolean getIsInner(){
-        return m_isInner;
+    public boolean getFeeder(){
+        return m_feeder;
     }
 
-    public boolean getIsRight(){
-        return m_isRight;
+    public boolean getInner(){
+        return m_inner;
     }
 
 }

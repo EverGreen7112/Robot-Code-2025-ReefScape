@@ -9,15 +9,70 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "MoveElevatorToL3"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "Tb10"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "MoveElevatorToL1"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "WaitUntilElevatorL1"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "MoveElevatorToL2"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "WaitUntilElevatorL2"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "MoveElevatorToL3"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "WaitUntilElevatorL3"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "MoveElevatorToL4"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "WaitUntilElevatorL4"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -69,7 +124,7 @@
         {
           "type": "named",
           "data": {
-            "name": "IsCoralAtEntry"
+            "name": "WaitUntilCoralIsIn"
           }
         },
         {
@@ -80,12 +135,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "CTb11"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "MoveElevatorToL3"
                 }
               }
             ]
@@ -137,19 +186,13 @@
         {
           "type": "named",
           "data": {
-            "name": "IsCoralAtEntry"
+            "name": "WaitUntilCoralIsIn"
           }
         },
         {
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "MoveElevatorToL3"
-                }
-              },
               {
                 "type": "path",
                 "data": {
@@ -187,6 +230,12 @@
           "type": "named",
           "data": {
             "name": "StopDispense"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": null
           }
         }
       ]
