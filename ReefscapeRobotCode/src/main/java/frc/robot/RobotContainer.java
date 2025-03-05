@@ -83,7 +83,7 @@ public class RobotContainer {
   private void configureBindings() {
 
     //chassis
-    Swerve.getInstance().setDefaultCommand(teleopCommand);
+    // Swerve.getInstance().setDefaultCommand(teleopCommand);
     chassisRB.whileTrue(new DriveToClosestBranchCommand(true));                                                                                        
     chassisLB.whileTrue(new DriveToClosestBranchCommand(false));
 
