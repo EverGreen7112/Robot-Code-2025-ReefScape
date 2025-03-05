@@ -1,11 +1,14 @@
 package frc.robot.Utils;
 
+import edu.wpi.first.networktables.BooleanPublisher;
 import edu.wpi.first.networktables.BooleanSubscriber;
 import edu.wpi.first.networktables.DoubleSubscriber;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
+import frc.robot.Subsystems.Swerve.SwerveAutoController;
 import frc.robot.Utils.EverKit.Periodic;
 
 public class RobotOperatorController implements Periodic{
@@ -17,12 +20,10 @@ public class RobotOperatorController implements Periodic{
 
     private static DoubleSubscriber m_branchSubscriber;
     private static DoubleSubscriber m_elevatorSubscriber;
-    private static BooleanSubscriber m_feederSubscriber;
-    private static BooleanSubscriber m_innerSubscriber;
+    private static BooleanPublisher m_allince;
 
     private static double m_branch = 0;
     private static double m_elevatorLevel = 0;
-    private static boolean m_feeder = true , m_inner = true;
 
     public RobotOperatorController(){
         m_networkTableInst = NetworkTableInstance.getDefault();
@@ -31,8 +32,8 @@ public class RobotOperatorController implements Periodic{
 
         m_branchSubscriber = m_table.getDoubleTopic("branch").subscribe(1);
         m_elevatorSubscriber = m_table.getDoubleTopic("elevator").subscribe(1);
-        m_feederSubscriber = m_table.getBooleanTopic("feeder").subscribe(true);
-        m_innerSubscriber = m_table.getBooleanTopic("inner").subscribe(true);
+        m_allince = m_table.getBooleanTopic("allince").publish();
+
 
         m_networkTableInst.startServer();
         start(Periodic.PeriodicTime.kRobotPeriodic);
@@ -46,8 +47,8 @@ public class RobotOperatorController implements Periodic{
     public void periodic() {
         m_branch = m_branchSubscriber.get();
         m_elevatorLevel = m_elevatorSubscriber.get();
-        m_feeder = m_feederSubscriber.get();
-        m_inner = m_innerSubscriber.get();
+        boolean allince = (SwerveAutoController.getInstance().getAlliance() == Alliance.Blue) ? true : false;
+        m_allince.set(allince);
 
         if(DEBUG_MODE)
             log();
@@ -61,19 +62,9 @@ public class RobotOperatorController implements Periodic{
         return m_elevatorLevel;
     }
 
-    public boolean getFeeder(){
-        return m_feeder;
-    }
-
-    public boolean getInner(){
-        return m_inner;
-    }
-
     private void log(){
         SmartDashboard.putNumber("selected branch", RobotOperatorController.getInstance().getBranch());
         SmartDashboard.putNumber("selected elevator level", RobotOperatorController.getInstance().getElevatorLevel());
-        SmartDashboard.putBoolean("selected feeder", RobotOperatorController.getInstance().getFeeder());
-        //SmartDashboard.putBoolean("is inner", RobotOperatorController.getInstance().getInner());
     }
 
 }
