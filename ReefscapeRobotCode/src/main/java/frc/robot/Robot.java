@@ -23,6 +23,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.LEDPattern;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
@@ -32,10 +33,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Subsystems.Swerve.SwerveLocalizer;
+import frc.robot.Subsystems.LedStrip;
 import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Subsystems.Dispenser.Dispenser;
 import frc.robot.Subsystems.Elevator.Elevator;
 import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
+import frc.robot.Subsystems.LedStrip.LedPattern;
 import frc.robot.Subsystems.Swerve.Swerve;
 import frc.robot.Subsystems.Swerve.SwerveAngleController;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
@@ -80,7 +83,7 @@ public class Robot extends TimedRobot {
       SmartDashboard.putString( "reef " + (i+1) + ":"," left " + ReefFace.BLUE_REEF[i].getLeftBranchRobotPose() + " right " + ReefFace.BLUE_REEF[i].getRightBranchRobotPose()); 
     }
 
-      
+    LedStrip.getInstance().setLedPattern(LedPattern.DEFULT_COLOR);
   }
 
   @Override
@@ -150,6 +153,7 @@ public class Robot extends TimedRobot {
     // Elevator.getInstance().moveToDesiredLevel(ElevatorLevel.CLOSED);
 
 
+    LedStrip.getInstance().setLedPattern(LedPattern.CAGE_LOCKED);
 
   }
 
@@ -166,7 +170,9 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopExit() {}
+  public void teleopExit() {
+    LedStrip.getInstance().setLedPattern(LedPattern.DEFULT_COLOR);
+  }
 
   @Override
   public void testInit() {
