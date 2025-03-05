@@ -1,4 +1,4 @@
-package frc.robot.Commands.Swerve;
+package frc.robot.Commands.Swerve.ManualDrive;
 
 import java.util.function.Supplier;
 

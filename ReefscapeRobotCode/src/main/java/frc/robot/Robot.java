@@ -58,9 +58,6 @@ public class Robot extends TimedRobot {
   public static ArrayList<Periodic> testPeriodicFuncs = new ArrayList<Periodic>();
   public static ArrayList<Periodic> autonomousPeriodicFuncs = new ArrayList<Periodic>();
   public static ArrayList<Periodic> simulationPeriodicFuncs = new ArrayList<Periodic>();
-  public static PhotonCamera cam = new PhotonCamera("reef_cam");
-
-
 
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
@@ -78,6 +75,7 @@ public class Robot extends TimedRobot {
     
     SwerveAutoController.getInstance().addChoosersToDashboard();
     
+    //print branch position on the field
     for(int i = 0 ; i < ReefFace.BLUE_REEF.length; i++){
       SmartDashboard.putString( "reef " + (i+1) + ":"," left " + ReefFace.BLUE_REEF[i].getLeftBranchRobotPose() + " right " + ReefFace.BLUE_REEF[i].getRightBranchRobotPose()); 
     }
@@ -101,18 +99,7 @@ public class Robot extends TimedRobot {
     m_field.setRobotPose(SwerveLocalizer.getInstance().getCurrentPoint().getX(),
                          SwerveLocalizer.getInstance().getCurrentPoint().getY(),
                         new Rotation2d(Math.toRadians(SwerveLocalizer.getInstance().getFieldOrientedAngle())));
-    SmartDashboard.putNumber("branch", RobotOperatorController.getInstance().getBranch());
-    SmartDashboard.putNumber("elevator", RobotOperatorController.getInstance().getElevatorLevel());
-    SmartDashboard.putBoolean("feeder", RobotOperatorController.getInstance().getFeeder());
-    //SmartDashboard.putBoolean("is inner", RobotOperatorController.getInstance().getInner());
-
-    // SmartDashboard.putString("pos", cam.getLatestResult().getBestTarget().toString());
-
-    SmartDashboard.putNumber("TL", Swerve.getInstance().m_modules[0].getAngle());
-    SmartDashboard.putNumber("TR", Swerve.getInstance().m_modules[1].getAngle());
-    SmartDashboard.putNumber("DL", Swerve.getInstance().m_modules[2].getAngle());
-    SmartDashboard.putNumber("DR", Swerve.getInstance().m_modules[3].getAngle());
-
+    
   }
 
   @Override

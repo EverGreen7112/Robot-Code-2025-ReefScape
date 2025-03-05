@@ -35,7 +35,7 @@ public class SwerveLocalizer implements Periodic, SwerveConsts {
 
     private static final double FIELD_WIDTH = 8.05;
     private static final double FIELD_HEIGHT = 17.55;
-    private static final double MAX_CAMERA_HEIGHT = 0.05;
+    private static final double MAX_ESTIMATION_HEIGHT = 0.05;
     private static final double MAX_DISTANCE_FROM_TAG = 3;
 
     private static SwerveLocalizer m_instance = new SwerveLocalizer();
@@ -102,7 +102,7 @@ public class SwerveLocalizer implements Periodic, SwerveConsts {
         double z = est.get().estimatedPose.getZ();
 
         boolean outOfField = x < 0.0 || x > FIELD_HEIGHT || y < 0.0 || y > FIELD_WIDTH;
-        boolean aboveCamera = z > MAX_CAMERA_HEIGHT;
+        boolean aboveCamera = z > MAX_ESTIMATION_HEIGHT;
         boolean underGround = z < -0.03;
 
         int numTags = 0;

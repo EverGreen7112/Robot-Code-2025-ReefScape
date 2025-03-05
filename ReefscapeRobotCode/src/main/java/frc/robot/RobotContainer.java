@@ -17,14 +17,14 @@ import frc.robot.Commands.Dispenser.DispenseCoralCommand;
 import frc.robot.Commands.Dispenser.PullBackCoralCommand;
 import frc.robot.Commands.Elevator.MoveElevatorTo;
 import frc.robot.Commands.Elevator.MoveElevatorToSelectedLevel;
-import frc.robot.Commands.Swerve.ChangeTeleopSpeedModeCommand;
-import frc.robot.Commands.Swerve.RotateByCommand;
-import frc.robot.Commands.Swerve.RotateToCommand;
-import frc.robot.Commands.Swerve.TeleopDriveCommand;
 import frc.robot.Commands.Swerve.AutoDrive.DriveToClosestBranchCommand;
 import frc.robot.Commands.Swerve.AutoDrive.DriveToFeederCommand;
 import frc.robot.Commands.Swerve.AutoDrive.DriveToSelectedBranchCommand;
-import frc.robot.Commands.Swerve.ChangeTeleopSpeedModeCommand.SpeedMode;
+import frc.robot.Commands.Swerve.ManualDrive.ChangeTeleopSpeedModeCommand;
+import frc.robot.Commands.Swerve.ManualDrive.RotateByCommand;
+import frc.robot.Commands.Swerve.ManualDrive.RotateToCommand;
+import frc.robot.Commands.Swerve.ManualDrive.TeleopDriveCommand;
+import frc.robot.Commands.Swerve.ManualDrive.ChangeTeleopSpeedModeCommand.SpeedMode;
 import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Subsystems.Dispenser.Dispenser;
 import frc.robot.Subsystems.Elevator.Elevator;
@@ -79,7 +79,6 @@ public class RobotContainer {
     configureBindings();
   }
 
-
   private void configureBindings() {
 
     //chassis
@@ -87,20 +86,12 @@ public class RobotContainer {
     chassisRB.whileTrue(new DriveToClosestBranchCommand(true));                                                                                        
     chassisLB.whileTrue(new DriveToClosestBranchCommand(false));
 
-    //chassisB.whileTrue(new RobotControllerBranchCommand());
-
     chassisRT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kTurbo));
     chassisLT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kSlow));
     
-
     //elevator
-
     chassisA.whileTrue( new MoveElevatorTo(ElevatorLevel.CLOSED));
     chassisY.onTrue( new MoveElevatorToSelectedLevel());
-    // chassisY.onTrue( new MoveElevatorTo(ElevatorLevel.L1));
-
-    //chassisPovUp.onTrue(   new MoveElevatorTo(ElevatorLevel.L3));
-    //chassisPovLeft.whileTrue( new MoveElevatorTo(ElevatorLevel.L4));
 
     //climber
     chassisPovDown.whileTrue(new OpenClimberCommand());
@@ -112,15 +103,6 @@ public class RobotContainer {
     chassisBack.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
     chassisPovRight.onTrue(new InstantCommand(() -> {Elevator.getInstance().resetPose();}));
     chassisPovLeft.whileTrue(new DriveToSelectedBranchCommand());
-    //chassisB.whileTrue(new DriveToFeederCommand(RobotOperatorController.getInstance().getFeeder(), RobotOperatorController.getInstance().getInner()));
-
-    // chassisRT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kTurbo));
-    // chassisLT.whileTrue(new ChangeTeleopSpeedModeCommand(SpeedMode.kSlow));
-    // chassisBack.onTrue(new InstantCommand(() -> {SwerveLocalizer.getInstance().setCurrentPoint(new Pose2d());}));
-    // chassisStart.onTrue(new DriveToBranch(ReefFace.BLUE_REEF[3], true));
-    
-    // chassisA.whileTrue(new DispenseCoralCommand());
-    // chassisB.whileTrue(new RemoveAlgeaCommand());
 
     // chassis.rightStick().onTrue(new RotateToIntake(true));
     // chassis.leftStick().onTrue(new RotateToIntake(false));

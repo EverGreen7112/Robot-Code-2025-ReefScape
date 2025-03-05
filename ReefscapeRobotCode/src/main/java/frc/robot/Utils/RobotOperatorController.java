@@ -9,6 +9,7 @@ import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
 import frc.robot.Utils.EverKit.Periodic;
 
 public class RobotOperatorController implements Periodic{
+    private final static boolean DEBUG_MODE = true;
     private static RobotOperatorController m_instance = new RobotOperatorController();
 
     private static NetworkTableInstance m_networkTableInst;
@@ -47,6 +48,9 @@ public class RobotOperatorController implements Periodic{
         m_elevatorLevel = m_elevatorSubscriber.get();
         m_feeder = m_feederSubscriber.get();
         m_inner = m_innerSubscriber.get();
+
+        if(DEBUG_MODE)
+            log();
     }
 
     public double getBranch(){
@@ -63,6 +67,13 @@ public class RobotOperatorController implements Periodic{
 
     public boolean getInner(){
         return m_inner;
+    }
+
+    private void log(){
+        SmartDashboard.putNumber("selected branch", RobotOperatorController.getInstance().getBranch());
+        SmartDashboard.putNumber("selected elevator level", RobotOperatorController.getInstance().getElevatorLevel());
+        SmartDashboard.putBoolean("selected feeder", RobotOperatorController.getInstance().getFeeder());
+        //SmartDashboard.putBoolean("is inner", RobotOperatorController.getInstance().getInner());
     }
 
 }
