@@ -16,14 +16,15 @@ public class Climber extends SubsystemBase{
     private static Climber m_instance = new Climber();
 
     private EverMotorController m_climbMotor;
-    private DigitalInput m_bottomLS;
+    public DigitalInput m_leftLS;
+    public DigitalInput m_rightLS;
     private EverEncoder m_encoder;
     
     private Climber(){
         EverTalonFX climbMotor = new EverTalonFX(12);
         m_climbMotor = climbMotor;
-        m_bottomLS = new DigitalInput(3);
-
+        m_leftLS = new DigitalInput(8);
+        m_rightLS = new DigitalInput(9);
         EverTalonFXInternalEncoder encoder = new EverTalonFXInternalEncoder(climbMotor);
         encoder.setPosConversionFactor(1);
 
@@ -37,14 +38,14 @@ public class Climber extends SubsystemBase{
 
     @Override
     public void periodic() {
-        // if(cantOpen() && m_climbMotor.get() > 0)
-        //     stop();
-
         if(DEBUG_MODE)
             log();
-        
-        
+      
+    }
 
+
+    public boolean isCageLocked(){
+        return !m_leftLS.get() && !m_rightLS.get();
     }
 
     public void open(){
@@ -70,6 +71,7 @@ public class Climber extends SubsystemBase{
         SmartDashboard.putBoolean("bottom limit switch", cantOpen());
         SmartDashboard.putNumber("climber", m_climbMotor.get());
         SmartDashboard.putNumber("climbe encoder", m_encoder.getPos());
+        SmartDashboard.putBoolean("is cage locked", isCageLocked());
     }
 
     
