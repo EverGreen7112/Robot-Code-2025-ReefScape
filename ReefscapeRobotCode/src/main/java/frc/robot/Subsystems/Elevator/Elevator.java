@@ -27,7 +27,7 @@ public class Elevator extends SubsystemBase {
         L1(8, 0.1),
         L2(30 + 0.9, 0.3),//26.5 + 0.9
         L3(61 + 0.9, 0.3),//55.5 = 0.9
-        L4(102, 0.3); 
+        L4(100, 0.3); 
 
         public final double height;
         public final double dispenseSpeed;
@@ -56,7 +56,7 @@ public class Elevator extends SubsystemBase {
         talon.setIdleMode(IdleMode.kCoast);
         talon.getControllerInstance().setNeutralMode(NeutralModeValue.Brake);
 
-        EverMotionMagicPIDController talonPidController = new EverMotionMagicPIDController(talon, 205, 120);
+        EverMotionMagicPIDController talonPidController = new EverMotionMagicPIDController(talon, 300, 190);
         Slot0Configs a = new Slot0Configs();
         a.kD = 0;
         a.kG = 0.4;
