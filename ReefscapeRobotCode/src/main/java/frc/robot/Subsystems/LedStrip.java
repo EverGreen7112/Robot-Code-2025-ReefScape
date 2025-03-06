@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.LEDPattern;
 import edu.wpi.first.wpilibj.LEDPattern.GradientType;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Utils.EverKit.Periodic;
 
 public class LedStrip extends SubsystemBase implements Periodic {
@@ -33,19 +34,17 @@ public class LedStrip extends SubsystemBase implements Periodic {
         DEFULT_COLOR(
             LEDPattern.solid(Color.kGreen)
         ),
-        FEEDER_ALIGNMENT_FINISHED(
-            LEDPattern.solid(Color.kYellow).blink(Second.of(1), Second.of(1))
+        CORAL_IN_ROBOT(
+            LEDPattern.solid(Color.kGreenYellow)
         ),
-        BRANCH_ALIGNMENT_FINISHED(
-            LEDPattern.solid(Color.kPurple)
+        READY_FOR_CORAL(
+            LEDPattern.solid(Color.kYellow)
         ),
-        CORAL_DISPENSED(
+        ROBOT_ALIGNING(
             LEDPattern.solid(Color.kGreen).blink(Second.of(1),Second.of(1))
         ),
         CAGE_LOCKED(
-            // crazy 
             LEDPattern.rainbow(255,255).scrollAtAbsoluteSpeed(MetersPerSecond.of(3),LED_SPACING)
-                
         );
 
         public final LEDPattern pattern;
@@ -73,6 +72,8 @@ public class LedStrip extends SubsystemBase implements Periodic {
 
     @Override
     public void periodic() {
+        if(Climber.getInstance().get)
+
         m_ledPattern.applyTo(m_ledBuffer);
         m_led.setData(m_ledBuffer);
 
