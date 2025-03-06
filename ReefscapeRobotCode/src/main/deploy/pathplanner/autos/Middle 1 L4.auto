@@ -5,45 +5,65 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "MoveElevatorToL3"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL3"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Mb7"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "Mb7"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "MoveElevatorToL4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitUntilElevatorL4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "DispenceCoral"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitUntilCoralIsOut"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StopDispense"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WaitUntilElevatorL4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DispenceCoral"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WaitUntilCoralIsOut"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "StopDispense"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToGround"
+                }
+              }
+            ]
           }
         }
       ]
