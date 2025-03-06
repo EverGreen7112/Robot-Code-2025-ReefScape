@@ -15,91 +15,49 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "MoveElevatorToL1"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "WaitUntilElevatorL1"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "MoveElevatorToL2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "WaitUntilElevatorL2"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "MoveElevatorToL3"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "WaitUntilElevatorL3"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "MoveElevatorToL4"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "WaitUntilElevatorL4"
-                      }
-                    }
-                  ]
+                  "name": "MoveElevatorToL3"
                 }
               }
             ]
           }
         },
         {
-          "type": "named",
+          "type": "sequential",
           "data": {
-            "name": "MoveElevatorToL4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitUntilElevatorL4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "DispenceCoral"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitUntilCoralIsOut"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WaitUntilElevatorL4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DispenceCoral"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WaitUntilCoralIsOut"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "StopDispense"
+                }
+              }
+            ]
           }
         },
         {
@@ -107,15 +65,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "MoveElevatorToGround"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "b10CT"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToGround"
                 }
               }
             ]
@@ -141,27 +99,40 @@
           }
         },
         {
-          "type": "named",
+          "type": "sequential",
           "data": {
-            "name": "MoveElevatorToL4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitUntilElevatorL4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "DispenceCoral"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitUntilCoralIsOut"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WaitUntilElevatorL4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DispenceCoral"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WaitUntilCoralIsOut"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "StopDispense"
+                }
+              }
+            ]
           }
         },
         {
@@ -203,39 +174,46 @@
           }
         },
         {
-          "type": "named",
+          "type": "sequential",
           "data": {
-            "name": "MoveElevatorToL4"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WaitUntilElevatorL4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DispenceCoral"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WaitUntilCoralIsOut"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "StopDispense"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "WaitUntilElevatorL4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "DispenceCoral"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "WaitUntilCoralIsOut"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "StopDispense"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": null
+            "name": "MoveElevatorToGround"
           }
         }
       ]
