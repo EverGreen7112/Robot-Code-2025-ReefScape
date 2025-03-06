@@ -44,11 +44,10 @@ public class SwerveAngleController implements Periodic{
     public void periodic() {
         double angularVelocity;
         if(m_isFieldOriented){
-            double currentAngle = SwerveLocalizer.getInstance().getFieldOrientedAngle();
-            double angleError = m_targetAngle - currentAngle;
+            double currentAngle = SwerveLocalizer.getInstance().getFieldOrientedAngle() - Swerve.getInstance().getGyroOrientedAngle();
+            currentAngle += Swerve.getInstance().getGyroOrientedAngle();
             
-            angularVelocity = m_angleController.calculate(0, Funcs.getShortestAnglePath(currentAngle, m_targetAngle));
-            SmartDashboard.putNumber("error", angleError);
+            angularVelocity = m_angleController.calculate(currentAngle, Funcs.getShortestAnglePath(currentAngle, m_targetAngle));
         }
         else{
             double currentAngle = Swerve.getInstance().getGyroOrientedAngle();
