@@ -16,6 +16,7 @@ public class SwerveAngleController implements Periodic{
 
     private SwerveAngleController(){
         m_angleController = new ProfiledPIDController(2, 0, 0, new Constraints(180, 180));
+        m_angleController.enableContinuousInput(-180, 180);
         m_isFieldOriented = false;   
     }
 
@@ -43,19 +44,20 @@ public class SwerveAngleController implements Periodic{
     @Override
     public void periodic() {
         double angularVelocity;
-        if(m_isFieldOriented){
-            double currentAngle = SwerveLocalizer.getInstance().getFieldOrientedAngle() - Swerve.getInstance().getGyroOrientedAngle();
-            currentAngle += Swerve.getInstance().getGyroOrientedAngle();
+        // if(m_isFieldOriented){
+        //     double currentAngle = SwerveLocalizer.getInstance().getFieldOrientedAngle() - Swerve.getInstance().getGyroOrientedAngle();
+        //     currentAngle += Swerve.getInstance().getGyroOrientedAngle();
             
-            angularVelocity = m_angleController.calculate(currentAngle, Funcs.getShortestAnglePath(currentAngle, m_targetAngle));
-        }
-        else{
-            double currentAngle = Swerve.getInstance().getGyroOrientedAngle();
-            angularVelocity = m_angleController.calculate(currentAngle, currentAngle + Funcs.getShortestAnglePath(currentAngle, m_targetAngle));
+        //     angularVelocity = m_angleController.calculate(currentAngle, currentAngle + Funcs.getShortestAnglePath(currentAngle, m_targetAngle));
+        // }
+        // else{
+        //     double currentAngle = Swerve.getInstance().getGyroOrientedAngle();
+        //     angularVelocity = m_angleController.calculate(currentAngle, currentAngle + Funcs.getShortestAnglePath(currentAngle, m_targetAngle));
 
-        }
+        // }
+        double currentAngle = (m_isFieldOriented ) ? SwerveLocalizer.getInstance().getFieldOrientedAngle() : Swerve.getInstance().getGyroOrientedAngle();
+        angularVelocity = m_angleController.calculate(currentAngle, m_targetAngle);
 
-        
         Swerve.getInstance().driveByAngularVelocity(angularVelocity);   
 
        

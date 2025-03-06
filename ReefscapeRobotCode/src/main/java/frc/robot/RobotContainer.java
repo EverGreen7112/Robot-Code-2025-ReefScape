@@ -19,7 +19,7 @@ import frc.robot.Commands.Elevator.MoveElevatorTo;
 import frc.robot.Commands.Elevator.MoveElevatorToSelectedLevel;
 import frc.robot.Commands.Swerve.AutoDrive.DriveToClosestBranchCommand;
 import frc.robot.Commands.Swerve.AutoDrive.DriveToFeederCommand;
-import frc.robot.Commands.Swerve.AutoDrive.DriveToSelectedBranchCommand;
+import frc.robot.Commands.Swerve.AutoDrive.DriveToSelectedPoseCommand;
 import frc.robot.Commands.Swerve.ManualDrive.ChangeTeleopSpeedModeCommand;
 import frc.robot.Commands.Swerve.ManualDrive.RotateByCommand;
 import frc.robot.Commands.Swerve.ManualDrive.RotateToCommand;
@@ -82,7 +82,7 @@ public class RobotContainer {
   private void configureBindings() {
 
     //chassis
-    // Swerve.getInstance().setDefaultCommand(teleopCommand);
+    Swerve.getInstance().setDefaultCommand(teleopCommand);
     chassisRB.whileTrue(new DriveToClosestBranchCommand(true));                                                                                        
     chassisLB.whileTrue(new DriveToClosestBranchCommand(false));
 
@@ -102,7 +102,7 @@ public class RobotContainer {
 
     chassisBack.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
     chassisPovRight.onTrue(new InstantCommand(() -> {Elevator.getInstance().resetPose();}));
-    chassisPovLeft.whileTrue(new DriveToSelectedBranchCommand());
+    chassisPovLeft.whileTrue(new DriveToSelectedPoseCommand());
 
     // chassis.rightStick().onTrue(new RotateToIntake(true));
     // chassis.leftStick().onTrue(new RotateToIntake(false));

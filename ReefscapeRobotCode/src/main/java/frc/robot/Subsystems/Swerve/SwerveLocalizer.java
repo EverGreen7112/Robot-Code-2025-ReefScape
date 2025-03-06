@@ -25,11 +25,11 @@ public class SwerveLocalizer implements Periodic, SwerveConsts {
     private static final LocalizationCamera[] CAMS = {
             new LocalizationCamera("left_cam",
                     AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
-                    new Transform3d(new Translation3d(0.145, 0.085, 0.31), new Rotation3d(0, 0 ,0)),
+                    new Transform3d(new Translation3d(0.115, 0.055, 0.32), new Rotation3d(0, 0 ,0)),
                     VecBuilder.fill(0.0, 0.0, 0), VecBuilder.fill(0.0, 0.0, 0)),
             new LocalizationCamera("right_cam",
                                         AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
-                                        new Transform3d(0.145, -0.125, 0.31, new Rotation3d(0, 0, 0)),
+                                        new Transform3d(0.115, -0.155, 0.32, new Rotation3d(0, 0, 0)),
                                         VecBuilder.fill(0, 0, 0), VecBuilder.fill(0, 0, 0))
     };
 

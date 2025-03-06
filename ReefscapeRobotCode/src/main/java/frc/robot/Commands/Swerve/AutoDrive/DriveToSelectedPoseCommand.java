@@ -6,11 +6,10 @@ import frc.robot.Subsystems.Swerve.SwerveAutoController;
 import frc.robot.Utils.ReefFace;
 import frc.robot.Utils.RobotOperatorController;
 
-public class DriveToSelectedBranchCommand extends Command {
+public class DriveToSelectedPoseCommand extends Command {
     private int m_branchNum;
     private Command m_command;
-    public DriveToSelectedBranchCommand(){
-    }
+
 
     @Override
     public void initialize() {
