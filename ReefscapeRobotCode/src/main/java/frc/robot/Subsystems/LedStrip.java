@@ -5,6 +5,7 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
 
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import edu.wpi.first.units.measure.Distance;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj.AddressableLEDBufferView;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.LEDPattern;
 import edu.wpi.first.wpilibj.LEDPattern.GradientType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Commands.Swerve.AutoDrive.DriveToSelectedPoseCommand;
@@ -23,6 +25,7 @@ import frc.robot.Subsystems.Swerve.Swerve;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
 import frc.robot.Subsystems.Swerve.SwerveLocalizer;
 import frc.robot.Utils.LocalizationCamera;
+import frc.robot.Utils.RobotOperatorController;
 import frc.robot.Utils.EverKit.Periodic;
 
 public class LedStrip extends SubsystemBase implements Periodic {
@@ -39,7 +42,7 @@ public class LedStrip extends SubsystemBase implements Periodic {
 
     public enum LedPattern{
         
-        DEFULT_COLOR(
+        DEFAULT_COLOR(
             LEDPattern.solid(Color.kGreen)
         ),
         CORAL_IN_ROBOT(
@@ -49,20 +52,22 @@ public class LedStrip extends SubsystemBase implements Periodic {
             LEDPattern.solid(Color.kYellow)
         ),
         ROBOT_ALIGNING(
-            LEDPattern.solid(Color.kGreen).blink(Second.of(1),Second.of(1))
+            LEDPattern.solid(Color.kGreen).blink(Seconds.of(0.2), Seconds.of(0.1))
+
         ),
         CAGE_LOCKED(
             LEDPattern.rainbow(255,255).scrollAtAbsoluteSpeed(MetersPerSecond.of(3),LED_SPACING)
         ),
-        Error_MOTOR(
+        ERROR_MOTOR(
             LEDPattern.solid(Color.kRed).blink(Seconds.of(1), Seconds.of(1))
         ),
-        ERROR_CAM_RIGHT(
+        ERROR_CAMS(
             LEDPattern.solid(Color.kBlue).blink(Seconds.of(5), Seconds.of(1))
         ),
-        ERROR_CAM_LEFT(
-            LEDPattern.solid(Color.kWheat).blink(Seconds.of(5), Seconds.of(1))
+        ERROR_DISPENSER(
+            LEDPattern.solid(null)
         );
+        
         public final LEDPattern pattern;
 
         private LedPattern(LEDPattern Pattern){
@@ -76,7 +81,7 @@ public class LedStrip extends SubsystemBase implements Periodic {
         m_ledBuffer = new AddressableLEDBuffer(60);
         m_led.setLength(m_ledBuffer.getLength());
         
-        m_ledPattern = LedPattern.DEFULT_COLOR.pattern;
+        m_ledPattern = LedPattern.DEFAULT_COLOR.pattern;
 
         start(PeriodicTime.kRobotPeriodic);
         m_led.start();
@@ -88,44 +93,50 @@ public class LedStrip extends SubsystemBase implements Periodic {
 
     @Override
     public void periodic() {
-        boolean errorFlag = false;
-            for (int i = 0; i < SwerveLocalizer.getInstance().getCams().length ; i++) {
-                errorFlag = errorFlag || !SwerveLocalizer.getInstance().getCams()[i].isConnected();
-            }
             
-
-        if(!DriverStation.isTeleop() && !DriverStation.isAutonomous() && errorFlag && !Swerve.getInstance().areMotorsConnected() ){
-            setLedPattern(LedPattern.Error_MOTOR);
+        if(!DriverStation.isEnabled()){
+            if(!Swerve.getInstance().areMotorControllersConnected() ){
+                setLedPattern(LedPattern.ERROR_MOTOR);
+            }
+            else if(!SwerveLocalizer.getInstance().areCamsConnected() ){
+                setLedPattern(LedPattern.ERROR_CAMS);
+            }
+            else if(!Dispenser.getInstance().areMotorControllersConnected()){
+                setLedPattern(m_ledState);
+            }
+            else{
+                setLedPattern(LedPattern.DEFAULT_COLOR);
+            }
         }
-        else if(!DriverStation.isTeleop() && !DriverStation.isAutonomous() && errorFlag && !SwerveLocalizer.getInstance().isRightCamWork() ){
-            setLedPattern(LedPattern.ERROR_CAM_RIGHT);
-        }
-        else if(!DriverStation.isTeleop() && !DriverStation.isAutonomous() && errorFlag && !SwerveLocalizer.getInstance().isLeftCamWork() ){
-            setLedPattern(LedPattern.ERROR_CAM_LEFT);
-        }
+       
         else if(Climber.getInstance().isCageLocked()){
             setLedPattern(LedPattern.CAGE_LOCKED);
         }
-        else if(!DriveToSelectedPoseCommand.getIsFinished()){
-                 setLedPattern(LedPattern.ROBOT_ALIGNING);
+        else if(SwerveAutoController.isRobotAligning){
+            setLedPattern(LedPattern.ROBOT_ALIGNING);
         }
-        else if(!Dispenser.getInstance().isAtEntry() && !Dispenser.getInstance().isAtExit()){
+        else if(RobotOperatorController.getInstance().getLed()){
             setLedPattern(LedPattern.READY_FOR_CORAL);
-        } 
+
+        }
+       
         else if(Dispenser.getInstance().isAtEntry() || Dispenser.getInstance().isAtExit()){
             setLedPattern(LedPattern.CORAL_IN_ROBOT);
         }
         else {
-            setLedPattern(LedPattern.DEFULT_COLOR);
+            setLedPattern(LedPattern.DEFAULT_COLOR);
         }
 
-        m_ledPattern.applyTo(m_ledBuffer);
-        m_led.setData(m_ledBuffer);
+        
+        SmartDashboard.putBoolean("sa", false);
+
 
     }
 
     public void setLedPattern(LedPattern pattern){
         m_ledPattern = pattern.pattern;
+        m_ledPattern.applyTo(m_ledBuffer);
+        m_led.setData(m_ledBuffer);
     }
     
 }

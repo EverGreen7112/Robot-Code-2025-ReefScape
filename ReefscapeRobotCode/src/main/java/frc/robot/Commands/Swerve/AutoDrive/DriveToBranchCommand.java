@@ -15,7 +15,7 @@ import frc.robot.Utils.Math.Funcs;
 
 public class DriveToBranchCommand extends Command {
 
-    private final double ALIGNMENT_DIS = 0.2;
+    private final double ALIGNMENT_DIS = 0.3;
 
     private ReefFace m_reefFace;
     private boolean m_isRightBranch;
@@ -48,6 +48,11 @@ public class DriveToBranchCommand extends Command {
     }
 
     @Override
+    public void execute() {
+        SwerveAutoController.isRobotAligning = true;
+    }
+
+    @Override
     public boolean isFinished() {
         return !m_driveCommand.isScheduled();
     }
@@ -55,5 +60,7 @@ public class DriveToBranchCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         m_driveCommand.cancel();
+        SwerveAutoController.isRobotAligning = false;
+   
     }
 }

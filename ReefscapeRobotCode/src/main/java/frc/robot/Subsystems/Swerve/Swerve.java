@@ -206,9 +206,21 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
         SmartDashboard.putString("velocity", getRobotOrientedVelocity().toString());
         SmartDashboard.putNumber("angular velocity", getAngularVelocity());
         SmartDashboard.putNumber("gyro angle", m_gyro.getYaw());
-        SmartDashboard.putBoolean("is connecgted", m_gyro.isConnected());
+       
 
 
+    }
+
+    public boolean areMotorControllersConnected(){
+        for (SwerveModule module : m_modules) {
+            if(!module.areMotorControllersConnected())
+                return false;
+        }
+        return true;
+    }
+
+    public boolean isGyroConnected(){
+        return m_gyro.isConnected();
     }
 
 }

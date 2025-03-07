@@ -59,4 +59,5 @@ public abstract class EverMotorController {
      */
     public abstract Object getControllerInstance();
     
+    public abstract boolean isConnected();
 }

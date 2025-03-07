@@ -14,7 +14,7 @@ import frc.robot.Utils.ReefFace;
 import frc.robot.Utils.Math.Funcs;
 
 public class DriveToFeederCommand extends Command {
-
+    
     private boolean m_isRight, m_isInner;
     private Command m_driveCommand;
     private Pose2d[][] m_coralStationsBlue = //  <--------------------------- inner  side ------------------------>    <------------------------------ outer ----------------------------->
@@ -47,12 +47,20 @@ public class DriveToFeederCommand extends Command {
     }
 
     @Override
+    public void execute() {
+        SwerveAutoController.isRobotAligning = true;
+
+    }
+
+    @Override
     public boolean isFinished() {
         return !m_driveCommand.isScheduled();
     }
 
     @Override
     public void end(boolean interrupted) {
+        SwerveAutoController.isRobotAligning = false;
+
         m_driveCommand.cancel();
     }
 }

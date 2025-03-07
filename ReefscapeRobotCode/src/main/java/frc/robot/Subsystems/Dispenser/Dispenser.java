@@ -97,4 +97,8 @@ public class Dispenser extends SubsystemBase {
     return m_isAtExit.get();
   }
 
+
+  public boolean areMotorControllersConnected(){
+    return m_dispenserMotor.isConnected();
+  }
 }

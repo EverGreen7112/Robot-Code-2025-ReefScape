@@ -23,6 +23,8 @@ import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
 
 public class SwerveAutoController {
 
+    public static boolean isRobotAligning = false;
+
     private static final PIDConstants TRANSLATION_PID =  new PIDConstants(5.0, 0.0, 0.0),
                                       ROTATION_PID = new PIDConstants(1.0, 0.0 ,0.0);
     private static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(3, 2, 1 * Math.PI, 4 * Math.PI);

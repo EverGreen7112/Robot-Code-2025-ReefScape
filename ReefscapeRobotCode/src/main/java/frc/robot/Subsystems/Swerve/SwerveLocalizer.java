@@ -143,6 +143,14 @@ public class SwerveLocalizer implements Periodic, SwerveConsts {
                 cam.getEstimationStdDevs());
     }
 
+    public boolean areCamsConnected(){
+        for (LocalizationCamera cam : CAMS) {
+            if(!cam.isConnected())
+                return false;
+        }
+        return true;
+    }
+
     
 
 }

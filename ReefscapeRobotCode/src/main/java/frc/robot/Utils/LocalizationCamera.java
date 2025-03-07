@@ -94,5 +94,8 @@ public class LocalizationCamera {
          return m_curStdDevs;
      }
  
+     public boolean isConnected(){
+        return m_cam.isConnected();
+     }
     
  }

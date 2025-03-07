@@ -91,12 +91,18 @@ public class Robot extends TimedRobot {
     for (Periodic method : robotPeriodicFuncs) {
       try {
         method.periodic();
+
       } catch (Exception e) {
         e.printStackTrace();
       }
+    
+    
     }
+    LedStrip.getInstance().periodic();
 
-   
+    SmartDashboard.putBoolean("cams connected",SwerveLocalizer.getInstance().areCamsConnected());
+    SmartDashboard.putBoolean("swerve motors connected", Swerve.getInstance().areMotorControllersConnected());
+    SmartDashboard.putBoolean("led", RobotOperatorController.getInstance().getLed());
     // update the robot position of dashboard
     m_field.setRobotPose(SwerveLocalizer.getInstance().getCurrentPoint().getX(),
                          SwerveLocalizer.getInstance().getCurrentPoint().getY(),

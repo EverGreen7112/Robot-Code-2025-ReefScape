@@ -5,6 +5,7 @@ package frc.robot.Utils.EverKit.Implementations.MotorControllers;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.REVLibError;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -128,5 +129,10 @@ public class EverSparkMax extends EverMotorController{
     
     private void applyConfig(){
         m_controller.configure(m_config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    }
+
+    @Override
+    public boolean isConnected() {
+        return m_controller.getFirmwareVersion() != 0;
     }
 }
