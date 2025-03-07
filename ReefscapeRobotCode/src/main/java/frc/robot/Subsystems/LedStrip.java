@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Commands.Swerve.AutoDrive.DriveToSelectedPoseCommand;
 import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Subsystems.Dispenser.Dispenser;
+import frc.robot.Subsystems.Elevator.Elevator;
 import frc.robot.Subsystems.Swerve.Swerve;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
 import frc.robot.Subsystems.Swerve.SwerveLocalizer;
@@ -53,19 +54,30 @@ public class LedStrip extends SubsystemBase implements Periodic {
         ),
         ROBOT_ALIGNING(
             LEDPattern.solid(Color.kGreen).blink(Seconds.of(0.2), Seconds.of(0.1))
-
         ),
         CAGE_LOCKED(
             LEDPattern.rainbow(255,255).scrollAtAbsoluteSpeed(MetersPerSecond.of(3),LED_SPACING)
         ),
-        ERROR_MOTOR(
-            LEDPattern.solid(Color.kRed).blink(Seconds.of(1), Seconds.of(1))
+        ERROR_SWERVE(
+            LEDPattern.solid(Color.kRed)
         ),
-        ERROR_CAMS(
-            LEDPattern.solid(Color.kBlue).blink(Seconds.of(5), Seconds.of(1))
+        ERROR_ELEVATOR(
+            LEDPattern.solid(Color.kCrimson)
         ),
         ERROR_DISPENSER(
-            LEDPattern.solid(null)
+            LEDPattern.solid(Color.kDeepPink)
+        ),
+        ERROR_CLIMBER(
+            LEDPattern.solid(Color.kChocolate)
+        ),
+        ERROR_CAMS(
+            LEDPattern.solid(Color.kBlue)
+        ),
+        ERROR_GYRO(
+            LEDPattern.solid(Color.kPurple)
+        ),
+        ERROR_SWERVE_CANCODERS(
+            LEDPattern.solid(Color.kYellow)
         );
         
         public final LEDPattern pattern;
@@ -93,16 +105,28 @@ public class LedStrip extends SubsystemBase implements Periodic {
 
     @Override
     public void periodic() {
-            
+        //error leds    
         if(!DriverStation.isEnabled()){
-            if(!Swerve.getInstance().areMotorControllersConnected() ){
-                setLedPattern(LedPattern.ERROR_MOTOR);
-            }
-            else if(!SwerveLocalizer.getInstance().areCamsConnected() ){
+            // if(!Swerve.getInstance().areMotorControllersConnected() ){
+            //     setLedPattern(LedPattern.ERROR_SWERVE);
+            // }
+            // else if(!Swerve.getInstance().areAbsEncodersConnected() ){
+            //     setLedPattern(LedPattern.ERROR_SWERVE_CANCODERS);
+            // }
+            // else if(!Swerve.getInstance().isGyroConnected() ){
+            //     setLedPattern(LedPattern.ERROR_GYRO);
+            // }
+            // else if(!Elevator.getInstance().areMotorControllersConnected() ){
+            //     setLedPattern(LedPattern.ERROR_ELEVATOR);
+            // }
+            // else if(!Dispenser.getInstance().areMotorControllersConnected()){
+            //     setLedPattern(LedPattern.ERROR_DISPENSER);
+            // }
+            // else if(!Climber.getInstance().areMotorControllersConnected()){
+            //     setLedPattern(LedPattern.ERROR_CLIMBER);
+            // }
+             if(!SwerveLocalizer.getInstance().areCamsConnected() ){
                 setLedPattern(LedPattern.ERROR_CAMS);
-            }
-            else if(!Dispenser.getInstance().areMotorControllersConnected()){
-                setLedPattern(m_ledState);
             }
             else{
                 setLedPattern(LedPattern.DEFAULT_COLOR);
@@ -117,9 +141,7 @@ public class LedStrip extends SubsystemBase implements Periodic {
         }
         else if(RobotOperatorController.getInstance().getLed()){
             setLedPattern(LedPattern.READY_FOR_CORAL);
-
         }
-       
         else if(Dispenser.getInstance().isAtEntry() || Dispenser.getInstance().isAtExit()){
             setLedPattern(LedPattern.CORAL_IN_ROBOT);
         }

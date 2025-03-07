@@ -174,6 +174,10 @@ public class SwerveModule extends SubsystemBase {
     public boolean areMotorControllersConnected(){
         return m_driveMotor.isConnected() && m_steerMotor.isConnected(); 
     }
+
+    public boolean isAbsEncoderConnected(){
+        return m_absSteerEncoder.isConnected();
+    }
     
 
 }

@@ -74,7 +74,9 @@ public class Climber extends SubsystemBase{
         SmartDashboard.putBoolean("is cage locked", isCageLocked());
     }
 
-    
+    public boolean areMotorControllersConnected(){
+        return m_climbMotor.isConnected();
+    }
 
     
     

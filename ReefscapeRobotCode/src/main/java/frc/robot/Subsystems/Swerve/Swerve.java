@@ -223,4 +223,11 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
         return m_gyro.isConnected();
     }
 
+    public boolean areAbsEncodersConnected(){
+        for (SwerveModule module : m_modules) {
+            if(!module.areMotorControllersConnected())
+                return false;
+        }
+        return true;
+    }
 }
