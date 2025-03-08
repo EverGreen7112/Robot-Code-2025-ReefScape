@@ -10,7 +10,7 @@ import frc.robot.Utils.EverKit.Implementations.Encoders.EverTalonFXInternalEncod
 import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverTalonFX;
 
 public class Climber extends SubsystemBase{
-    private final double CLIMB_SPEED = 0.3;
+    private final double CLIMB_SPEED = 0.4;
     private final boolean DEBUG_MODE = true;
 
     private static Climber m_instance = new Climber();
@@ -61,7 +61,7 @@ public class Climber extends SubsystemBase{
     }
 
     public boolean cantOpen(){
-        return m_encoder.getPos() >= 300;//185;
+        return m_encoder.getPos() >= 185;//185;
         
     }
 

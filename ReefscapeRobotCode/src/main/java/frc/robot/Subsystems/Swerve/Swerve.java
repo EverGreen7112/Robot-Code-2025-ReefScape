@@ -225,7 +225,7 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
 
     public boolean areAbsEncodersConnected(){
         for (SwerveModule module : m_modules) {
-            if(!module.areMotorControllersConnected())
+            if(!module.isAbsEncoderConnected())
                 return false;
         }
         return true;

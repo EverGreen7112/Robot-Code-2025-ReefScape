@@ -107,25 +107,26 @@ public class LedStrip extends SubsystemBase implements Periodic {
     public void periodic() {
         //error leds    
         if(!DriverStation.isEnabled()){
-            // if(!Swerve.getInstance().areMotorControllersConnected() ){
-            //     setLedPattern(LedPattern.ERROR_SWERVE);
-            // }
-            // else if(!Swerve.getInstance().areAbsEncodersConnected() ){
-            //     setLedPattern(LedPattern.ERROR_SWERVE_CANCODERS);
-            // }
-            // else if(!Swerve.getInstance().isGyroConnected() ){
-            //     setLedPattern(LedPattern.ERROR_GYRO);
-            // }
-            // else if(!Elevator.getInstance().areMotorControllersConnected() ){
-            //     setLedPattern(LedPattern.ERROR_ELEVATOR);
-            // }
-            // else if(!Dispenser.getInstance().areMotorControllersConnected()){
-            //     setLedPattern(LedPattern.ERROR_DISPENSER);
-            // }
-            // else if(!Climber.getInstance().areMotorControllersConnected()){
-            //     setLedPattern(LedPattern.ERROR_CLIMBER);
-            // }
-             if(!SwerveLocalizer.getInstance().areCamsConnected() ){
+            if(!Swerve.getInstance().areMotorControllersConnected() ){
+                setLedPattern(LedPattern.ERROR_SWERVE);
+            }
+            else if(!Swerve.getInstance().areAbsEncodersConnected() ){
+                setLedPattern(LedPattern.ERROR_SWERVE_CANCODERS);
+            }
+            else if(!Swerve.getInstance().isGyroConnected() ){
+                setLedPattern(LedPattern.ERROR_GYRO);
+            }
+            else if(!Elevator.getInstance().areMotorControllersConnected() ){
+                setLedPattern(LedPattern.ERROR_ELEVATOR);
+            }
+            else if(!Dispenser.getInstance().areMotorControllersConnected()){
+
+                setLedPattern(LedPattern.ERROR_DISPENSER);
+            }
+            else if(!Climber.getInstance().areMotorControllersConnected()){
+                setLedPattern(LedPattern.ERROR_CLIMBER);
+            }
+            else if(!SwerveLocalizer.getInstance().areCamsConnected() ){
                 setLedPattern(LedPattern.ERROR_CAMS);
             }
             else{
