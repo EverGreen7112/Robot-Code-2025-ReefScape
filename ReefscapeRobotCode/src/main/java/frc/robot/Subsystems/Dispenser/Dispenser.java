@@ -54,6 +54,10 @@ public class Dispenser extends SubsystemBase {
     m_dispenserMotor.set(CORAL_DISPENSING_SPEED);
   }
 
+  public void slowDispense(){
+    m_dispenserMotor.set(0.12);
+  }
+
   public void pullCoral(){
     m_dispenserMotor.set(CORAL_PULL_BACK_SPEED);
   }

@@ -156,10 +156,10 @@ public interface SwerveConsts{
                absEncoder.setPosConversionFactor(360.0);
            }
    
-           ABS_ENCODERS[0].setOffset(84.55078887939453);
-           ABS_ENCODERS[1].setOffset(136.75782775878906);
-           ABS_ENCODERS[2].setOffset(-149.23828125);
-           ABS_ENCODERS[3].setOffset(-31.992191314697266);
+           ABS_ENCODERS[0].setOffset(82.001953125);//84.55078887939453);
+           ABS_ENCODERS[1].setOffset(137.63673400878906);//136.75782775878906);
+           ABS_ENCODERS[2].setOffset(-148.62306213378906);//-149.23828125);
+           ABS_ENCODERS[3].setOffset(-31.289060592651367);//-31.992191314697266);
    
            for (EverTalonFXPIDController velocityController : WHEEL_VELOCITY_CONTROLLERS) {
                Slot0Configs configs = new Slot0Configs();

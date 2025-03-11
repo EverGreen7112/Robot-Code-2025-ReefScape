@@ -101,7 +101,7 @@ public class RobotContainer {
     chassisX.whileTrue(new DispenseCoralCommand());
 
     chassisBack.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
-    chassisPovRight.onTrue(new InstantCommand(() -> {Elevator.getInstance().resetPose();}));
+    chassisPovRight.whileTrue(new InstantCommand(() -> {Dispenser.getInstance().slowDispense();}));
     chassisPovLeft.whileTrue(new DriveToSelectedPoseCommand());
 
     // chassis.rightStick().onTrue(new RotateToIntake(true));

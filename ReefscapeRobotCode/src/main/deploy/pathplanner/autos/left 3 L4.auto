@@ -94,6 +94,12 @@
                 "data": {
                   "pathName": "CTb11"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL3"
+                }
               }
             ]
           }

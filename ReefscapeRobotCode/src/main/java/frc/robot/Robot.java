@@ -53,6 +53,8 @@ import frc.robot.Utils.EverKit.EverPIDController.ControlType;
 import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverTalonFX;
 import frc.robot.Utils.EverKit.Implementations.PIDControllers.EverMotionMagicPIDController;
 import frc.robot.Utils.Math.Vector2d;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 
 public class Robot extends TimedRobot {
 
@@ -64,12 +66,16 @@ public class Robot extends TimedRobot {
 
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
+  private UsbCamera cam;
 
   private static Field2d m_field; 
 
   @Override
   public void robotInit() {
     
+    cam = CameraServer.startAutomaticCapture(0);
+    cam.setResolution(320, 240);
+    cam.setFPS(30);
     m_robotContainer = new RobotContainer();
 
     //create and add robot field data to dashboard
@@ -99,7 +105,7 @@ public class Robot extends TimedRobot {
     
     }
     LedStrip.getInstance().periodic();
-
+    //SmartDashboard.putData();
     SmartDashboard.putBoolean("cams connected",SwerveLocalizer.getInstance().areCamsConnected());
     SmartDashboard.putBoolean("swerve motors connected", Swerve.getInstance().areMotorControllersConnected());
     SmartDashboard.putBoolean("led", RobotOperatorController.getInstance().getLed());

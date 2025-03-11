@@ -24,10 +24,10 @@ public class Elevator extends SubsystemBase {
 
     public enum ElevatorLevel{
         CLOSED(0, 0.3),
-        L1(8, 0.1),
+        L1(17, 0.15),
         L2(29, 0.3),//26.5 + 0.9
         L3(53, 0.3),//55.5 = 0.9
-        L4(101.5, 0.3); 
+        L4(101, 0.3); 
 
         public final double height;
         public final double dispenseSpeed;
@@ -124,10 +124,12 @@ public class Elevator extends SubsystemBase {
         // if(cantGoUp() && m_motor.get() > 0)
         //     m_motor.stop();
 
-        if(cantGoDown() && m_motor.get() < 0){
+        if(cantGoDown() && m_motor.get() <= 0){
             m_motor.stop();
-            m_encoder.setPos(0);
+            resetPose();
         }
+
+        //SmartDashboard.putBoolean("elivator ls", m_bottomLS.get());
     }
 
 
