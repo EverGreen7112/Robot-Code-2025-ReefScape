@@ -23,7 +23,7 @@ public class Climber extends SubsystemBase{
     private Climber(){
         EverTalonFX climbMotor = new EverTalonFX(12);
         m_climbMotor = climbMotor;
-        m_leftLS = new DigitalInput(8);
+        m_leftLS = new DigitalInput(7);
         m_rightLS = new DigitalInput(9);
         EverTalonFXInternalEncoder encoder = new EverTalonFXInternalEncoder(climbMotor);
         encoder.setPosConversionFactor(1);
@@ -63,6 +63,11 @@ public class Climber extends SubsystemBase{
     public boolean cantOpen(){
         return m_encoder.getPos() >= 185;//185;
         
+    }
+
+    public boolean cantClose(){
+        return  m_encoder.getPos() <= 0;//185;
+
     }
 
     

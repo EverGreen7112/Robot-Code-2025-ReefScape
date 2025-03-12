@@ -18,6 +18,7 @@ import frc.robot.Commands.Dispenser.WaitUntilCoralIsInCommand;
 import frc.robot.Commands.Dispenser.WaitUntilCoralIsOutCommand;
 import frc.robot.Commands.Elevator.MoveElevatorTo;
 import frc.robot.Commands.Elevator.WaitUntilElevatorAt;
+import frc.robot.Commands.Swerve.BadAuto;
 import frc.robot.Subsystems.Dispenser.Dispenser;
 import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
 
@@ -69,6 +70,7 @@ public class SwerveAutoController {
         m_autoChooser.addOption("right", new PathPlannerAuto("right 3 L4"));
         m_autoChooser.addOption("left", new PathPlannerAuto("left 3 L4"));
         m_autoChooser.addOption("test", new PathPlannerAuto("test"));
+        m_autoChooser.addOption("bad auto", new BadAuto());
         
         m_allianceChooser = new SendableChooser<Alliance>();
         m_allianceChooser.addOption("blue", Alliance.Blue);

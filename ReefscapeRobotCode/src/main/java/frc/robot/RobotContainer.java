@@ -15,6 +15,7 @@ import frc.robot.Commands.Climber.CloseClimberCommand;
 import frc.robot.Commands.Climber.OpenClimberCommand;
 import frc.robot.Commands.Dispenser.DispenseCoralCommand;
 import frc.robot.Commands.Dispenser.PullBackCoralCommand;
+import frc.robot.Commands.Dispenser.SlowDispenseCommand;
 import frc.robot.Commands.Elevator.MoveElevatorTo;
 import frc.robot.Commands.Elevator.MoveElevatorToSelectedLevel;
 import frc.robot.Commands.Swerve.AutoDrive.DriveToClosestBranchCommand;
@@ -101,7 +102,7 @@ public class RobotContainer {
     chassisX.whileTrue(new DispenseCoralCommand());
 
     chassisBack.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
-    chassisPovRight.whileTrue(new InstantCommand(() -> {Dispenser.getInstance().slowDispense();}));
+    chassisPovRight.whileTrue(new SlowDispenseCommand());
     chassisPovLeft.whileTrue(new DriveToSelectedPoseCommand());
 
     // chassis.rightStick().onTrue(new RotateToIntake(true));

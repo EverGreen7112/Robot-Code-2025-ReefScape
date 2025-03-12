@@ -123,6 +123,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("DL", Swerve.getInstance().m_modules[2].getAngle());
     SmartDashboard.putNumber("DR", Swerve.getInstance().m_modules[3].getAngle());
 
+    SmartDashboard.putBoolean("right climb",Climber.getInstance().m_rightLS.get());
+    SmartDashboard.putBoolean("left climb",Climber.getInstance().m_leftLS.get());
+
   }
 
   @Override

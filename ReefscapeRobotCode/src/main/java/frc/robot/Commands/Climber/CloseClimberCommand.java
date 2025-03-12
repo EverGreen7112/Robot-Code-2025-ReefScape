@@ -12,7 +12,7 @@ public class CloseClimberCommand extends Command{
 
     @Override
     public boolean isFinished() {
-        return false;
+        return Climber.getInstance().cantClose();
     }
 
     @Override
