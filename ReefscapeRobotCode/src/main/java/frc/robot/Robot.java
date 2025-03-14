@@ -174,7 +174,7 @@ public class Robot extends TimedRobot {
     // Elevator.getInstance().m_pidController.activate(1,EverPIDController.ControlType.kPos);
     // Elevator.getInstance().moveToDesiredLevel(ElevatorLevel.CLOSED);
 
-
+    //Elevator.getInstance().moveManually(-0.2);
   }
 
   @Override
