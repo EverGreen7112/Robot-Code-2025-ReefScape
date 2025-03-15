@@ -66,16 +66,12 @@ public class Robot extends TimedRobot {
 
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
-  private UsbCamera cam;
 
   private static Field2d m_field; 
 
   @Override
   public void robotInit() {
     
-    cam = CameraServer.startAutomaticCapture(0);
-    cam.setResolution(320, 240);
-    cam.setFPS(30);
     m_robotContainer = new RobotContainer();
 
     //create and add robot field data to dashboard
@@ -104,19 +100,17 @@ public class Robot extends TimedRobot {
     
     
     }
-    LedStrip.getInstance().periodic();
-    //SmartDashboard.putData();
     SmartDashboard.putBoolean("cams connected",SwerveLocalizer.getInstance().areCamsConnected());
     SmartDashboard.putBoolean("swerve motors connected", Swerve.getInstance().areMotorControllersConnected());
     SmartDashboard.putBoolean("led", RobotOperatorController.getInstance().getLed());
+
     // update the robot position of dashboard
     m_field.setRobotPose(SwerveLocalizer.getInstance().getCurrentPoint().getX(),
                          SwerveLocalizer.getInstance().getCurrentPoint().getY(),
                         new Rotation2d(Math.toRadians(SwerveLocalizer.getInstance().getFieldOrientedAngle())));
-    SmartDashboard.putNumber("branch", RobotOperatorController.getInstance().getBranch());
-    SmartDashboard.putNumber("elevator", RobotOperatorController.getInstance().getElevatorLevel());
-
-    // SmartDashboard.putString("pos", cam.getLatestResult().getBestTarget().toString());
+    
+    SmartDashboard.putNumber("selected branch", RobotOperatorController.getInstance().getBranch());
+    SmartDashboard.putNumber("selected elevator", RobotOperatorController.getInstance().getElevatorLevel());
 
     SmartDashboard.putNumber("TL", Swerve.getInstance().m_modules[0].getAngle());
     SmartDashboard.putNumber("TR", Swerve.getInstance().m_modules[1].getAngle());
@@ -125,8 +119,8 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putBoolean("right climb",Climber.getInstance().m_rightLS.get());
     SmartDashboard.putBoolean("left climb",Climber.getInstance().m_leftLS.get());
-
-  }
+    LedStrip.getInstance().periodic();
+  } 
 
   @Override
   public void disabledInit() {
@@ -171,10 +165,6 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    // Elevator.getInstance().m_pidController.activate(1,EverPIDController.ControlType.kPos);
-    // Elevator.getInstance().moveToDesiredLevel(ElevatorLevel.CLOSED);
-
-    //Elevator.getInstance().moveManually(-0.2);
   }
 
   @Override

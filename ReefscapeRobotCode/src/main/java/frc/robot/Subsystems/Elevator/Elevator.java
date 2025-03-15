@@ -24,7 +24,7 @@ public class Elevator extends SubsystemBase {
 
     public enum ElevatorLevel{
         CLOSED(0, 0.3),
-        L1(17, 0.15),
+        L1(17, 0.3),
         L2(29, 0.3),//26.5 + 0.9
         L3(53, 0.3),//55.5 = 0.9
         L4(101, 0.3); 
@@ -121,15 +121,10 @@ public class Elevator extends SubsystemBase {
         if(DEBUG_MODE)
             log();
 
-        // if(cantGoUp() && m_motor.get() > 0)
-        //     m_motor.stop();
-
         if(cantGoDown() && m_motor.get() <= 0){
             m_motor.stop();
             resetPose();
         }
-
-        //SmartDashboard.putBoolean("elivator ls", m_bottomLS.get());
     }
 
 

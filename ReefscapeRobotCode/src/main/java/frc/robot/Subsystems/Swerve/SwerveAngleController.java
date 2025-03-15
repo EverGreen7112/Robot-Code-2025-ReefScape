@@ -43,26 +43,8 @@ public class SwerveAngleController implements Periodic{
 
     @Override
     public void periodic() {
-        double angularVelocity;
-        // if(m_isFieldOriented){
-        //     double currentAngle = SwerveLocalizer.getInstance().getFieldOrientedAngle() - Swerve.getInstance().getGyroOrientedAngle();
-        //     currentAngle += Swerve.getInstance().getGyroOrientedAngle();
-            
-        //     angularVelocity = m_angleController.calculate(currentAngle, currentAngle + Funcs.getShortestAnglePath(currentAngle, m_targetAngle));
-        // }
-        // else{
-        //     double currentAngle = Swerve.getInstance().getGyroOrientedAngle();
-        //     angularVelocity = m_angleController.calculate(currentAngle, currentAngle + Funcs.getShortestAnglePath(currentAngle, m_targetAngle));
-
-        // }
         double currentAngle = (m_isFieldOriented ) ? SwerveLocalizer.getInstance().getFieldOrientedAngle() : Swerve.getInstance().getGyroOrientedAngle();
-        angularVelocity = m_angleController.calculate(currentAngle, m_targetAngle);
-
-        Swerve.getInstance().driveByAngularVelocity(angularVelocity);   
-
-       
-        
-
+        Swerve.getInstance().driveByAngularVelocity( m_angleController.calculate(currentAngle, m_targetAngle));    
     }
 
     public void stop(){

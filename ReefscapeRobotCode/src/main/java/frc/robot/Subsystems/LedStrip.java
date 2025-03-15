@@ -2,44 +2,36 @@ package frc.robot.Subsystems;
 
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
-import static edu.wpi.first.units.Units.Second;
 import static edu.wpi.first.units.Units.Seconds;
-
-import java.util.Map;
-import java.util.regex.Pattern;
 
 import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.AddressableLEDBufferView;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.LEDPattern;
-import edu.wpi.first.wpilibj.LEDPattern.GradientType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Commands.Swerve.AutoDrive.DriveToSelectedPoseCommand;
 import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Subsystems.Dispenser.Dispenser;
 import frc.robot.Subsystems.Elevator.Elevator;
 import frc.robot.Subsystems.Swerve.Swerve;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
 import frc.robot.Subsystems.Swerve.SwerveLocalizer;
-import frc.robot.Utils.LocalizationCamera;
 import frc.robot.Utils.RobotOperatorController;
 import frc.robot.Utils.EverKit.Periodic;
 
-public class LedStrip extends SubsystemBase implements Periodic {
+public class LedStrip implements Periodic {
 
-    public static final Distance LED_SPACING = Meters.of(1.0 / 120.0);
+    private static final Distance LED_SPACING = Meters.of(1.0 / 120.0);
 
     private static LedStrip m_instance = new LedStrip();
 
     private AddressableLED m_led;
     private AddressableLEDBuffer m_ledBuffer;
     private LEDPattern m_ledPattern;
-
     private LedPattern m_ledState;
+
+    private boolean m_turnClimberLedsOn;
 
     public enum LedPattern{
         
@@ -95,8 +87,8 @@ public class LedStrip extends SubsystemBase implements Periodic {
         
         m_ledPattern = LedPattern.DEFAULT_COLOR.pattern;
 
-        start(PeriodicTime.kRobotPeriodic);
         m_led.start();
+        start(PeriodicTime.kRobotPeriodic);
     }
 
     public static LedStrip getInstance(){
@@ -132,10 +124,11 @@ public class LedStrip extends SubsystemBase implements Periodic {
             else{
                 setLedPattern(LedPattern.DEFAULT_COLOR);
             }
+            m_turnClimberLedsOn = false;
         }
        
         else if(Climber.getInstance().isCageLocked()){
-            setLedPattern(LedPattern.CAGE_LOCKED);
+            m_turnClimberLedsOn = true;
         }
         else if(SwerveAutoController.isRobotAligning){
             setLedPattern(LedPattern.ROBOT_ALIGNING);
@@ -147,12 +140,15 @@ public class LedStrip extends SubsystemBase implements Periodic {
             setLedPattern(LedPattern.CORAL_IN_ROBOT);
         }
         else {
-            setLedPattern(LedPattern.DEFAULT_COLOR);
+            if(m_turnClimberLedsOn){
+                setLedPattern(LedPattern.CAGE_LOCKED);
+            }
+            else {
+                setLedPattern(LedPattern.DEFAULT_COLOR);
+            }
         }
 
         
-        SmartDashboard.putBoolean("sa", false);
-
 
     }
 

@@ -105,8 +105,7 @@ public class RobotContainer {
     chassisPovRight.whileTrue(new SlowDispenseCommand());
     chassisPovLeft.whileTrue(new DriveToSelectedPoseCommand());
 
-    // chassis.rightStick().onTrue(new RotateToIntake(true));
-    // chassis.leftStick().onTrue(new RotateToIntake(false));
+    
     
   }
 

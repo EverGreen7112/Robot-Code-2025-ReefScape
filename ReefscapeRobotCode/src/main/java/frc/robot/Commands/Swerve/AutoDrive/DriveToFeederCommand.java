@@ -32,15 +32,12 @@ public class DriveToFeederCommand extends Command {
 
     @Override
     public void initialize() {
-        Pose2d currentPose = SwerveLocalizer.getInstance().getCurrentPoint();
         
-        //use pathplanner only for long distances
         int row = (m_isInner) ? (0) : (1);
         int colomm = (m_isRight) ? (0) : (1);
         
         Pose2d coralStation = (SwerveAutoController.getInstance().getAlliance() == Alliance.Blue ? m_coralStationsBlue[row][colomm] : m_coralStationsRed[row][colomm]);
 
-        Command d =  SwerveAutoController.getInstance().generateDriveToCommand(coralStation);
         m_driveCommand = SwerveAutoController.getInstance().generateDriveToCommand(coralStation);
 
         m_driveCommand.schedule();
@@ -49,7 +46,6 @@ public class DriveToFeederCommand extends Command {
     @Override
     public void execute() {
         SwerveAutoController.isRobotAligning = true;
-
     }
 
     @Override

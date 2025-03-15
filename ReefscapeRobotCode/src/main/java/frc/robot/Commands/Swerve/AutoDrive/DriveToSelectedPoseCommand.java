@@ -16,10 +16,10 @@ public class DriveToSelectedPoseCommand extends Command {
         m_branchNum = (int)RobotOperatorController.getInstance().getBranch();
         if(m_branchNum > 12){
            boolean m_isRight = m_branchNum % 2 == 0;
-            m_command = new DriveToFeederCommand(m_isRight,isRightBranch());
+            m_command = new DriveToFeederCommand(m_isRight, isRightBranch());
         }
 
-        m_command = new DriveToBranchCommand(getReefFace(),isRightBranch());
+        m_command = new DriveToBranchCommand(getReefFace(), isRightBranch());
         m_command.schedule();
     }
 
