@@ -7,10 +7,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Subsystems.Elevator.Elevator;
-import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
 import frc.robot.Utils.EverKit.EverMotorController;
-import frc.robot.Utils.EverKit.EverMotorController.IdleMode;
 import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverSparkMax;
 
 public class Dispenser extends SubsystemBase {
@@ -19,6 +16,7 @@ public class Dispenser extends SubsystemBase {
   private final double CORAL_PULL_BACK_SPEED = -0.2;
 
   private final boolean DEBUG_MODE = true;
+  private final boolean IS_INVERTED = true;
 
   private static Dispenser m_instance = new Dispenser();
 
@@ -28,6 +26,7 @@ public class Dispenser extends SubsystemBase {
 
   private Dispenser() {
     EverSparkMax motor = new EverSparkMax(14);
+    motor.setInverted(IS_INVERTED);
     
     SparkMaxConfig config = new SparkMaxConfig();
     LimitSwitchConfig limitSwitchConfig = new LimitSwitchConfig();
@@ -100,7 +99,6 @@ public class Dispenser extends SubsystemBase {
   public boolean isAtExit(){
     return m_isAtExit.get();
   }
-
 
   public boolean areMotorControllersConnected(){
     return m_dispenserMotor.isConnected();

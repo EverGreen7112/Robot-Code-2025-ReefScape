@@ -15,7 +15,6 @@ public class OpenClimberCommand extends Command{
         return Climber.getInstance().cantOpen();
     }
 
-
     @Override
     public void end(boolean interrupted) {
         Climber.getInstance().stop();

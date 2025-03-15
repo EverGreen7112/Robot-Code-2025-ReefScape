@@ -1,11 +1,8 @@
 package frc.robot.Subsystems.Swerve;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Utils.EverKit.Periodic;
-import frc.robot.Utils.Math.Funcs;
 
 public class SwerveAngleController implements Periodic{
 
