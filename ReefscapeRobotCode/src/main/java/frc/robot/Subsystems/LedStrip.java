@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.LEDPattern;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Subsystems.Dispenser.Dispenser;
@@ -29,8 +28,6 @@ public class LedStrip implements Periodic {
     private AddressableLED m_led;
     private AddressableLEDBuffer m_ledBuffer;
     private LEDPattern m_ledPattern;
-    private LedPattern m_ledState;
-
     private boolean m_turnClimberLedsOn;
 
     public enum LedPattern{

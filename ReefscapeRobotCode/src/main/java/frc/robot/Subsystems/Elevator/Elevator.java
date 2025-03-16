@@ -21,6 +21,7 @@ public class Elevator extends SubsystemBase {
 
     private static final boolean DEBUG_MODE = true;
     private final double ELEVATOR_TOLERANCE = 1;
+    public final static double MANUAL_ELEVATOR_SPEED = 0.2;
 
     public enum ElevatorLevel{
         CLOSED(0, 0.3),
@@ -46,7 +47,6 @@ public class Elevator extends SubsystemBase {
     public EverPIDController m_pidController;
     public EverEncoder m_encoder;
 
-    private DigitalInput m_topLS;
     private DigitalInput m_bottomLS;
 
     private Elevator(){
@@ -70,7 +70,6 @@ public class Elevator extends SubsystemBase {
         EverTalonFXInternalEncoder encoder = new EverTalonFXInternalEncoder(talon);
         encoder.setPosConversionFactor(1);
         
-        m_topLS = new DigitalInput(1);
         m_bottomLS = new DigitalInput(0);
 
         m_motor = talon;
@@ -99,11 +98,6 @@ public class Elevator extends SubsystemBase {
     public ElevatorLevel getTargetLevel(){
         return m_targetLevel;
     }
-
-    public boolean cantGoUp(){
-        return m_topLS.get();
-    }
-
     public boolean cantGoDown(){
         return m_bottomLS.get();
     }
@@ -129,7 +123,6 @@ public class Elevator extends SubsystemBase {
 
 
     private void log(){
-        SmartDashboard.putBoolean("topLs", m_topLS.get());
         SmartDashboard.putBoolean("bottomLs", m_bottomLS.get());
         SmartDashboard.putNumber("motor output", m_motor.get());
         SmartDashboard.putNumber("height",m_encoder.getPos());

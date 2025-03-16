@@ -6,28 +6,8 @@
 package frc.robot;
 
 import java.util.ArrayList;
-import java.util.Optional;
-
-import org.photonvision.PhotonCamera;
-
-import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.controls.VoltageOut;
-import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.GravityTypeValue;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.pathplanner.lib.pathfinding.LocalADStar;
-import com.pathplanner.lib.pathfinding.Pathfinding;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.LEDPattern;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -35,26 +15,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Subsystems.Swerve.SwerveLocalizer;
 import frc.robot.Subsystems.LedStrip;
 import frc.robot.Subsystems.Climber.Climber;
-import frc.robot.Subsystems.Dispenser.Dispenser;
-import frc.robot.Subsystems.Elevator.Elevator;
-import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
-import frc.robot.Subsystems.LedStrip.LedPattern;
 import frc.robot.Subsystems.Swerve.Swerve;
-import frc.robot.Subsystems.Swerve.SwerveAngleController;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
-import frc.robot.Utils.Elastic;
-import frc.robot.Utils.LocalizationCamera;
 import frc.robot.Utils.ReefFace;
 import frc.robot.Utils.RobotOperatorController;
-import frc.robot.Utils.TalonFxCalib;
 import frc.robot.Utils.EverKit.Periodic;
-import frc.robot.Utils.EverKit.EverPIDController;
-import frc.robot.Utils.EverKit.EverPIDController.ControlType;
-import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverTalonFX;
-import frc.robot.Utils.EverKit.Implementations.PIDControllers.EverMotionMagicPIDController;
-import frc.robot.Utils.Math.Vector2d;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
 
 public class Robot extends TimedRobot {
 
