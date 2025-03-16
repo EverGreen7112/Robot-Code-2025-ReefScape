@@ -136,13 +136,11 @@ public class LedStrip implements Periodic {
         else if(Dispenser.getInstance().isAtEntry() || Dispenser.getInstance().isAtExit()){
             setLedPattern(LedPattern.CORAL_IN_ROBOT);
         }
+        if(m_turnClimberLedsOn){
+            setLedPattern(LedPattern.CAGE_LOCKED);
+        }
         else {
-            if(m_turnClimberLedsOn){
-                setLedPattern(LedPattern.CAGE_LOCKED);
-            }
-            else {
-                setLedPattern(LedPattern.DEFAULT_COLOR);
-            }
+            setLedPattern(LedPattern.DEFAULT_COLOR);
         }
 
         
