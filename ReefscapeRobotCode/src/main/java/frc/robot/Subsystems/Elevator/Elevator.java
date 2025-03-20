@@ -52,17 +52,17 @@ public class Elevator extends SubsystemBase {
     private Elevator(){
         m_targetLevel = ElevatorLevel.CLOSED;
 
-        EverTalonFX talon = new EverTalonFX(13);
+        EverTalonFX talon = new EverTalonFX(14);
         talon.setIdleMode(IdleMode.kCoast);
         talon.getControllerInstance().setNeutralMode(NeutralModeValue.Brake);
 
-        EverMotionMagicPIDController talonPidController = new EverMotionMagicPIDController(talon, 300, 120);
+        EverMotionMagicPIDController talonPidController = new EverMotionMagicPIDController(talon, 550, 260);
         Slot0Configs a = new Slot0Configs();
-        a.kD = 0;
+        a.kD = 0.2;
         a.kG = 0.4;
         a.kI = 0;
-        a.kP = 3.2;
-        a.kV = 1/2.6;
+        a.kP = 3.5;
+        a.kV = 1/2.4; //2.6
         a.kS = 0.2;
         a.GravityType = GravityTypeValue.Elevator_Static;
         talonPidController.setPID(a);

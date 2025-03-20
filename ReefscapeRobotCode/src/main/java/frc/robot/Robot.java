@@ -20,6 +20,7 @@ import frc.robot.Subsystems.Swerve.SwerveAutoController;
 import frc.robot.Utils.ReefFace;
 import frc.robot.Utils.RobotOperatorController;
 import frc.robot.Utils.EverKit.Periodic;
+import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverTalonFX;
 
 public class Robot extends TimedRobot {
 
@@ -32,7 +33,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
 
-  private static Field2d m_field; 
+  private static Field2d m_field;
 
   @Override
   public void robotInit() {
@@ -134,7 +135,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() { 
-
+    
     for (Periodic method : teleopPeriodicFuncs) {
       try {
         method.periodic();
@@ -142,6 +143,8 @@ public class Robot extends TimedRobot {
         e.printStackTrace();
       }
     }   
+    
+    
   }
 
   @Override
