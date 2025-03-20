@@ -6,6 +6,9 @@
 package frc.robot;
 
 import java.util.ArrayList;
+
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -124,18 +127,15 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousExit() {}
 
-
   @Override
   public void teleopInit() {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
   }
 
   @Override
   public void teleopPeriodic() { 
-    
     for (Periodic method : teleopPeriodicFuncs) {
       try {
         method.periodic();

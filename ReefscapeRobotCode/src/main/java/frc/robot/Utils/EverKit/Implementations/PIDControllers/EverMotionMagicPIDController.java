@@ -25,9 +25,15 @@ public class EverMotionMagicPIDController extends EverPIDController implements P
         m_everController = controller;
         m_posControl = new MotionMagicVoltage(0).withSlot(0);
         m_velControl = new MotionMagicVelocityVoltage(0).withSlot(0);
-        m_everController.setMotionMagicConfig((new MotionMagicConfigs()).withMotionMagicCruiseVelocity(cruiseVelocity).withMotionMagicAcceleration(acceleration));
+        m_everController.setMotionMagicConfig((new MotionMagicConfigs()).withMotionMagicCruiseVelocity(cruiseVelocity).withMotionMagicAcceleration(acceleration));        
+    }
 
-        
+    public EverMotionMagicPIDController(EverTalonFX controller, double cruiseVelocity, double acceleration, double jerk){
+        m_controller = controller.getControllerInstance();
+        m_everController = controller;
+        m_posControl = new MotionMagicVoltage(0).withSlot(0);
+        m_velControl = new MotionMagicVelocityVoltage(0).withSlot(0);
+        m_everController.setMotionMagicConfig((new MotionMagicConfigs()).withMotionMagicCruiseVelocity(cruiseVelocity).withMotionMagicAcceleration(acceleration).withMotionMagicJerk(jerk));        
     }
 
     @Override

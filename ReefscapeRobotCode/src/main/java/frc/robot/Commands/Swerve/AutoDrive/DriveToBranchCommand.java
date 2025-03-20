@@ -15,7 +15,7 @@ import frc.robot.Utils.Math.Funcs;
 
 public class DriveToBranchCommand extends Command {
 
-    private final double ALIGNMENT_DIS = 0.3;
+    private final double ALIGNMENT_DIS = 0.2;
 
     private ReefFace m_reefFace;
     private boolean m_isRightBranch;

@@ -35,8 +35,8 @@ public class AlignToBranchCommand extends Command{
 
     public AlignToBranchCommand(ReefFace reefFace, boolean isRightBranch) {
         addRequirements(Swerve.getInstance());
-        m_xController = new ProfiledPIDController(8, 0, 0, new Constraints(2, 2));
-        m_yController = new ProfiledPIDController(8, 0, 0, new Constraints(2, 2));
+        m_xController = new ProfiledPIDController(5, 0, 0, new Constraints(2, 2));
+        m_yController = new ProfiledPIDController(5, 0, 0, new Constraints(2, 2));
     
         m_reefFace = reefFace;
         m_isRightBranch = isRightBranch;
