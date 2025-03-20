@@ -25,7 +25,7 @@ public class Elevator extends SubsystemBase {
     public final static double MANUAL_ELEVATOR_SPEED = 0.2;
 
     public enum ElevatorLevel{
-        CLOSED(0, 0.3),
+        CLOSED(-1.5, 0.3),
         L1((17/15.0) * 9, 0.3),
         L2((29/15.0) * 9, 0.3),//26.5 + 0.9
         L3((53/15.0) * 9, 0.3),//55.5 = 0.9
@@ -58,13 +58,13 @@ public class Elevator extends SubsystemBase {
         talon.setIdleMode(IdleMode.kCoast);
         talon.getControllerInstance().setNeutralMode(NeutralModeValue.Brake);
 
-        EverMotionMagicPIDController talonPidController = new EverMotionMagicPIDController(talon, 3200,500);
+        EverMotionMagicPIDController talonPidController = new EverMotionMagicPIDController(talon, 3000, 300, 1000);
         Slot0Configs a = new Slot0Configs();
         a.kD = 0.2;
         a.kG = 0.4;
         a.kI = 0;
-        a.kP = 4;// 3.5
-        a.kV = 1/4; //2.6
+        a.kP = 3.5;// 3.5
+        a.kV = 1/2.6; //2.6
         a.kS = 0.2;
         a.kA = 0.02;
        

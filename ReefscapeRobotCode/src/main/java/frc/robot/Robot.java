@@ -123,10 +123,8 @@ public class Robot extends TimedRobot {
 
     
   }
-
   @Override
   public void autonomousExit() {}
-
   @Override
   public void teleopInit() {
     if (m_autonomousCommand != null) {
@@ -143,7 +141,6 @@ public class Robot extends TimedRobot {
         e.printStackTrace();
       }
     }   
-    
     
   }
 
