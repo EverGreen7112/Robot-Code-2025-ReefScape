@@ -15,7 +15,7 @@ import frc.robot.Utils.Math.Funcs;
 
 public class DriveToBranchCommand extends Command {
 
-    private final double ALIGNMENT_DIS = 0;
+    private final double ALIGNMENT_DIS = 0.1;
 
     private ReefFace m_reefFace;
     private boolean m_isRightBranch;
@@ -35,7 +35,7 @@ public class DriveToBranchCommand extends Command {
         //use pathplanner only for long distances
         if(Funcs.getDis(currentPose, m_targetBranch) > ALIGNMENT_DIS){
             Pose2d beforeBranch = m_targetBranch.plus(new Transform2d(-ALIGNMENT_DIS, 0, new Rotation2d()));
-            m_driveCommand = SwerveAutoController.getInstance().generateDriveToCommand(beforeBranch)
+            m_driveCommand = SwerveAutoController.getInstance().generateDriveToCommand(beforeBranch, 0.1)
                              .andThen(new AlignToBranchCommand(m_reefFace, m_isRightBranch));
 
         

@@ -13,6 +13,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.Commands.Elevator.MoveElevatorToSelectedLevel;
 import frc.robot.Subsystems.Swerve.Swerve;
 import frc.robot.Subsystems.Swerve.SwerveAngleController;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
@@ -35,8 +36,8 @@ public class AlignToBranchCommand extends Command{
 
     public AlignToBranchCommand(ReefFace reefFace, boolean isRightBranch) {
         addRequirements(Swerve.getInstance());
-        m_xController = new ProfiledPIDController(5, 0, 0, new Constraints(2, 2));
-        m_yController = new ProfiledPIDController(5, 0, 0, new Constraints(2, 2));
+        m_xController = new ProfiledPIDController(3, 0, 0, new Constraints(1, 1));
+        m_yController = new ProfiledPIDController(3, 0, 0, new Constraints(1, 1));
     
         m_reefFace = reefFace;
         m_isRightBranch = isRightBranch;
@@ -50,6 +51,8 @@ public class AlignToBranchCommand extends Command{
         Pose2d pose = SwerveLocalizer.getInstance().getCurrentPoint();
         m_xController.reset(pose.getX());
         m_yController.reset(pose.getY());
+
+        (new MoveElevatorToSelectedLevel()).schedule();;
     }
 
     @Override
@@ -57,6 +60,9 @@ public class AlignToBranchCommand extends Command{
         Pose2d pose = SwerveLocalizer.getInstance().getCurrentPoint();
         double xOutput = m_xController.calculate(pose.getX(), m_target.getX());
         double yOutput = m_yController.calculate(pose.getY(), m_target.getY());
+
+        SmartDashboard.putNumber("x", pose.getX());
+        SmartDashboard.putNumber("y", pose.getY());
 
         if(Math.abs(pose.getX() - m_target.getX()) < POS_ERROR_TOLERANCE)   
            xOutput = 0;
