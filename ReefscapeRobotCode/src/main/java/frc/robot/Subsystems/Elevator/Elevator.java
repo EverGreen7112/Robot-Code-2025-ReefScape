@@ -28,7 +28,7 @@ public class Elevator extends SubsystemBase {
         CLOSED(-1.5, 0.3),
         L1((17/15.0) * 9, 0.3),
         L2((29/15.0) * 9, 0.3),//26.5 + 0.9
-        L3((55/15.0) * 9, 0.3),//55.5 = 0.9
+        L3((56/15.0) * 9, 0.3),//55.5 = 0.9
         L4((103/15.0) * 9, 0.3); 
 
         public final double height;
