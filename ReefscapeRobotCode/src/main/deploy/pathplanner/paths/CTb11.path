@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2227459016393443,
-        "y": 7.027920081967213
+        "x": 1.091,
+        "y": 7.388
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4723459001654875,
-        "y": 7.013783578306502
+        "x": 1.3037429464593886,
+        "y": 7.252391290664141
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 5.31
       },
       "prevControl": {
-        "x": 3.8910951461681416,
-        "y": 5.333374638798093
+        "x": 3.941912849327589,
+        "y": 5.462517148998025
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,10 +45,17 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "MoveElevatorToL4",
+      "waypointRelativePos": 0.835768556399759,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 2.5,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

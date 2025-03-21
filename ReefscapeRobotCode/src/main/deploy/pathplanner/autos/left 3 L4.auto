@@ -9,15 +9,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "Tb10"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "MoveElevatorToL3"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Tb10"
                 }
               }
             ]
@@ -27,12 +27,6 @@
           "type": "sequential",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "MoveElevatorToL4"
-                }
-              },
               {
                 "type": "named",
                 "data": {
@@ -90,15 +84,15 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "CTb11"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "MoveElevatorToL3"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "CTb11"
                 }
               }
             ]
@@ -108,12 +102,6 @@
           "type": "sequential",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "MoveElevatorToL4"
-                }
-              },
               {
                 "type": "named",
                 "data": {
