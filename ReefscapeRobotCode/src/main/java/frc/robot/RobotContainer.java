@@ -11,7 +11,7 @@ import frc.robot.Commands.Climber.CloseClimberCommand;
 import frc.robot.Commands.Climber.OpenClimberCommand;
 import frc.robot.Commands.Dispenser.DispenseCoralCommand;
 import frc.robot.Commands.Dispenser.SlowDispenseCommand;
-import frc.robot.Commands.Elevator.MoveElevatorManually;
+//import frc.robot.Commands.Elevator.MoveElevatorManually;
 import frc.robot.Commands.Elevator.MoveElevatorTo;
 import frc.robot.Commands.Elevator.MoveElevatorToSelectedLevel;
 import frc.robot.Commands.Swerve.AutoDrive.DriveToClosestBranchCommand;
@@ -65,7 +65,7 @@ public class RobotContainer {
     //elevator
     chassisA.whileTrue( new MoveElevatorTo(ElevatorLevel.CLOSED));
     chassisY.onTrue( new MoveElevatorToSelectedLevel());
-    chassisStart.whileTrue( new MoveElevatorManually());
+    //chassisStart.whileTrue( new MoveElevatorManually());
 
     //climber
     chassisPovDown.whileTrue(new OpenClimberCommand());

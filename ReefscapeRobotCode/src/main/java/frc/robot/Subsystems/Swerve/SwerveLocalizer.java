@@ -40,7 +40,7 @@ public class SwerveLocalizer implements Periodic, SwerveConsts {
     private static final double FIELD_WIDTH = 8.05;
     private static final double FIELD_HEIGHT = 17.55;
     private static final double MAX_ESTIMATION_HEIGHT = 0.08;
-    private static final double MAX_DISTANCE_FROM_TAG = 5;
+    private static final double MAX_DISTANCE_FROM_TAG = 3;
 
     private static SwerveLocalizer m_instance = new SwerveLocalizer();
     private ArrayList<LocalizationCamera> m_cams;

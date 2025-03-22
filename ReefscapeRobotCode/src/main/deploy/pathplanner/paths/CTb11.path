@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.091,
-        "y": 7.388
+        "x": 1.16,
+        "y": 7.16
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3037429464593886,
-        "y": 7.252391290664141
+        "x": 1.5630443756232077,
+        "y": 6.778934487746617
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 5.3
       },
       "prevControl": {
-        "x": 3.931912849327589,
-        "y": 5.452517148998025
+        "x": 4.0561874583582105,
+        "y": 5.53885499512545
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,11 +32,11 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.731718898385565,
+      "minWaypointRelativePos": 0.7913500876680281,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 1.5,
-        "maxAcceleration": 1.5,
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -45,17 +45,10 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "MoveElevatorToL4",
-      "waypointRelativePos": 0.835768556399759,
-      "endWaypointRelativePos": null,
-      "command": null
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.5,
-    "maxAcceleration": 5.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

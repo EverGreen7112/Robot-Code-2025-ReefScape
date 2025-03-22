@@ -94,8 +94,10 @@ public class LedStrip implements Periodic {
 
     @Override
     public void periodic() {
+        
+        
         //error leds    
-        if(!DriverStation.isEnabled()){
+         if(!DriverStation.isEnabled()){
             if(!Swerve.getInstance().areMotorControllersConnected() ){
                 setLedPattern(LedPattern.ERROR_SWERVE);
             }
@@ -136,7 +138,7 @@ public class LedStrip implements Periodic {
         else if(Dispenser.getInstance().isAtEntry() || Dispenser.getInstance().isAtExit()){
             setLedPattern(LedPattern.CORAL_IN_ROBOT);
         }
-        if(m_turnClimberLedsOn){
+        else if(m_turnClimberLedsOn){
             setLedPattern(LedPattern.CAGE_LOCKED);
         }
         else {

@@ -6,6 +6,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.path.EventMarker;
 import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -18,8 +19,11 @@ import frc.robot.Commands.Dispenser.WaitUntilCoralIsInCommand;
 import frc.robot.Commands.Dispenser.WaitUntilCoralIsOutCommand;
 import frc.robot.Commands.Elevator.MoveElevatorTo;
 import frc.robot.Commands.Elevator.WaitUntilElevatorAt;
+import frc.robot.Commands.Swerve.AutoDrive.AlignToBranchCommand;
+import frc.robot.Commands.Swerve.AutoDrive.AlignToBranchInAutoCommand;
 import frc.robot.Subsystems.Dispenser.Dispenser;
 import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
+import frc.robot.Utils.ReefFace;
 
 public class SwerveAutoController {
 
@@ -63,13 +67,19 @@ public class SwerveAutoController {
         );
 
         configureCommands(); //configure commands must be registered before the creation of any paths
+        
+
+        PathPlannerAuto left = new PathPlannerAuto("left 3 L4");
+
+        left.event("aa").onTrue(new MoveElevatorTo(ElevatorLevel.L4));
 
         m_autoChooser = new SendableChooser<Command>();
         m_autoChooser.addOption("middle", new PathPlannerAuto("Middle 1 L4"));
         m_autoChooser.addOption("right", new PathPlannerAuto("right 3 L4"));
-        m_autoChooser.addOption("left", new PathPlannerAuto("left 3 L4"));
+        m_autoChooser.addOption("left", left);
         m_autoChooser.addOption("test", new PathPlannerAuto("test"));
         
+
         m_allianceChooser = new SendableChooser<Alliance>();
         m_allianceChooser.addOption("blue", Alliance.Blue);
         m_allianceChooser.addOption("red", Alliance.Red);

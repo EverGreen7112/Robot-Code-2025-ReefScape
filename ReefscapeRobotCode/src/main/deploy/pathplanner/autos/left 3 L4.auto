@@ -5,6 +5,19 @@
     "data": {
       "commands": [
         {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL3"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -27,6 +40,12 @@
           "type": "sequential",
           "data": {
             "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL4"
+                }
+              },
               {
                 "type": "named",
                 "data": {
@@ -84,15 +103,15 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "MoveElevatorToL3"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "CTb11"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL3"
                 }
               }
             ]
@@ -102,6 +121,12 @@
           "type": "sequential",
           "data": {
             "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL4"
+                }
+              },
               {
                 "type": "named",
                 "data": {
@@ -162,6 +187,12 @@
                 "type": "path",
                 "data": {
                   "pathName": "CTB12"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL3"
                 }
               }
             ]
