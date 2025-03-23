@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Commands.Dispenser.AutoReadyForCoralCommand;
 import frc.robot.Commands.Dispenser.WaitUntilCoralIsInCommand;
 import frc.robot.Commands.Dispenser.WaitUntilCoralIsOutCommand;
 import frc.robot.Commands.Elevator.MoveElevatorTo;
@@ -31,7 +32,7 @@ public class SwerveAutoController {
 
     private static final PIDConstants TRANSLATION_PID =  new PIDConstants(5.0, 0.0, 0.0),
                                       ROTATION_PID = new PIDConstants(1.0, 0.0 ,0.0);
-    private static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(3, 2, 1 * Math.PI, 4 * Math.PI);
+    private static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(3, 3, 1 * Math.PI, 4 * Math.PI);
     private static final double GOAL_END_VELOCITY = 0;
 
     private static SwerveAutoController m_instance = new SwerveAutoController();
@@ -128,7 +129,9 @@ public class SwerveAutoController {
         NamedCommands.registerCommand("WaitUntilCoralIsOut", new WaitUntilCoralIsOutCommand());
 
         NamedCommands.registerCommand("DispenceCoral", new InstantCommand(() -> {Dispenser.getInstance().dispenseCoral();}));
+        NamedCommands.registerCommand("SlowDispense", new InstantCommand(() -> {Dispenser.getInstance().slowDispense();}));
         NamedCommands.registerCommand("StopDispense", new InstantCommand(() -> {Dispenser.getInstance().stop();}));
+        NamedCommands.registerCommand("TurnOnLeds", new AutoReadyForCoralCommand());
         
         
     }

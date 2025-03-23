@@ -5,19 +5,6 @@
     "data": {
       "commands": [
         {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "MoveElevatorToL3"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -93,9 +80,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "WaitUntilCoralIsIn"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "WaitUntilCoralIsOut"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "TurnOnLeds"
+                }
+              }
+            ]
           }
         },
         {

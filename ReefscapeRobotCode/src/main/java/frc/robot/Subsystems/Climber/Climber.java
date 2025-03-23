@@ -1,5 +1,6 @@
 package frc.robot.Subsystems.Climber;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,10 +19,14 @@ public class Climber extends SubsystemBase{
     public DigitalInput m_leftLS;
     public DigitalInput m_rightLS;
     private EverEncoder m_encoder;
+    private AnalogInput m_distance;
     
     private Climber(){
         EverTalonFX climbMotor = new EverTalonFX(12);
         m_climbMotor = climbMotor;
+
+        m_distance = new AnalogInput(2);
+
         m_leftLS = new DigitalInput(4);
         m_rightLS = new DigitalInput(3);
         EverTalonFXInternalEncoder encoder = new EverTalonFXInternalEncoder(climbMotor);
@@ -39,6 +44,7 @@ public class Climber extends SubsystemBase{
     public void periodic() {
         if(DEBUG_MODE)
             log();
+        SmartDashboard.putNumber("climber distance",m_distance.getValue());
       
     }
 
@@ -60,12 +66,12 @@ public class Climber extends SubsystemBase{
     }
 
     public boolean cantOpen(){
-        return m_encoder.getPos() >= 185;//185;
+        return m_encoder.getPos() >= 185 || m_distance.getValue() >= 1800;//185;
         
     }
 
     public boolean cantClose(){
-        return  m_encoder.getPos() <= 0;//185;
+        return  m_distance.getValue() <= 800;//185;
 
     }
 

@@ -76,7 +76,7 @@ public class RobotContainer {
 
     chassisBack.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
     chassisPovRight.whileTrue(new SlowDispenseCommand());
-    chassisPovLeft.whileTrue(new DriveToSelectedPoseCommand());
+    chassisB.whileTrue(new DriveToSelectedPoseCommand());
 
     
     

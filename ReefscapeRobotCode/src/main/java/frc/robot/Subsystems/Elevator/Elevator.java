@@ -123,7 +123,7 @@ public class Elevator extends SubsystemBase {
 
         if(cantGoDown() && m_motor.get() <= 0){
             m_motor.stop();
-            resetPose();
+            //resetPose();
         }
         
         if(MathUtil.isNear(m_targetHeight, m_encoder.getPos(), ELEVATOR_TOLERANCE) && m_targetHeight != 0){
