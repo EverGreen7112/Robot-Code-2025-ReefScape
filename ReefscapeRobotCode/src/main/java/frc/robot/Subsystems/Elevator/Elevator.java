@@ -1,6 +1,5 @@
 package frc.robot.Subsystems.Elevator;
 
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -21,20 +20,20 @@ import frc.robot.Utils.EverKit.Implementations.PIDControllers.EverMotionMagicPID
 public class Elevator extends SubsystemBase {
 
     private static final boolean DEBUG_MODE = true;
-    private final double ELEVATOR_TOLERANCE = 0.5;
+    private final double ELEVATOR_TOLERANCE = 1;
     public final static double MANUAL_ELEVATOR_SPEED = 0.2;
 
     public enum ElevatorLevel{
-        CLOSED(-1.5, 0.3),
-        L1((45/15.0) * 9, 0.3),
-        L2((29/15.0) * 9, 0.3),//26.5 + 0.9
-        L3((56/15.0) * 9, 0.3),//55.5 = 0.9
-        L4((103/15.0) * 9, 0.3); 
+        CLOSED(-1, 0.3),
+        L1(7, 0.3),
+        L2(16.5, 0.3),//26.5 + 0.9
+        L3(34.2, 0.3),//55.5 = 0.9
+        L4(60.55,0.3); 
 
         public final double height;
         public final double dispenseSpeed;
 
-        private ElevatorLevel(double height, double dispenseSpeed){
+        private ElevatorLevel(double height,double dispenseSpeed){
             this.height = height;
             this.dispenseSpeed = dispenseSpeed;
         }
@@ -47,7 +46,6 @@ public class Elevator extends SubsystemBase {
     private EverMotorController m_motor;
     public EverPIDController m_pidController;
     public EverEncoder m_encoder;
-    private double m_targetHeight;
 
     private DigitalInput m_bottomLS;
 
@@ -58,16 +56,14 @@ public class Elevator extends SubsystemBase {
         talon.setIdleMode(IdleMode.kCoast);
         talon.getControllerInstance().setNeutralMode(NeutralModeValue.Brake);
 
-        EverMotionMagicPIDController talonPidController = new EverMotionMagicPIDController(talon, 3000, 300, 1000);
+        EverMotionMagicPIDController talonPidController = new EverMotionMagicPIDController(talon, 300, 120);
         Slot0Configs a = new Slot0Configs();
-        a.kD = 0.2;
+        a.kD = 0;
         a.kG = 0.4;
         a.kI = 0;
-        a.kP = 3.5;// 3.5
-        a.kV = 1/2.6; //2.6
+        a.kP = 3.2;
+        a.kV = 1/2.6;
         a.kS = 0.2;
-        a.kA = 0.02;
-       
         a.GravityType = GravityTypeValue.Elevator_Static;
         talonPidController.setPID(a);
 
@@ -80,7 +76,6 @@ public class Elevator extends SubsystemBase {
         m_pidController = talonPidController;
         m_encoder = encoder;
         
-        m_targetHeight = 0;
     }
 
     public static Elevator getInstance(){
@@ -98,14 +93,13 @@ public class Elevator extends SubsystemBase {
     public void moveToDesiredLevel(ElevatorLevel desiredLevel){
         m_targetLevel = desiredLevel;
         m_pidController.activate(desiredLevel.height, ControlType.kPos);
-        m_targetHeight = desiredLevel.height;
     }
 
     public ElevatorLevel getTargetLevel(){
         return m_targetLevel;
     }
     public boolean cantGoDown(){
-        return m_bottomLS.get();
+        return !m_bottomLS.get();
     }
 
     public boolean isOpenAt(ElevatorLevel level){
@@ -123,20 +117,15 @@ public class Elevator extends SubsystemBase {
 
         if(cantGoDown() && m_motor.get() <= 0){
             m_motor.stop();
-            //resetPose();
-        }
-        
-        if(MathUtil.isNear(m_targetHeight, m_encoder.getPos(), ELEVATOR_TOLERANCE) && m_targetHeight != 0){
-            m_motor.stop();
+            resetPose();
         }
     }
 
 
     private void log(){
-        SmartDashboard.putBoolean("bottomLs", m_bottomLS.get());
+        SmartDashboard.putBoolean("bottomLs", !m_bottomLS.get());
         SmartDashboard.putNumber("motor output", m_motor.get());
         SmartDashboard.putNumber("height",m_encoder.getPos());
-        SmartDashboard.putNumber("height speed",m_encoder.getVel());
     }
 
     public boolean areMotorControllersConnected(){

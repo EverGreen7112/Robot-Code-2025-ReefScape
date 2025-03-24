@@ -111,7 +111,6 @@ public class LedStrip implements Periodic {
                 setLedPattern(LedPattern.ERROR_ELEVATOR);
             }
             else if(!Dispenser.getInstance().areMotorControllersConnected()){
-
                 setLedPattern(LedPattern.ERROR_DISPENSER);
             }
             else if(!Climber.getInstance().areMotorControllersConnected()){

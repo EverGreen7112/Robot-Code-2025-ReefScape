@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.Climber.CloseClimberCommand;
 import frc.robot.Commands.Climber.OpenClimberCommand;
+import frc.robot.Commands.Dispenser.AlgeaDispense;
 import frc.robot.Commands.Dispenser.DispenseCoralCommand;
 import frc.robot.Commands.Dispenser.SlowDispenseCommand;
 //import frc.robot.Commands.Elevator.MoveElevatorManually;
@@ -73,6 +74,8 @@ public class RobotContainer {
   
     //dispenser
     chassisX.whileTrue(new DispenseCoralCommand());
+    chassisPovLeft.whileTrue(new AlgeaDispense());
+
 
     chassisBack.onTrue(new InstantCommand(()->{Swerve.getInstance().resetGyro();}));
     chassisPovRight.whileTrue(new SlowDispenseCommand());
