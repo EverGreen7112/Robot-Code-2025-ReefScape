@@ -71,25 +71,16 @@ public class Robot extends TimedRobot {
     
     
     }
-    SmartDashboard.putBoolean("cams connected",SwerveLocalizer.getInstance().areCamsConnected());
-    SmartDashboard.putBoolean("swerve motors connected", Swerve.getInstance().areMotorControllersConnected());
-    SmartDashboard.putBoolean("led", RobotOperatorController.getInstance().getLed());
-
+    
     // update the robot position of dashboard
     m_field.setRobotPose(SwerveLocalizer.getInstance().getCurrentPoint().getX(),
                          SwerveLocalizer.getInstance().getCurrentPoint().getY(),
                         new Rotation2d(Math.toRadians(SwerveLocalizer.getInstance().getFieldOrientedAngle())));
     
-    SmartDashboard.putNumber("selected branch", RobotOperatorController.getInstance().getBranch());
-    SmartDashboard.putNumber("selected elevator", RobotOperatorController.getInstance().getElevatorLevel());
+   
 
-    SmartDashboard.putNumber("TL", Swerve.getInstance().m_modules[0].getAngle());
-    SmartDashboard.putNumber("TR", Swerve.getInstance().m_modules[1].getAngle());
-    SmartDashboard.putNumber("DL", Swerve.getInstance().m_modules[2].getAngle());
-    SmartDashboard.putNumber("DR", Swerve.getInstance().m_modules[3].getAngle());
 
-    SmartDashboard.putBoolean("right climb",Climber.getInstance().m_rightLS.get());
-    SmartDashboard.putBoolean("left climb",Climber.getInstance().m_leftLS.get());
+
     LedStrip.getInstance().periodic();
   } 
 

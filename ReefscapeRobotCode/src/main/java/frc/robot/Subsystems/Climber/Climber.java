@@ -16,8 +16,8 @@ public class Climber extends SubsystemBase{
     private static Climber m_instance = new Climber();
 
     private EverMotorController m_climbMotor;
-    public DigitalInput m_leftLS;
-    public DigitalInput m_rightLS;
+    private DigitalInput m_leftLS;
+    private DigitalInput m_rightLS;
     private EverEncoder m_encoder;
     private AnalogInput m_distance;
     

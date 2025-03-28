@@ -25,7 +25,7 @@ public class DriveToSelectedPoseCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return m_command.isFinished();
+        return !m_command.isScheduled();
     }
 
     @Override

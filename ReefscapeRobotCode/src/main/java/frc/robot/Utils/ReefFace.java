@@ -29,10 +29,10 @@ public class ReefFace {
         new ReefFace(13.47, 3.31, 120,  13.33,3.225,120,13.61,3.395,120),
         new ReefFace(13.89, 4.03, 180,  13.89,3.83,180,13.89,4.2,180),
         new ReefFace(13.47, 4.75, 240,  13.61,4.665,240,13.33,4.835,240),
-        new ReefFace(12.64, 4.75, 300,  12.78,4.835,0,12.5,4.665,0)
+        new ReefFace(12.64, 4.75, 300,  12.78,4.835,300,12.5,4.665,300)
 
     };
-    private final double SCORE_MECHANISM_OFFSET = 0.16;//0.18
+    private final double SCORE_MECHANISM_OFFSET = 0.16;
 
     public ReefFace(Pose2d facePose, Pose2d leftBranchPose, Pose2d rightBranchPose){
         m_facePose = facePose;

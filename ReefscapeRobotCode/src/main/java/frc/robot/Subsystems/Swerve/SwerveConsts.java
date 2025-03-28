@@ -25,7 +25,7 @@ public interface SwerveConsts{
     public static final boolean DEBUG_MODE = false;    
     // speed values
     public static final double MAX_NORMAL_DRIVE_SPEED = 2.6; // m/s
-    public static final double MAX_TURBO_DRIVE_SPEED = 3.2;
+    public static final double MAX_TURBO_DRIVE_SPEED = 4;
     public static final double MAX_SLOW_DRIVE_SPEED = 0.45;
     public static final double MAX_ANGULAR_SPEED = 180; // deg/s/
     public static final double MIN_SPEED = 0.0;
@@ -156,16 +156,11 @@ public interface SwerveConsts{
                absEncoder.setPosConversionFactor(360.0);
            }
    
-           ABS_ENCODERS[0].setOffset(78.837890625); //
-           ABS_ENCODERS[1].setOffset(136.40625);
-           ABS_ENCODERS[2].setOffset(-142.47071838378906);
-           ABS_ENCODERS[3].setOffset(-32.783203125);
-           /*
-            *  ABS_ENCODERS[0].setOffset(82.001953125); //
-           ABS_ENCODERS[1].setOffset(137.63673400878906);
-           ABS_ENCODERS[2].setOffset(-148.62306213378906);
-           ABS_ENCODERS[3].setOffset(-31.289060592651367);
-            */
+           ABS_ENCODERS[0].setOffset(80.5078125); 
+           ABS_ENCODERS[1].setOffset(-42.275394439697266); 
+           ABS_ENCODERS[2].setOffset(-149.50196838378906); 
+           ABS_ENCODERS[3].setOffset(-34.8046875); 
+       
    
            for (EverTalonFXPIDController velocityController : WHEEL_VELOCITY_CONTROLLERS) {
                Slot0Configs configs = new Slot0Configs();

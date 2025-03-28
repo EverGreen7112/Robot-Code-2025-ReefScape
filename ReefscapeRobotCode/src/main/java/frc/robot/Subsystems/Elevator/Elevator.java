@@ -19,15 +19,14 @@ import frc.robot.Utils.EverKit.Implementations.PIDControllers.EverMotionMagicPID
 
 public class Elevator extends SubsystemBase {
 
-    private static final boolean DEBUG_MODE = true;
+    private static final boolean DEBUG_MODE = false;
     private final double ELEVATOR_TOLERANCE = 1;
-    public final static double MANUAL_ELEVATOR_SPEED = 0.2;
 
     public enum ElevatorLevel{
         CLOSED(-1, 0.3),
         L1(7, 0.3),
-        L2(16.5, 0.3),//26.5 + 0.9
-        L3(34.2, 0.3),//55.5 = 0.9
+        L2(16.5, 0.3),
+        L3(34.2, 0.3),
         L4(60.55,0.3); 
 
         public final double height;
@@ -44,8 +43,8 @@ public class Elevator extends SubsystemBase {
 
     private ElevatorLevel m_targetLevel;
     private EverMotorController m_motor;
-    public EverPIDController m_pidController;
-    public EverEncoder m_encoder;
+    private EverPIDController m_pidController;
+    private EverEncoder m_encoder;
 
     private DigitalInput m_bottomLS;
 
@@ -123,7 +122,7 @@ public class Elevator extends SubsystemBase {
 
 
     private void log(){
-        SmartDashboard.putBoolean("bottomLs", !m_bottomLS.get());
+        SmartDashboard.putBoolean("bottom ls", !m_bottomLS.get());
         SmartDashboard.putNumber("motor output", m_motor.get());
         SmartDashboard.putNumber("height",m_encoder.getPos());
     }

@@ -19,7 +19,7 @@ public class Swerve extends SubsystemBase implements SwerveConsts{
 
     public static Swerve m_instance = new Swerve();
 
-    public SwerveModule[] m_modules;
+    private SwerveModule[] m_modules;
     private AHRS m_gyro;
 
     private Vector2d m_velocity;
