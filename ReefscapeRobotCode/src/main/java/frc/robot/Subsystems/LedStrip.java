@@ -85,7 +85,6 @@ public class LedStrip implements Periodic {
         m_ledPattern = LedPattern.DEFAULT_COLOR.pattern;
 
         m_led.start();
-        start(PeriodicTime.kRobotPeriodic);
     }
 
     public static LedStrip getInstance(){
@@ -152,6 +151,10 @@ public class LedStrip implements Periodic {
         m_ledPattern = pattern.pattern;
         m_ledPattern.applyTo(m_ledBuffer);
         m_led.setData(m_ledBuffer);
+    }
+
+    public void initialize(){
+        start(PeriodicTime.kRobotPeriodic);
     }
     
 }

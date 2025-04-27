@@ -38,7 +38,6 @@ public class RobotOperatorController implements Periodic{
         m_ledSubscriber = m_table.getBooleanTopic("led").subscribe(false);
 
         m_networkTableInst.startServer();
-        start(Periodic.PeriodicTime.kRobotPeriodic);
     }   
 
     public static RobotOperatorController getInstance(){
@@ -72,6 +71,10 @@ public class RobotOperatorController implements Periodic{
     private void log(){
         SmartDashboard.putNumber("selected branch", RobotOperatorController.getInstance().getBranch());
         SmartDashboard.putNumber("selected elevator level", RobotOperatorController.getInstance().getElevatorLevel());
+    }
+
+    public void initialize(){
+        start(Periodic.PeriodicTime.kRobotPeriodic);
     }
 
 }

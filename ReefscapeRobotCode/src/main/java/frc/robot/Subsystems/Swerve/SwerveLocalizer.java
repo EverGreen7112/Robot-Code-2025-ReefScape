@@ -63,7 +63,6 @@ public class SwerveLocalizer implements Periodic, SwerveConsts {
                 Swerve.getInstance().getModulesPositions(),
                 new Pose2d());
 
-        start(PeriodicTime.kRobotPeriodic);
     }
 
     public static SwerveLocalizer getInstance() {
@@ -155,6 +154,8 @@ public class SwerveLocalizer implements Periodic, SwerveConsts {
         return true;
     }
 
-    
+    public void initialize(){
+        start(PeriodicTime.kRobotPeriodic);
+    }
 
 }

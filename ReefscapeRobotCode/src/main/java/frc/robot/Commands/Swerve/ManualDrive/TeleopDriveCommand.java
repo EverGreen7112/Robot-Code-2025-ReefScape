@@ -2,6 +2,7 @@ package frc.robot.Commands.Swerve.ManualDrive;
 
 import java.util.function.Supplier;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.Elevator.Elevator;
@@ -19,6 +20,9 @@ public class TeleopDriveCommand extends Command{
     private Supplier<Double> m_xSpeedInput;
     private Supplier<Double> m_ySpeedInput;
     private Supplier<Double> m_angularVelocityInput;
+    private SlewRateLimiter m_xLimiter;
+    private SlewRateLimiter m_yLimiter;
+    private double m_maxAccelaration = 5;
     
     public TeleopDriveCommand(Supplier<Double> xSpeedInput, Supplier<Double> ySpeedInput, Supplier<Double> angularVelocityInput){
         addRequirements(Swerve.getInstance());
@@ -26,14 +30,16 @@ public class TeleopDriveCommand extends Command{
         m_ySpeedInput = ySpeedInput;
         m_angularVelocityInput = angularVelocityInput;
         maxSpeed = SwerveConsts.MAX_NORMAL_DRIVE_SPEED;
+        m_xLimiter = new SlewRateLimiter(m_maxAccelaration);
+        m_yLimiter = new SlewRateLimiter(m_maxAccelaration);
     }
 
     @Override
     public void execute() {
         
 
-        double speedX = m_xSpeedInput.get();
-        double speedY = m_ySpeedInput.get();
+        double speedX = m_xLimiter.calculate(m_xSpeedInput.get());
+        double speedY = m_yLimiter.calculate(m_ySpeedInput.get());
         double angularVel = m_angularVelocityInput.get();
 
         if(Math.abs(speedX) < JOYSTICK_DEADZONE)

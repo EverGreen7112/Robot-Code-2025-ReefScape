@@ -26,6 +26,7 @@ import frc.robot.Utils.ReefFace;
 import frc.robot.Utils.RobotOperatorController;
 import frc.robot.Utils.EverKit.Periodic;
 import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverTalonFX;
+import frc.robot.Utils.EverKit.Implementations.PIDControllers.EverExternalMotorPIDController;
 
 public class Robot extends TimedRobot {
 
@@ -56,6 +57,11 @@ public class Robot extends TimedRobot {
       SmartDashboard.putString( "reef " + (i+1) + ":"," left " + ReefFace.BLUE_REEF[i].getLeftBranchRobotPose() + " right " + ReefFace.BLUE_REEF[i].getRightBranchRobotPose()); 
     }
 
+    SwerveAngleController.getInstance().initialize();
+    SwerveLocalizer.getInstance().initialize();
+    LedStrip.getInstance().initialize();
+    RobotOperatorController.getInstance().initialize();
+
   }
 
   @Override
@@ -79,7 +85,10 @@ public class Robot extends TimedRobot {
     
    
 
-
+    SmartDashboard.putNumber("TL angle", Swerve.getInstance().getModules()[0].getAbsAngle());
+    SmartDashboard.putNumber("TR angle", Swerve.getInstance().getModules()[1].getAbsAngle());
+    SmartDashboard.putNumber("DL angle", Swerve.getInstance().getModules()[2].getAbsAngle());
+    SmartDashboard.putNumber("DR angle", Swerve.getInstance().getModules()[3].getAbsAngle());
 
     LedStrip.getInstance().periodic();
   } 
@@ -133,9 +142,9 @@ public class Robot extends TimedRobot {
       } catch (Exception e) {
         e.printStackTrace();
       }
-    }   
+      }   
     
-  }
+    }
 
   @Override
   public void teleopExit() {

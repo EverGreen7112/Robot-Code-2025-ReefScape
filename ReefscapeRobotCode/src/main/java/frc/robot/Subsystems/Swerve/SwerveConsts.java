@@ -37,8 +37,8 @@ public interface SwerveConsts{
     // motor controllers
     public static final EverTalonFX 
             TL_DRIVE_MOTOR = new EverTalonFX(18),
-            TR_DRIVE_MOTOR = new EverTalonFX(16), 
-            DL_DRIVE_MOTOR = new EverTalonFX(1),  
+            TR_DRIVE_MOTOR = new EverTalonFX(1), 
+            DL_DRIVE_MOTOR = new EverTalonFX(16),  
             DR_DRIVE_MOTOR = new EverTalonFX(3); 
     
     public static final EverSparkMax 
@@ -156,10 +156,10 @@ public interface SwerveConsts{
                absEncoder.setPosConversionFactor(360.0);
            }
    
-           ABS_ENCODERS[0].setOffset(80.5078125); 
-           ABS_ENCODERS[1].setOffset(-42.275394439697266); 
-           ABS_ENCODERS[2].setOffset(-149.50196838378906); 
-           ABS_ENCODERS[3].setOffset(-34.8046875); 
+           ABS_ENCODERS[0].setOffset(80.507); //80.5078125
+           ABS_ENCODERS[1].setOffset(137.37); //-42.275394439697266
+           ABS_ENCODERS[2].setOffset(-149.150); //-149.50196838378906
+           ABS_ENCODERS[3].setOffset(-27.509); //-34.8046875
        
    
            for (EverTalonFXPIDController velocityController : WHEEL_VELOCITY_CONTROLLERS) {

@@ -26,7 +26,6 @@ public class SwerveAngleController implements Periodic{
         m_targetAngle = targetAngle;
         m_isFieldOriented = false;
         m_angleController.reset(Swerve.getInstance().getGyroOrientedAngle());
-        start(PeriodicTime.kAutonomousPeriodic, PeriodicTime.kTeleopPeriodic, PeriodicTime.kTestPeriodic);
     }
 
     public void start(double targetAngle, boolean isFieldOriented){
@@ -35,7 +34,6 @@ public class SwerveAngleController implements Periodic{
         m_isFieldOriented = isFieldOriented;
         m_angleController.reset( (m_isFieldOriented) ? SwerveLocalizer.getInstance().getFieldOrientedAngle() : Swerve.getInstance().getGyroOrientedAngle());
 
-        start(PeriodicTime.kAutonomousPeriodic, PeriodicTime.kTeleopPeriodic, PeriodicTime.kTestPeriodic);
     }
 
     @Override
@@ -46,6 +44,11 @@ public class SwerveAngleController implements Periodic{
 
     public void stop(){
         stop(PeriodicTime.kAutonomousPeriodic, PeriodicTime.kTeleopPeriodic, PeriodicTime.kTestPeriodic);
+    }
+
+    public void initialize(){
+        start(PeriodicTime.kAutonomousPeriodic, PeriodicTime.kTeleopPeriodic, PeriodicTime.kTestPeriodic);
+
     }
     
 }
