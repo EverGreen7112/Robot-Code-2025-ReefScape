@@ -23,7 +23,7 @@ public class Elevator extends SubsystemBase {
     private final double ELEVATOR_TOLERANCE = 1;
 
     public enum ElevatorLevel{
-        CLOSED(-1, 0.3),
+        CLOSED(3, 0.3),
         L1(7, 0.3),
         L2(16.5, 0.3),
         L3(34.2, 0.3),
@@ -98,7 +98,7 @@ public class Elevator extends SubsystemBase {
         return m_targetLevel;
     }
     public boolean cantGoDown(){
-        return !m_bottomLS.get();
+        return false;
     }
 
     public boolean isOpenAt(ElevatorLevel level){

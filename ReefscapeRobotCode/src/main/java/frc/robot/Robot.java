@@ -7,8 +7,6 @@ package frc.robot;
 
 import java.util.ArrayList;
 
-import com.ctre.phoenix6.hardware.TalonFX;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -91,6 +89,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("DR angle", Swerve.getInstance().getModules()[3].getAbsAngle());
 
     LedStrip.getInstance().periodic();
+    
+    
   } 
 
   @Override

@@ -12,7 +12,7 @@ import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverSparkMax;
 
 public class Dispenser extends SubsystemBase {
   private final double CORAL_POSITIONING_SPEED = -0.2;
-  private final double CORAL_DISPENSING_SPEED = 0.2;
+  private final double CORAL_DISPENSING_SPEED = 1;
   private final double CORAL_PULL_BACK_SPEED = -0.2;
 
   private final boolean DEBUG_MODE = true;
