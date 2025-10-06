@@ -14,10 +14,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Subsystems.Swerve.SwerveLocalizer;
+import frc.robot.Commands.Swerve.AutoDrive.AlignToBranchCommand;
+import frc.robot.Subsystems.LedStrip;
+import frc.robot.Subsystems.Climber.Climber;
 import frc.robot.Subsystems.Swerve.Swerve;
+import frc.robot.Subsystems.Swerve.SwerveAngleController;
 import frc.robot.Subsystems.Swerve.SwerveAutoController;
-import frc.robot.Utils.LocalizationCamera;
+import frc.robot.Utils.ReefFace;
+import frc.robot.Utils.RobotOperatorController;
 import frc.robot.Utils.EverKit.Periodic;
+import frc.robot.Utils.EverKit.Implementations.MotorControllers.EverTalonFX;
+import frc.robot.Utils.EverKit.Implementations.PIDControllers.EverExternalMotorPIDController;
 
 public class Robot extends TimedRobot {
 
@@ -30,51 +37,65 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
 
-  private static Field2d m_field; 
-
+  private static Field2d m_field;
 
   @Override
   public void robotInit() {
     
     m_robotContainer = new RobotContainer();
-    Swerve.getInstance().resetGyro();
 
     //create and add robot field data to dashboard
     m_field = new Field2d();
     SmartDashboard.putData("field", m_field);
     
-
     SwerveAutoController.getInstance().addChoosersToDashboard();
-
-   
     
+    //print branch position on the field
+    for(int i = 0 ; i < ReefFace.BLUE_REEF.length; i++){
+      SmartDashboard.putString( "reef " + (i+1) + ":"," left " + ReefFace.BLUE_REEF[i].getLeftBranchRobotPose() + " right " + ReefFace.BLUE_REEF[i].getRightBranchRobotPose()); 
+    }
+
+    SwerveAngleController.getInstance().initialize();
+    SwerveLocalizer.getInstance().initialize();
+    LedStrip.getInstance().initialize();
+    RobotOperatorController.getInstance().initialize();
+
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-
     for (Periodic method : robotPeriodicFuncs) {
       try {
         method.periodic();
+
       } catch (Exception e) {
         e.printStackTrace();
       }
+    
+    
     }
-
-   
+    
     // update the robot position of dashboard
     m_field.setRobotPose(SwerveLocalizer.getInstance().getCurrentPoint().getX(),
                          SwerveLocalizer.getInstance().getCurrentPoint().getY(),
                         new Rotation2d(Math.toRadians(SwerveLocalizer.getInstance().getFieldOrientedAngle())));
-
-    SmartDashboard.putString("pose", SwerveLocalizer.getInstance().getCurrentPoint().toString());
-
     
-  }
+   
+
+    SmartDashboard.putNumber("TL angle", Swerve.getInstance().getModules()[0].getAbsAngle());
+    SmartDashboard.putNumber("TR angle", Swerve.getInstance().getModules()[1].getAbsAngle());
+    SmartDashboard.putNumber("DL angle", Swerve.getInstance().getModules()[2].getAbsAngle());
+    SmartDashboard.putNumber("DR angle", Swerve.getInstance().getModules()[3].getAbsAngle());
+
+    LedStrip.getInstance().periodic();
+    
+    
+  } 
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -104,33 +125,30 @@ public class Robot extends TimedRobot {
 
     
   }
-
   @Override
   public void autonomousExit() {}
-
   @Override
   public void teleopInit() {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
   }
 
   @Override
   public void teleopPeriodic() { 
-
     for (Periodic method : teleopPeriodicFuncs) {
       try {
         method.periodic();
       } catch (Exception e) {
         e.printStackTrace();
       }
-
-    }    
-  }
+      }   
+    
+    }
 
   @Override
-  public void teleopExit() {}
+  public void teleopExit() {
+  }
 
   @Override
   public void testInit() {

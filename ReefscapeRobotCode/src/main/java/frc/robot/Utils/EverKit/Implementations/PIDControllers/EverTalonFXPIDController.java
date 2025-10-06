@@ -17,14 +17,14 @@ public class EverTalonFXPIDController extends EverPIDController{
 
     private TalonFX m_controller;
     private EverTalonFX m_everController;
-    private PositionVoltage m_posControlRequest;
-    private VelocityVoltage m_velocityControlRequest;
+    private PositionVoltage m_posControl;
+    private VelocityVoltage m_velControl;
 
     public EverTalonFXPIDController(EverTalonFX controller){
         m_controller = controller.getControllerInstance();
         m_everController = controller;
-        m_posControlRequest = new PositionVoltage(0).withSlot(0);
-        m_velocityControlRequest = new VelocityVoltage(0).withSlot(0);
+        m_posControl = new PositionVoltage(0).withSlot(0);
+        m_velControl = new VelocityVoltage(0).withSlot(0);
     }
 
     @Override
@@ -62,11 +62,11 @@ public class EverTalonFXPIDController extends EverPIDController{
         switch (type) {
             case kPos:
                 double posConversionFactor = m_everController.getPosConversionFactor();
-                m_controller.setControl(m_posControlRequest.withPosition(setpoint / posConversionFactor));
+                m_controller.setControl(m_posControl.withPosition(setpoint / posConversionFactor));
                 break;
             case kVel:
                 double velConversionFactor = m_everController.getVelConversionFactor();
-                m_controller.setControl(m_velocityControlRequest.withVelocity(setpoint / velConversionFactor));
+                m_controller.setControl(m_velControl.withVelocity(setpoint / velConversionFactor));
                 break;    
             default:
                 break;

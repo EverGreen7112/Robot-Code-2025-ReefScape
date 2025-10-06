@@ -87,5 +87,11 @@ public class EverMotorControllerGroup extends EverMotorController{
             return null;
         return m_motorControllers.get(0);
     }
+
+    @Override
+    public boolean isConnected() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isConnected'");
+    }
     
 }

@@ -80,7 +80,6 @@ public class EverExternalMotorPIDController extends EverPIDController implements
         output = MathUtil.clamp(output, -m_maxOutput, m_maxOutput);
         m_controller.set(output);
     }
-    
 
 
 }

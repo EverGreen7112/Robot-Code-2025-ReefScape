@@ -2,7 +2,6 @@ package frc.robot.Subsystems.Swerve;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Utils.EverKit.EverAbsEncoder;
 import frc.robot.Utils.EverKit.EverEncoder;
@@ -172,7 +171,13 @@ public class SwerveModule extends SubsystemBase {
         m_steerMotor.set(output);
     }
 
-   
+    public boolean areMotorControllersConnected(){
+        return m_driveMotor.isConnected() && m_steerMotor.isConnected(); 
+    }
+
+    public boolean isAbsEncoderConnected(){
+        return m_absSteerEncoder.isConnected();
+    }
     
 
 }

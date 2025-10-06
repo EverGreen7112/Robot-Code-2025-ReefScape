@@ -20,17 +20,27 @@ import frc.robot.Utils.LocalizationCamera;
 import frc.robot.Utils.EverKit.Periodic;
 
 public class SwerveLocalizer implements Periodic, SwerveConsts {
-    public static final LocalizationCamera[] CAMS = {
-            new LocalizationCamera("front",
+    private final boolean DEBUG_MODE = true;
+
+    private static final LocalizationCamera[] CAMS = {
+            new LocalizationCamera("left_cam",
                     AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
-                    new Transform3d(new Translation3d(0.035, -0.015, 0.07), new Rotation3d(0, Math.toRadians(-23), 0)),
-                    VecBuilder.fill(0, 0, 0), VecBuilder.fill(0, 0, 0)),
+                    new Transform3d(new Translation3d(0.115, 0.055, 0.32), new Rotation3d(0, 0 ,0)),
+                    VecBuilder.fill(0.0, 0.0, 0), VecBuilder.fill(0.0, 0.0, 0)),
+            new LocalizationCamera("right_cam",
+                                        AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
+                                        new Transform3d(0.115, -0.155, 0.32, new Rotation3d(0, 0, 0)),
+                                        VecBuilder.fill(0, 0, 0), VecBuilder.fill(0, 0, 0)),
+            new LocalizationCamera("back_cam",
+                                        AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape),
+                                        new Transform3d(-0.27985, -0.295, 0.56, new Rotation3d(Math.toRadians(-1), Math.toRadians(-44), Math.toRadians(180))), //new Rotation3d(Math.toRadians(25), Math.toRadians(1.4), Math.toRadians(180))
+                                        VecBuilder.fill(0, 0, 0), VecBuilder.fill(0, 0, 0))
     };
 
     private static final double FIELD_WIDTH = 8.05;
     private static final double FIELD_HEIGHT = 17.55;
-    private static final double MAX_CAMERA_HEIGHT = 0.17;
-    private static final double MAX_DISTANCE_FROM_TAG = 3.5;
+    private static final double MAX_ESTIMATION_HEIGHT = 0.08;
+    private static final double MAX_DISTANCE_FROM_TAG = 3;
 
     private static SwerveLocalizer m_instance = new SwerveLocalizer();
     private ArrayList<LocalizationCamera> m_cams;
@@ -53,7 +63,6 @@ public class SwerveLocalizer implements Periodic, SwerveConsts {
                 Swerve.getInstance().getModulesPositions(),
                 new Pose2d());
 
-        start(PeriodicTime.kRobotPeriodic);
     }
 
     public static SwerveLocalizer getInstance() {
@@ -96,8 +105,8 @@ public class SwerveLocalizer implements Periodic, SwerveConsts {
         double z = est.get().estimatedPose.getZ();
 
         boolean outOfField = x < 0.0 || x > FIELD_HEIGHT || y < 0.0 || y > FIELD_WIDTH;
-        boolean aboveCamera = z > MAX_CAMERA_HEIGHT;
-        boolean underGround = z < 0;
+        boolean aboveCamera = z > MAX_ESTIMATION_HEIGHT;
+        boolean underGround = z < -0.03;
 
         int numTags = 0;
         double avgDist = 0;
@@ -118,22 +127,35 @@ public class SwerveLocalizer implements Periodic, SwerveConsts {
         avgDist /= numTags;
 
         boolean isTooFar = avgDist > MAX_DISTANCE_FROM_TAG;
-        SmartDashboard.putBoolean("out of field", outOfField);
-        SmartDashboard.putBoolean("to far", isTooFar);
-        SmartDashboard.putBoolean("above camera", aboveCamera);
-        SmartDashboard.putBoolean("underGround", underGround);
+        if(DEBUG_MODE){    
+            SmartDashboard.putBoolean("out of field", outOfField);
+            SmartDashboard.putBoolean("to far", isTooFar);
+            SmartDashboard.putBoolean("above camera", aboveCamera);
+            SmartDashboard.putBoolean("underGround", underGround);
+        }
         return !outOfField && !aboveCamera && !underGround && !isTooFar;
     }
 
     private void addCameraVisionMeasurements(LocalizationCamera cam) {
         Optional<EstimatedRobotPose> est = cam.getEstimatedGlobalPose();
-        // SmartDashboard.putString("vision pose", est.get().estimatedPose.toString());
+        if(DEBUG_MODE && est.isPresent())
+            SmartDashboard.putString("vision pose", est.get().estimatedPose.toString());
         if (!takeVisionPoseEstimation(est))
             return;
         m_poseEstimator.addVisionMeasurement(est.get().estimatedPose.toPose2d(), est.get().timestampSeconds,
                 cam.getEstimationStdDevs());
     }
 
-    
+    public boolean areCamsConnected(){
+        for (LocalizationCamera cam : CAMS) {
+            if(!cam.isConnected())
+                return false;
+        }
+        return true;
+    }
+
+    public void initialize(){
+        start(PeriodicTime.kRobotPeriodic);
+    }
 
 }

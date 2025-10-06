@@ -1,33 +1,39 @@
 package frc.robot.Subsystems.Swerve;
 
-import java.util.Currency;
-import java.util.List;
-
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.EventMarker;
 import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.Waypoint;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Robot;
-import frc.robot.Utils.Math.Funcs;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Commands.Dispenser.AutoReadyForCoralCommand;
+import frc.robot.Commands.Dispenser.WaitUntilCoralIsInCommand;
+import frc.robot.Commands.Dispenser.WaitUntilCoralIsOutCommand;
+import frc.robot.Commands.Elevator.MoveElevatorTo;
+import frc.robot.Commands.Elevator.WaitUntilElevatorAt;
+import frc.robot.Commands.Swerve.AutoDrive.AlignToBranchCommand;
+import frc.robot.Commands.Swerve.AutoDrive.AlignToBranchInAutoCommand;
+import frc.robot.Subsystems.Dispenser.Dispenser;
+import frc.robot.Subsystems.Elevator.Elevator.ElevatorLevel;
+import frc.robot.Utils.ReefFace;
 
 public class SwerveAutoController {
 
+    public static boolean isRobotAligning = false;
+
     private static final PIDConstants TRANSLATION_PID =  new PIDConstants(5.0, 0.0, 0.0),
-                                      ROTATION_PID = new PIDConstants(5.0, 0.0 ,0.0);
-    private static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(1.0, 3.0, 2 * Math.PI, 4 * Math.PI);
+                                      ROTATION_PID = new PIDConstants(1.0, 0.0 ,0.0);
+    private static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(3, 3, 1 * Math.PI, 4 * Math.PI);
+    private static final double GOAL_END_VELOCITY = 0;
 
     private static SwerveAutoController m_instance = new SwerveAutoController();
     private SendableChooser<Command> m_autoChooser;
@@ -42,17 +48,17 @@ public class SwerveAutoController {
         } catch (Exception e) {
             // Handle exception as needed
             e.printStackTrace();
-            SmartDashboard.putBoolean("couldnt load robot config expect problems in auto", false);
+            SmartDashboard.putBoolean("couldnt load robot config, expect problems in auto", false);
         }
 
         AutoBuilder.configure(
-            SwerveLocalizer.getInstance()::getCurrentPoint, // Robot pose supplier
-            SwerveLocalizer.getInstance()::setCurrentPoint, // Method to reset odometry
-            Swerve.getInstance()::getRobotOrientedSpeeds, // ChassisSpeeds supplier
-            ((speeds, feedforwards) -> Swerve.getInstance().driveRobotOrientedBySpeeds(speeds)), // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+            SwerveLocalizer.getInstance()::getCurrentPoint, 
+            SwerveLocalizer.getInstance()::setCurrentPoint, 
+            Swerve.getInstance()::getRobotOrientedSpeeds, 
+            ((speeds, feedforwards) -> Swerve.getInstance().driveRobotOrientedBySpeeds(speeds)), 
             new PPHolonomicDriveController( 
-                TRANSLATION_PID, // Translation PID constants
-                ROTATION_PID // Rotation PID constants
+                TRANSLATION_PID, 
+                ROTATION_PID 
             ),
             config, 
             () -> { //flip path
@@ -61,12 +67,24 @@ public class SwerveAutoController {
             Swerve.getInstance()
         );
 
+        configureCommands(); //configure commands must be registered before the creation of any paths
+        
+
+        PathPlannerAuto left = new PathPlannerAuto("left 3 L4");
+
+        left.event("aa").onTrue(new MoveElevatorTo(ElevatorLevel.L4));
+
         m_autoChooser = new SendableChooser<Command>();
+        m_autoChooser.addOption("middle", new PathPlannerAuto("Middle 1 L4"));
+        m_autoChooser.addOption("right", new PathPlannerAuto("right 3 L4"));
+        m_autoChooser.addOption("left", left);
         m_autoChooser.addOption("test", new PathPlannerAuto("test"));
+        
 
         m_allianceChooser = new SendableChooser<Alliance>();
         m_allianceChooser.addOption("blue", Alliance.Blue);
         m_allianceChooser.addOption("red", Alliance.Red);
+
     }
 
     public static SwerveAutoController getInstance(){
@@ -85,16 +103,36 @@ public class SwerveAutoController {
     public Alliance getAlliance(){
         return m_allianceChooser.getSelected();
     }
-
-    public Command generateDriveToCommand(GoalEndState endState, Pose2d...waypoints){
-        PathPlannerPath path = new PathPlannerPath(
-            PathPlannerPath.waypointsFromPoses(waypoints),
-            PATH_CONSTRAINTS,
-            null,
-            endState);
-        path.preventFlipping = true;
-        
-        return AutoBuilder.pathfindThenFollowPath(path, PATH_CONSTRAINTS);
-    }
     
+
+    public Command generateDriveToCommand(Pose2d waypoint){
+        return AutoBuilder.pathfindToPose(waypoint, PATH_CONSTRAINTS, GOAL_END_VELOCITY);
+    };
+    
+    public Command generateDriveToCommand(Pose2d waypoint, double goalEndVelocity){
+        return AutoBuilder.pathfindToPose(waypoint, PATH_CONSTRAINTS, goalEndVelocity);
+    };
+
+    public void configureCommands(){
+        NamedCommands.registerCommand("MoveElevatorToL1", new MoveElevatorTo(ElevatorLevel.L1));
+        NamedCommands.registerCommand("MoveElevatorToL2", new MoveElevatorTo(ElevatorLevel.L2));
+        NamedCommands.registerCommand("MoveElevatorToL3", new MoveElevatorTo(ElevatorLevel.L3));
+        NamedCommands.registerCommand("MoveElevatorToL4", new MoveElevatorTo(ElevatorLevel.L4));
+        NamedCommands.registerCommand("MoveElevatorToGround", new MoveElevatorTo(ElevatorLevel.CLOSED));
+        
+        NamedCommands.registerCommand("WaitUntilElevatorL1", new WaitUntilElevatorAt(ElevatorLevel.L1));
+        NamedCommands.registerCommand("WaitUntilElevatorL2", new WaitUntilElevatorAt(ElevatorLevel.L2));
+        NamedCommands.registerCommand("WaitUntilElevatorL3", new WaitUntilElevatorAt(ElevatorLevel.L3));
+        NamedCommands.registerCommand("WaitUntilElevatorL4", new WaitUntilElevatorAt(ElevatorLevel.L4));
+        
+        NamedCommands.registerCommand("WaitUntilCoralIsIn", new WaitUntilCoralIsInCommand());
+        NamedCommands.registerCommand("WaitUntilCoralIsOut", new WaitUntilCoralIsOutCommand());
+
+        NamedCommands.registerCommand("DispenceCoral", new InstantCommand(() -> {Dispenser.getInstance().dispenseCoral();}));
+        NamedCommands.registerCommand("SlowDispense", new InstantCommand(() -> {Dispenser.getInstance().slowDispense();}));
+        NamedCommands.registerCommand("StopDispense", new InstantCommand(() -> {Dispenser.getInstance().stop();}));
+        NamedCommands.registerCommand("TurnOnLeds", new AutoReadyForCoralCommand());
+        
+        
+    }
 }

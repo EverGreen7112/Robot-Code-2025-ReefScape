@@ -2,20 +2,26 @@ package frc.robot.Utils;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Transform3d;
+import frc.robot.Subsystems.Swerve.Swerve;
+import frc.robot.Subsystems.Swerve.SwerveConsts;
+
 
 public class ReefFace {
     private Pose2d m_facePose;
     private Pose2d m_leftBranchPose;
     private Pose2d m_rightBranchPose;
 
+
     public static final ReefFace[] BLUE_REEF = {
         new ReefFace(3.66, 4.03, 0  , 3.66,4.2,0,3.66,3.83,0),
         new ReefFace(4.07, 3.31, 60 , 3.93,3.395,60,4.21,3.225,60),
         new ReefFace(4.90, 3.31, 120, 4.76,3.225,120,5.04,3.395,120),
-        new ReefFace(5.32, 4.03, 180, 5.32 + 0.375 + 0.065,3.83,180,5.32 + 0.375 + 0.065,4.2,180), 
+        new ReefFace(5.32, 4.03, 180, 5.32,3.83,180,5.32,4.2,180), 
         new ReefFace(4.90, 4.75, 240, 5.04,4.665,240,4.76,4.835,240),
         new ReefFace(4.07, 4.75, 300, 4.21,4.835,300,3.93,4.665,300)
+    
     };
 
     public static final ReefFace[] RED_REEF = {
@@ -24,9 +30,10 @@ public class ReefFace {
         new ReefFace(13.47, 3.31, 120,  13.33,3.225,120,13.61,3.395,120),
         new ReefFace(13.89, 4.03, 180,  13.89,3.83,180,13.89,4.2,180),
         new ReefFace(13.47, 4.75, 240,  13.61,4.665,240,13.33,4.835,240),
-        new ReefFace(12.64, 4.75, 300,  12.78,4.835,0,12.5,4.665,0)
+        new ReefFace(12.64, 4.75, 300,  12.78,4.835,300,12.5,4.665,300)
 
     };
+    private final double SCORE_MECHANISM_OFFSET = 0.16;
 
     public ReefFace(Pose2d facePose, Pose2d leftBranchPose, Pose2d rightBranchPose){
         m_facePose = facePose;
@@ -46,17 +53,34 @@ public class ReefFace {
         return m_facePose;
     }
 
+    public Pose2d getFaceRobotPose(){
+        return m_facePose.plus(getDeltaToScoringPoint(m_facePose));
+    }
+
     public Pose2d getLeftBranchPose(){
         return m_leftBranchPose;
+    }
+
+    public Pose2d getLeftBranchRobotPose(){
+        return m_leftBranchPose.plus(getDeltaToScoringPoint(m_leftBranchPose));
     }
 
     public Pose2d getRightBranchPose(){
         return m_rightBranchPose;
     }
 
+    public Pose2d getRightBranchRobotPose(){
+        return m_rightBranchPose.plus(getDeltaToScoringPoint(m_rightBranchPose));
+    }
+
     @Override
     public String toString(){
         return this.m_facePose.toString();
+    }
+
+    private Transform2d getDeltaToScoringPoint(Pose2d target){
+        double chassisLength = SwerveConsts.BUMPERS_THICKNESS + 0.5 * SwerveConsts.CHASSIS_LENGTH;
+        return  (new Transform2d(-chassisLength, SCORE_MECHANISM_OFFSET, new Rotation2d()));
     }
     
 }

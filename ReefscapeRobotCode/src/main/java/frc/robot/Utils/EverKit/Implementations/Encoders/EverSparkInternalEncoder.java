@@ -40,5 +40,8 @@ public class EverSparkInternalEncoder extends EverEncoder{
         m_controller.setVelConversionFactor(factor);
     }
     
-    
+    @Override
+    public boolean isConnected() {
+        return m_controller.getControllerInstance().getFirmwareVersion() != 0;
+    }
 }

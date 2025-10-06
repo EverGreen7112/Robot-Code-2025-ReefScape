@@ -15,14 +15,14 @@ import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
  
- public class LocalizationCamera {
-    private final PhotonCamera m_cam;
-    private final PhotonPoseEstimator m_poseEstimator;
+public class LocalizationCamera {
+    private PhotonCamera m_cam;
+    private PhotonPoseEstimator m_poseEstimator;
     private Matrix<N3, N1> m_singleTagStdDevs;
     private Matrix<N3, N1> m_multiTagStdDevs;
     private Matrix<N3, N1> m_curStdDevs;
  
-     public LocalizationCamera(String camName, AprilTagFieldLayout tagFieldLayout, Transform3d robotToCam, Matrix<N3, N1> singleTagStdDevs, Matrix<N3, N1> multiTagStdDevs) {
+    public LocalizationCamera(String camName, AprilTagFieldLayout tagFieldLayout, Transform3d robotToCam, Matrix<N3, N1> singleTagStdDevs, Matrix<N3, N1> multiTagStdDevs) {
          m_cam = new PhotonCamera(camName);
          m_poseEstimator =
                  new PhotonPoseEstimator(tagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, robotToCam);
@@ -36,9 +36,12 @@ import org.photonvision.targeting.PhotonTrackedTarget;
      public Optional<EstimatedRobotPose> getEstimatedGlobalPose() {
          Optional<EstimatedRobotPose> visionEst = Optional.empty();
          List<PhotonPipelineResult> res =  m_cam.getAllUnreadResults();
+        
          for (PhotonPipelineResult change : res) {
+            
              visionEst = m_poseEstimator.update(change);
              updateEstimationStdDevs(visionEst, change.getTargets());
+             
          }  
 
          return visionEst;
@@ -91,5 +94,8 @@ import org.photonvision.targeting.PhotonTrackedTarget;
          return m_curStdDevs;
      }
  
+     public boolean isConnected(){
+        return m_cam.isConnected();
+     }
     
  }

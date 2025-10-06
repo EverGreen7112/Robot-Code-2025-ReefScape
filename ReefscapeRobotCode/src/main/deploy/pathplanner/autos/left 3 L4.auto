@@ -1,0 +1,250 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL3"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Tb10"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WaitUntilElevatorL4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DispenceCoral"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WaitUntilCoralIsOut"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "StopDispense"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "b10CT"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToGround"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "WaitUntilCoralIsOut"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "TurnOnLeds"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "CTb11"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL3"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WaitUntilElevatorL4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DispenceCoral"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WaitUntilCoralIsOut"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "StopDispense"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "b11CT"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToGround"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "WaitUntilCoralIsIn"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "CTB12"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL3"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "MoveElevatorToL4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WaitUntilElevatorL4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "DispenceCoral"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "WaitUntilCoralIsOut"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "StopDispense"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "MoveElevatorToGround"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
